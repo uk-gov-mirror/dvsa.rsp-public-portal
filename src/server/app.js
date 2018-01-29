@@ -5,7 +5,7 @@ import compression from 'compression';
 import awsServerlessExpressMiddleware from 'aws-serverless-express/middleware';
 import nunjucks from 'nunjucks';
 import path from 'path';
-import config from './config/config';
+import config from './config';
 
 // Create nunjucks fileloader instance for the views folder
 const nunjucksFileLoader = new nunjucks.FileSystemLoader(path.join(__dirname, './views'), {
@@ -39,7 +39,7 @@ app.set('view cache', false);
 
 app.get('/', (req, res) => {
   res.render('index', {
-    title: 'DVSA RSP Landing Page',
+    title: 'DVSA Road Side Payment',
     assets: config.isDevelopment ? '' : config.assets,
   });
 });

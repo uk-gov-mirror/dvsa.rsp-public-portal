@@ -7,6 +7,7 @@
   },
   "main": "handler.js",
   "scripts": {
+    "start": "node_modules/.bin/babel-node src/server/app.local.js",
     "clean": "node_modules/.bin/rimraf dist",
     "package": "npm run build && npm prune --production && node scripts/package.js",
     "build": "webpack",
@@ -36,6 +37,7 @@
     "rimraf": "^2.6.2",
     "uuid-validate": "0.0.2",
     "webpack": "^3.10.0",
+    "webpack-dev-middleware": "^2.0.4",
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
