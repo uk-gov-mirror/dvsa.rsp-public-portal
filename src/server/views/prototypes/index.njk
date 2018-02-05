@@ -1,0 +1,34 @@
+{% extends 'layouts/default.layout.njk' %}
+
+{% set pageTitle = 'Prototypes Index' %}
+
+{% block content %}
+
+  {{ components.pageHeading('Prototypes', 'DVSA Front-End') }}
+
+  {% call components.gridRow() %}
+
+    {% call components.columnOneThird() %}
+
+      {{ components.heading(text='MOTH Accordions', tag='h2', size='medium', url='/moth-accordions') }}
+      {{ components.paragraph(text='A prototype mockup of the moth history page with accordions.') }}
+      
+    {%- endcall %}
+
+    {% call components.columnOneThird() %}
+
+      {{ components.heading(text='Manuals', tag='h2', size='medium', url='/manuals') }}
+      {{ components.paragraph(text='A prototype mockup of the manuals.') }}
+      
+    {%- endcall %}
+
+    {% call components.columnOneThird() %}
+
+      {{ components.heading(text='Create Account', tag='h2', size='medium', url='/prototypes/create-account') }}
+      {{ components.paragraph(text='Creating an account user journey prototype.') }}
+      
+    {%- endcall %}
+
+  {%- endcall %}
+  
+{% endblock %}
