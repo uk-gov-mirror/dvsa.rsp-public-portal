@@ -5,10 +5,15 @@ import compression from 'compression';
 import awsServerlessExpressMiddleware from 'aws-serverless-express/middleware';
 import nunjucks from 'nunjucks';
 import path from 'path';
+import _ from 'lodash';
+import errorhandler from 'errorhandler';
+import walkSync from 'walk-sync';
+import resolvePath from 'resolve-path';
+import routes from './routes';
 import config from './config';
 
 // Create nunjucks fileloader instance for the views folder
-const nunjucksFileLoader = new nunjucks.FileSystemLoader(path.join(__dirname, './views'), {
+const nunjucksFileLoader = new nunjucks.FileSystemLoader(config.views, {
   noCache: true,
 });
 
@@ -19,13 +24,19 @@ const env = new nunjucks.Environment(nunjucksFileLoader, {
   },
 });
 
-const app = express();
+const marcosPath = path.resolve(config.views, 'macros');
 
-app.use(compression());
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(awsServerlessExpressMiddleware.eventContext());
+// Gets absolute path of each macro file
+const macros = walkSync(marcosPath, { directories: false })
+  .map(file => resolvePath(marcosPath, file));
+
+env.addGlobal('macroFilePaths', macros);
+env.addGlobal('assets', config.isDevelopment ? '' : config.assets);
+
+// Add lodash as a global for view templates
+env.addGlobal('_', _);
+
+const app = express();
 
 // Add express to the nunjucks enviroment instance
 env.express(app);
@@ -37,11 +48,16 @@ app.engine('njk', env.render);
 app.set('view engine', 'njk');
 app.set('view cache', false);
 
-app.get('/', (req, res) => {
-  res.render('index', {
-    title: 'DVSA Road Side Payment',
-    assets: config.isDevelopment ? '' : config.assets,
-  });
-});
+// Disable powered by express in header
+app.set('x-powered-by', false);
+
+app.use(compression());
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(awsServerlessExpressMiddleware.eventContext());
+app.use('/', routes);
+
+app.use(errorhandler());
 
 export default app;
