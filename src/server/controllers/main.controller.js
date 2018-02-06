@@ -7,7 +7,6 @@ export const robots = (req, res) => {
 // Index Route
 export const index = (req, res) => {
   const viewData = {
-    title: 'DVSA Landing Page',
     pageBreadcrumbItems: [
       { text: 'Home', url: '#' }
     ],
