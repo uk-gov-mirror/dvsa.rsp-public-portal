@@ -2,7 +2,6 @@
 
 {% block bodyContentWrapper %}
 <main id="content" {{ 'class="' + mainContainerClass + '"' if mainContainerClass }}>
-  {% include './partials/phase-banner.njk' %}
   {% include './partials/breadcrumbs.njk' %}
   {% block content %}{% endblock %}
 </main>

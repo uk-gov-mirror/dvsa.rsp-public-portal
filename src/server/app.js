@@ -10,9 +10,10 @@ import errorhandler from 'errorhandler';
 import walkSync from 'walk-sync';
 import resolvePath from 'resolve-path';
 import routes from './routes';
+import config from './config';
 
 // Create nunjucks fileloader instance for the views folder
-const nunjucksFileLoader = new nunjucks.FileSystemLoader(path.resolve(__dirname, './views'), {
+const nunjucksFileLoader = new nunjucks.FileSystemLoader(config.views, {
   noCache: true,
 });
 
@@ -23,13 +24,14 @@ const env = new nunjucks.Environment(nunjucksFileLoader, {
   },
 });
 
-const marcosPath = path.resolve(__dirname, 'views', 'macros');
+const marcosPath = path.resolve(config.views, 'macros');
 
 // Gets absolute path of each macro file
 const macros = walkSync(marcosPath, { directories: false })
   .map(file => resolvePath(marcosPath, file));
 
 env.addGlobal('macroFilePaths', macros);
+env.addGlobal('assets', config.isDevelopment ? '' : config.assets);
 
 // Add lodash as a global for view templates
 env.addGlobal('_', _);
