@@ -7,7 +7,7 @@
   },
   "main": "handler.js",
   "scripts": {
-    "bundle": "npm run clean && npm run build-prod && webpack", 
+    "bundle": "npm run clean && npm run build-prod && webpack",
     "build": "npm run build-server && npm run build-frontend",
     "build-server": "babel ./src/server --out-dir ./build/server --ignore ./src/server/public/ --copy-files",
     "build-frontend": "gulp build-production && webpack --config ./dvsa-Frontend-webpack/webpack.config.development.babel.js",

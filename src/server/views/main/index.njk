@@ -3,8 +3,6 @@
 {% set pageTitle = 'DVSA Road Side Payment Portal' %}
 
 {% block content %}
-
-  {{ components.pageHeading(contentHeader.title, contentHeader.type) }}
   
   {% call components.gridRow() %}
 
@@ -25,7 +23,7 @@
       </p>
       
       <p>
-        {{ components.button(text='Start now', start='true', url='#') }}
+        {{ components.button(text='Start now', start='true', url='/payment-code') }}
       </p>
 
       {{ components.heading(text='Before you start:', tag='h3', size='medium') }}

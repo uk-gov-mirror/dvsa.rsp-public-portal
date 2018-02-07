@@ -8,9 +8,10 @@ export const robots = (req, res) => {
 export const index = (req, res) => {
   const viewData = {
     pageBreadcrumbItems: [
-      { text: 'Home', url: '#' },
+      { text: 'Home', url: '/' },
+      { text: 'Payment Code', url: '#' },
     ],
   };
 
-  res.render('main/index', viewData);
+  res.render('payment/index', viewData);
 };
