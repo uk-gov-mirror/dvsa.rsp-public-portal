@@ -1,15 +1,29 @@
 {% extends 'layouts/default.layout.njk' %}
 
 {% set pageTitle = 'DVSA Road Side Payment Portal' %}
+{% set pageBreadcrumbItems = [
+    { text: 'Home', url: '/' },
+    { text: 'Payment Code', url: '#' }
+  ] 
+%}
 
 {% block content %}
   
   {% call components.gridRow() %}
-    {{ invalid }}
     {% call components.columnTwoThirds() %}
+
       {% call components.form(action='/payment-code', method='post') %}
         {{ components.heading(text='Pay a DVSA Penalty', tag='h1', size='xlarge') }}
-        {{ components.field(id='payment-code', label="Payment code", hint="This is a code issued together with the penalty notice.<br />For example, 'a1b2c3d4e5f6e7b8'") }}
+        
+        {% if invalidPaymentCode %}
+          <div class="error-summary" role="alert" aria-labelledby="error-summary-payment-code" tabindex="-1">
+            <h2 class="heading-medium error-summary-heading" id="error-summary-payment-code">
+              There was a problem
+            </h2>
+            The payment code you entered was not recognised by the system.
+          </div>
+        {% endif %}
+        {{ components.field(id='payment-code', label="Payment code", hint="This is a code issued together with the penalty notice.<br />For example, 'a1b2c3d4e5f6e7b8'", error='Enter a valid payment code' if invalidPaymentCode, maxlength=19) }}
         <p>
           <details>
             <summary><span class="summary">I don't have a payment code</span></summary>
