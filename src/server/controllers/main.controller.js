@@ -8,7 +8,7 @@ export const robots = (req, res) => {
 export const index = (req, res) => {
   const viewData = {
     pageBreadcrumbItems: [
-      { text: 'Home', url: '#' }
+      { text: 'Home', url: '#' },
     ],
   };
 

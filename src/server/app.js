@@ -9,6 +9,7 @@ import _ from 'lodash';
 import errorhandler from 'errorhandler';
 import walkSync from 'walk-sync';
 import resolvePath from 'resolve-path';
+import validator from 'express-validator';
 import routes from './routes';
 import config from './config';
 
@@ -55,6 +56,14 @@ app.use(compression());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(validator());
+// Always sanitizes the body
+app.use((req, res, next) => {
+  Object.keys(req.body).forEach((item) => {
+    req.sanitize(item).escape();
+  });
+  next();
+});
 app.use(awsServerlessExpressMiddleware.eventContext());
 app.use('/', routes);
 
