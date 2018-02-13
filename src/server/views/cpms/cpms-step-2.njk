@@ -3,8 +3,12 @@
 <div class="cpms-m-b-60">
 	<form action="/cpms-step-3" method="GET">
 		<div class="form-group">
+      <input class="form-control" name="amount" value="{{ amount }}" type="text" hidden>
+      <input class="form-control" name="cardNumber" value="{{ cardNumber }}" type="text" hidden>
+      <input class="form-control" name="expMonth" value="{{ expMonth }}" type="text" hidden>
+      <input class="form-control" name="expYear" value="{{ expYear }}" type="text" hidden>
 			<label class="form-label-bold" for="card-holder-name">Card holder's Name</label>
-			<input class="form-control cpms-full-width" name="card-holder-name" type="text">
+			<input class="form-control cpms-full-width" name="cardHolderName" type="text">
 		</div>
 		<div class="form-group">
 			<label class="form-label" for="last-name-2">Address 1</label>
@@ -14,7 +18,7 @@
 			<label class="form-label" for="last-name-2">Address 2</label>
 			<input class="form-control cpms-full-width" name="last-name-2" type="text">
 		</div>
-		<div class="form-group">
+		<div class="form-group"
 			<label class="form-label" for="last-name-2">Address 3</label>
 			<input class="form-control cpms-full-width" name="last-name-2" type="text">
 		</div>

@@ -27,7 +27,7 @@
 					<th scope="row" class="font-xsmall">RSP_FINE</th>
 					<td class="font-xsmall">RSP-012345-7890-AE12343F</td>
 					<td class="font-xsmall"></td>
-					<td class="font-xsmall">&pound;XXXX</td>
+					<td class="font-xsmall">{{ amount }}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -40,15 +40,15 @@
 			<tbody>
 				<tr>
 					<th class="cpms-table-header" scope="row">Card number</th>
-					<td class="numeric">{{data["card-number"]}}</td>
+					<td>{{ cardNumber }}</td>
 				</tr>
 				<tr>
 					<th class="cpms-table-header" scope="row">Card holder</th>
-					<td class="numeric">{{data["card-holder-name"]}}</td>
+					<td>{{ cardHolderName }}</td>
 				</tr>
 				<tr>
 					<th class="cpms-table-header" scope="row">Expiry date</th>
-					<td class="numeric">{{data["exp-month"]}}/{{data["exp-year"]}}</td>
+					<td>{{ expMonth }}/{{ expYear }}</td>
 				</tr>
 			</tbody>
 		</table>
