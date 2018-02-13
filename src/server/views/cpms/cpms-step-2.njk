@@ -1,0 +1,47 @@
+{% extends "../layouts/cpms.layout.njk" %} {% block page_content %}
+
+<div class="cpms-m-b-60">
+	<form action="/cpms-step-3" method="GET">
+		<div class="form-group">
+			<label class="form-label-bold" for="card-holder-name">Card holder's Name</label>
+			<input class="form-control cpms-full-width" name="card-holder-name" type="text">
+		</div>
+		<div class="form-group">
+			<label class="form-label" for="last-name-2">Address 1</label>
+			<input class="form-control cpms-full-width" name="last-name-2" type="text">
+		</div>
+		<div class="form-group">
+			<label class="form-label" for="last-name-2">Address 2</label>
+			<input class="form-control cpms-full-width" name="last-name-2" type="text">
+		</div>
+		<div class="form-group">
+			<label class="form-label" for="last-name-2">Address 3</label>
+			<input class="form-control cpms-full-width" name="last-name-2" type="text">
+		</div>
+		<div class="form-group">
+			<label class="form-label" for="last-name-2">County</label>
+			<input class="form-control cpms-full-width" name="last-name-2" type="text">
+		</div>
+		<div class="form-group">
+			<label class="form-label" for="last-name-2">Country</label>
+			<input class="form-control cpms-full-width" name="last-name-2" type="text">
+		</div>
+		<div class="form-group">
+			<label class="form-label" for="last-name-2">Postcode</label>
+			<input class="form-control" name="last-name-2" type="text">
+		</div>
+		<div class="form-group">
+			<label class="form-label" for="last-name-2">Email</label>
+			<input class="form-control cpms-full-width" name="last-name-2" type="text">
+		</div>
+		<div class="form-group">
+			<label class="form-label" for="last-name-2">Confirm email</label>
+			<input class="form-control cpms-full-width" name="last-name-2" type="text">
+		</div>
+		<input class="button" type="submit" value="Continue">
+		<a href="/cpms-step-1" class="button">Back</a>
+		<a href="/cpms-step-1" class="button">Reset</a>
+	</form>
+</div>
+
+{% endblock %}

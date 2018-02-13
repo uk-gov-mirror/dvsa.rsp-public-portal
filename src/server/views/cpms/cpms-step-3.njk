@@ -1,0 +1,63 @@
+{% extends "../layouts/cpms.layout.njk" %} {% block page_content %}
+
+<div class="cpms-m-b-60">
+	<form action="#" method="GET">
+		<h2 class="heading-small">Payment confirmation page</h2>
+
+		<p>You are about to make a payment for the transaction below. Please check that these details are correct and then either click
+			on the "Make Payment" button to continue with your payment or click on "Back" if any details are to be amended.</p>
+		<p>Once you click on the "Make Payment" button your transaction will be authorised on-line. This will typically take about
+			six seconds but various factors can affect the time taken. Please refrain from clicking on any other browser buttons or
+			navigating to other sites while this process takes place. If the process stops responding for any reason then we recommend
+			that you simply close your browser.</p>
+
+		<h2 class="heading-small">Purchase details</h2>
+		<p>Please check that the purchase details below are correct.</p>
+		<table>
+			<thead>
+				<tr>
+					<th class="cpms-table-header" scope="col">Description</th>
+					<th class="cpms-table-header" scope="col">Reference</th>
+					<th class="cpms-table-header" scope="col">Name</th>
+					<th class="cpms-table-header" scope="col">Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row" class="font-xsmall">RSP_FINE</th>
+					<td class="font-xsmall">RSP-012345-7890-AE12343F</td>
+					<td class="font-xsmall"></td>
+					<td class="font-xsmall">&pound;XXXX</td>
+				</tr>
+			</tbody>
+		</table>
+
+		
+
+		<h2 class="heading-small">Card details</h2>
+		<p>Please check that your card details are correct.</p>
+		<table>
+			<tbody>
+				<tr>
+					<th class="cpms-table-header" scope="row">Card number</th>
+					<td class="numeric">{{data["card-number"]}}</td>
+				</tr>
+				<tr>
+					<th class="cpms-table-header" scope="row">Card holder</th>
+					<td class="numeric">{{data["card-holder-name"]}}</td>
+				</tr>
+				<tr>
+					<th class="cpms-table-header" scope="row">Expiry date</th>
+					<td class="numeric">{{data["exp-month"]}}/{{data["exp-year"]}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="atf-m-t-20">
+			<input class="button" type="submit" value="Make Payment">
+			<a href="/cpms-step-2" class="button">Back</a>
+		  <a href="/cpms-step-1" class="button">Reset</a>
+		</div>
+	</form>
+</div>
+
+{% endblock %}

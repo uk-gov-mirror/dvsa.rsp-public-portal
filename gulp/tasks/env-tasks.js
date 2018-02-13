@@ -13,6 +13,6 @@ function watchDev() {
   gulp.watch(path.join(CONFIG.sourcePaths.js, 'ie-shims', CONFIG.patterns.js), gulp.parallel('javascript-ie-shims'));
 }
 
-gulp.task('watch-dev', gulp.series('copy-images', 'copy-fonts', 'copy-misc', 'scss', 'javascript-ie-shims', watchDev));
+gulp.task('watch-dev', gulp.series('copy-images', 'copy-fonts', 'copy-misc', 'scss', 'javascript-ie-shims', 'govuk-elements', watchDev));
 
-gulp.task('build-production', gulp.series('copy-images', 'copy-fonts', 'copy-misc', 'scss', 'javascript-ie-shims'));
+gulp.task('build-production', gulp.series('copy-images', 'copy-fonts', 'copy-misc', 'scss', 'javascript-ie-shims', 'govuk-elements'));
