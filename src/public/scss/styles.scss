@@ -9,3 +9,41 @@
 
 // Custom Modules
 @import 'modules/modules';
+
+table.grey-table {
+  background-color: #DEE0E2 !important;
+  width: 75%;
+
+  .heading-medium {
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-top:0;
+  }
+
+  .highlighted-row {
+    color: #fff;
+  }
+
+  .confirmed {
+    background-color: #005EA5;
+  }
+
+  .unconfirmed {
+    background-color: #454A4C;
+  }
+
+  tr {
+    td:first-child {
+      padding-left: 30px;
+      padding-right: 0; 
+    }
+
+    td:nth-child(2) {
+      font-weight: bold;
+    }
+  }
+
+  td {
+    border: none;
+  }
+}
