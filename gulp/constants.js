@@ -27,6 +27,7 @@ const CONFIG = {
     govCSS: path.join(DIST_FOLDER_PATH, 'gov-css'),
     fonts: path.join(DIST_FOLDER_PATH, 'fonts'),
     misc: path.join(DIST_FOLDER_PATH, 'misc'),
+    govUk: path.join(DIST_FOLDER_PATH, 'govuk'),
   },
   sourcePaths: {
     base: path.join(SRC_ASSETS_FOLDER_PATH, 'assets'),
@@ -35,6 +36,7 @@ const CONFIG = {
     js: path.join(SRC_ASSETS_FOLDER_PATH, 'js'),
     fonts: path.join(SRC_ASSETS_FOLDER_PATH, 'fonts'),
     misc: path.join(SRC_ASSETS_FOLDER_PATH, 'misc'),
+    govUk: path.join(SRC_ASSETS_FOLDER_PATH, 'govuk'),
   },
   configFiles: {
     scssLink: path.join(BASE_FOLDER_PATH, '.scss-lint.yml'),

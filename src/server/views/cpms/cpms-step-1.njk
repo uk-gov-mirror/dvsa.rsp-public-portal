@@ -1,0 +1,42 @@
+{% extends "../layouts/cpms.layout.njk" %}
+
+{% block page_content %}
+
+<form action="/cpms-step-2" method="get">
+	<div class="form-group">
+	<label class="form-label" for="cardNumber">Card number</label>
+	<input class="form-control" id="cardNumber" name="cardNumber" type="number">
+  <input class="form-control" name="amount" value={{ amount }} hidden>
+	<span class="cpms-icon"><img src="images/icon-information.png" /></span>
+	</div>
+	<div class="form-group">
+		<fieldset>
+			<legend>
+				<span class="form-label">Expiry date</span>
+			</legend>
+			<div class="form-date">
+				<div class="form-group form-group-month">
+					<label class="form-label" for="expMonth"></label>
+					<input class="form-control" id="expMonth" name="expMonth" type="number" pattern="[0-9]*" min="0" max="12">
+				</div>
+				<div class="form-group cpms-form-group-separator">
+					<span>/</span>
+				</div>
+				<div class="form-group form-group-year">
+					<label class="form-label" for="expYear"></label>
+					<input class="form-control" id="expYear" name="expYear" type="number" pattern="[0-9]*" min="2017" max="3000">
+				</div>
+			</div>
+			<span class="cpms-icon"><img src="images/icon-information.png" /></span>
+		</fieldset>
+		<div class="form-group atf-m-t-20">
+				<label class="form-label" for="sec-code">Security code</label>
+				<input class="form-control" id="sec-code" name="sec-code" type="number">
+				<span class="cpms-icon"><img src="images/icon-information.png" /></span>
+		</div>
+		<input class="button" type="submit" value="Continue">
+		<a href="/cpms-step-1?amount={{ amount }}" class="button">Reset</a>
+	</div>
+</form>
+
+{% endblock %}
