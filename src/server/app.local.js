@@ -1,3 +1,4 @@
+/* eslint-disable */
 import express from 'express';
 import app from './app';
 import config from './config';

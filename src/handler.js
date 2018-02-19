@@ -1,7 +1,7 @@
 import serveExpressApp from './lambdas/serveExpressApp';
 
-const handler = [
+const handler = {
   serveExpressApp,
-];
+};
 
 export default handler;

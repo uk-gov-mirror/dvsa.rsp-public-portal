@@ -105,11 +105,11 @@
             ], type='bullet') }}
           </p>
           <p>
-            You can also return to this page by typing the token code in the <a target='_blank' href='/payment-code'>DVSA penalty payment service</a>
+            You can also return to this page by typing the token code in the <a target='_blank' href='{{ urlroot }}/payment-code'>DVSA penalty payment service</a>
           </p>
           {{ components.button(text='Pay another penalty', url='/payment-code') }}
         {% else %}
-          <a class="button" href="/cpms-step-1?amount={{ amount }}" role="button">Continue to payment &nbsp;&nbsp;<img src="{{ assets }}/images/icon-external-link.svg" /></a>
+          <a class="button" href="{{ urlroot }}/cpms-step-1?amount={{ amount }}" role="button">Continue to payment &nbsp;&nbsp;<img src="{{ assets }}/images/icon-external-link.svg" /></a>
         {% endif %}
       {%- endcall %}
     {%- endcall %}

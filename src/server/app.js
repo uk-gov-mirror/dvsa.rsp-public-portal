@@ -33,6 +33,7 @@ const macros = walkSync(marcosPath, { directories: false })
 
 env.addGlobal('macroFilePaths', macros);
 env.addGlobal('assets', config.isDevelopment ? '' : config.assets);
+env.addGlobal('urlroot', config.urlRoot);
 
 // Add lodash as a global for view templates
 env.addGlobal('_', _);
