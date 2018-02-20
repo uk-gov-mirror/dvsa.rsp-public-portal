@@ -53,7 +53,7 @@ export default class paymentService {
           resolve(result);
         }
         reject(new Error('Invalid Payment code'));
-      }, 3000);
+      }, 2000);
     });
 
     return promise;
