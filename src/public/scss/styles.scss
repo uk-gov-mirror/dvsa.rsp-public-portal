@@ -12,7 +12,6 @@
 
 table.grey-table {
   background-color: #DEE0E2 !important;
-  width: 75%;
 
   .heading-medium {
     margin-top: 0;
@@ -47,3 +46,25 @@ table.grey-table {
     border: none;
   }
 }
+
+// Hide side-bar on mobile
+@media (max-width : 480px) {
+  .govuk-related-items {
+    display: none;
+  }
+}
+
+@media (min-width : 768px) {
+  .cpms-m-b-60 {
+    input {
+      width: 60%;
+    }
+  }
+
+  table.grey-table {
+    width: 75%;    
+  }
+}
+
+
+

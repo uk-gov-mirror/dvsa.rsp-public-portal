@@ -9,28 +9,24 @@
     {% call components.columnTwoThirds() %}
 
       {{ components.heading(text='Pay a DVSA Penalty', tag='h1', size='xlarge') }}
-			{{ components.heading(text="Enter card holder's Details", tag='h2', size='large') }}
+			{{ components.heading(text="Billing Address", tag='h2', size='large') }}
 
 			<div class="cpms-m-b-60">
-				<form action="{{ urlroot }}/cpms-step-3" method="GET" style="width:450px">
+				<form action="{{ urlroot }}/cpms-step-3" method="GET">
 					<div class="form-group">
 						<input class="form-control" name="amount" value="{{ amount }}" type="text" hidden>
 						<input class="form-control" name="cardNumber" value="{{ cardNumber }}" type="text" hidden>
 						<input class="form-control" name="expMonth" value="{{ expMonth }}" type="text" hidden>
 						<input class="form-control" name="expYear" value="{{ expYear }}" type="text" hidden>
-						<label class="form-label-bold" for="card-holder-name">Card holder's Name</label>
+						<label class="form-label-bold" for="card-holder-name">Name on card</label>
 						<input class="form-control cpms-full-width" name="cardHolderName" type="text">
 					</div>
 					<div class="form-group">
-						<label class="form-label" for="last-name-2">Address 1</label>
+						<label class="form-label" for="last-name-2">Street name / Building no.</label>
 						<input class="form-control cpms-full-width" name="last-name-2" type="text">
 					</div>
 					<div class="form-group">
-						<label class="form-label" for="last-name-2">Address 2</label>
-						<input class="form-control cpms-full-width" name="last-name-2" type="text">
-					</div>
-					<div class="form-group">
-						<label class="form-label" for="last-name-2">County</label>
+						<label class="form-label" for="last-name-2">Town or City</label>
 						<input class="form-control cpms-full-width" name="last-name-2" type="text">
 					</div>
 					<div class="form-group">
@@ -41,15 +37,12 @@
 						<label class="form-label" for="last-name-2">Postcode</label>
 						<input class="form-control" name="last-name-2" type="text">
 					</div>
+					{{ components.heading(text="We'll send your payment confirmation here:", tag='h3', size='small') }}
 					<div class="form-group">
 						<label class="form-label" for="last-name-2">Email</label>
 						<input class="form-control cpms-full-width" name="last-name-2" type="text">
 					</div>
-					<div class="form-group">
-						<label class="form-label" for="last-name-2">Confirm email</label>
-						<input class="form-control cpms-full-width" name="last-name-2" type="text">
-					</div>
-					<input class="button" type="submit" value="Finalize and Pay">
+					<input class="button" type="submit" value="Continue to payment">
 				</form>
 		</div>
     {%- endcall %}
