@@ -1,3 +1,4 @@
+/* eslint-disable */
 import url from 'url';
 import PaymentService from './../services/payment.service';
 import config from './../config';
@@ -38,9 +39,8 @@ export const makePayment = (req, res) => {
       PaymentDate: Math.round((new Date()).getTime() / 1000),
     },
   };
-  console.log(details);
   paymentService.makePayment(details).then(() => {
-    res.redirect(`../payment-code/${req.body.paymentCode}`);
+    res.redirect(`payment-code/${req.body.paymentCode}`);
   }).catch(error => console.log(error));
 };
 
