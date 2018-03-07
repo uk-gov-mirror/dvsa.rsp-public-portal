@@ -24,7 +24,7 @@
         {{ components.paragraph(text='We found the following details in our records') }}
       {% else %}
         {{ components.heading(text='Penalty payment confirmation', tag='h1', size='xlarge') }}
-        <p>You paid a penalty for the payment code:&nbsp;<b>{{ code }}</b>
+        <p>You paid a penalty for the payment code:&nbsp;<b>{{ paymentCode }}</b>
         {{ components.paragraph(text='A confirmation has been sent to the DVSA location where the penalty has been issued.') }}
       {% endif %}
         <table class="grey-table">
@@ -44,7 +44,7 @@
             </tr>
             <tr>
               <td>Amount:</td>
-              <td>{{ amount }}</td>
+              <td>£{{ amount }}</td>
             </tr>
             <tr>
               <td>Reference:</td>
@@ -105,7 +105,7 @@
           </p>
           {{ components.button(text='Pay another penalty', url='/payment-code') }}
         {% else %}
-          <a class="button" href="{{ urlroot }}/cpms-step-1?amount={{ amount }}" role="button">Continue to payment &nbsp;&nbsp;<img src="{{ assets }}/images/icon-external-link.svg" /></a>
+          <a class="button" href="{{ urlroot }}/cpms-step-1?amount={{ amount }}&paymentCode={{ paymentCode }}&reference={{ reference }}&type={{ type }}&typeDescription={{ typeDescription }}" role="button">Continue to payment &nbsp;&nbsp;<img src="{{ assets }}/images/icon-external-link.svg" /></a>
         {% endif %}
       {%- endcall %}
     {%- endcall %}

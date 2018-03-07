@@ -1,9 +1,10 @@
 import { isEmpty, has } from 'lodash';
 import moment from 'moment';
+import createHttpClient from './../utils/httpclient';
 
 export default class PenaltyService {
-  constructor(httpClient) {
-    this.httpClient = httpClient;
+  constructor(serviceUrl) {
+    this.httpClient = createHttpClient(serviceUrl);
   }
 
   static getPenaltyTypeDescription(penaltyType) {
@@ -24,15 +25,15 @@ export default class PenaltyService {
     const penaltyDetails = {
       complete,
       paymentCode: rawPenalty.paymentToken,
-      issueDate: moment(rawPenalty.dateTime).format('DD/MM/YYYY'),
-      vehicleReg: rawPenalty.vehicleDetails.regNo,
+      issueDate: complete && moment.unix(rawPenalty.dateTime).format('DD/MM/YYYY'),
+      vehicleReg: complete && rawPenalty.vehicleDetails.regNo,
       reference: rawPenalty.referenceNo,
-      location: rawPenalty.placeWhereIssued,
+      location: complete && rawPenalty.placeWhereIssued,
       amount: rawPenalty.penaltyAmount,
       status: rawPenalty.paymentStatus,
       type: rawPenalty.penaltyType,
       typeDescription: PenaltyService.getPenaltyTypeDescription(rawPenalty.penaltyType),
-      paymentDate: moment(rawPenalty.paymentDate).format('DD/MM/YYYY'),
+      paymentDate: rawPenalty.paymentDate ? moment.unix(rawPenalty.paymentDate).format('DD/MM/YYYY') : undefined,
       paymentAuthCode: rawPenalty.paymentAuthCode,
     };
     return penaltyDetails;

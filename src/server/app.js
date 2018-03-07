@@ -58,8 +58,8 @@ app.set('x-powered-by', false);
 
 app.use(compression());
 app.use(cors());
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(validator());
 // Always sanitizes the body
 app.use((req, res, next) => {
