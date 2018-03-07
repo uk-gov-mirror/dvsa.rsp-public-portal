@@ -1,13 +1,9 @@
-import { check, validationResult } from 'express-validator/check';
-import PaymentService from './../services/payment.service';
+import { validationResult } from 'express-validator/check';
+import paymentCodeValidation from './../validation/paymentCode';
+import PenaltyService from './../services/penalty.service';
+import config from '../config';
 
-const paymentService = new PaymentService();
-
-// Robots
-export const robots = (req, res) => {
-  res.type('text/plain');
-  res.send('User-agent: *\nDisallow: /');
-};
+const penaltyService = new PenaltyService(config.penaltyServiceUrl);
 
 // Index Route
 export const index = (req, res) => {
@@ -23,14 +19,9 @@ export const normalizePaymentcode = (req, res, next) => {
   next();
 };
 
-export const paymentCodeValidationChecks = [
-  check('payment_code').isLength({ min: 16, max: 16 }),
-  check('payment_code').trim().isHexadecimal(),
-];
-
 export const validatePaymentCode = [
   normalizePaymentcode,
-  paymentCodeValidationChecks,
+  paymentCodeValidation,
   (req, res) => {
     const errors = validationResult(req);
 
@@ -46,7 +37,7 @@ export const validatePaymentCode = [
 ];
 
 export const getPaymentDetails = [
-  paymentCodeValidationChecks,
+  paymentCodeValidation,
   (req, res) => {
     const errors = validationResult(req);
 
@@ -55,7 +46,7 @@ export const getPaymentDetails = [
     } else {
       const paymentCode = req.params.payment_code;
 
-      paymentService.getPenaltyDetails(paymentCode).then((details) => {
+      penaltyService.getByPaymentCode(paymentCode).then((details) => {
         res.render('payment/paymentDetails', details);
       }).catch(() => {
         res.redirect('../payment-code?invalidPaymentCode');

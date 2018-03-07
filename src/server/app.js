@@ -10,6 +10,7 @@ import errorhandler from 'errorhandler';
 import walkSync from 'walk-sync';
 import resolvePath from 'resolve-path';
 import validator from 'express-validator';
+import helmet from 'helmet';
 import routes from './routes';
 import config from './config';
 
@@ -40,6 +41,8 @@ env.addGlobal('_', _);
 
 const app = express();
 
+app.use(helmet());
+
 // Add express to the nunjucks enviroment instance
 env.express(app);
 
@@ -55,8 +58,8 @@ app.set('x-powered-by', false);
 
 app.use(compression());
 app.use(cors());
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(validator());
 // Always sanitizes the body
 app.use((req, res, next) => {
