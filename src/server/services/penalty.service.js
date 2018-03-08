@@ -20,14 +20,18 @@ export default class PenaltyService {
     }
   }
 
-  static parsePenalty(rawPenalty) {
+  static parsePenalty(data) {
+    const penaltyId = data.ID;
+    const reference = penaltyId.split('_').shift();
+    const rawPenalty = data.Value;
     const complete = has(rawPenalty, 'vehicleDetails') && !isEmpty(rawPenalty);
     const penaltyDetails = {
       complete,
+      reference,
       paymentCode: rawPenalty.paymentToken,
       issueDate: complete && moment.unix(rawPenalty.dateTime).format('DD/MM/YYYY'),
       vehicleReg: complete && rawPenalty.vehicleDetails.regNo,
-      reference: rawPenalty.referenceNo,
+      formattedReference: rawPenalty.referenceNo,
       location: complete && rawPenalty.placeWhereIssued,
       amount: rawPenalty.penaltyAmount,
       status: rawPenalty.paymentStatus,
@@ -45,7 +49,7 @@ export default class PenaltyService {
         if (isEmpty(response.data)) {
           reject(new Error('Payment code not found'));
         }
-        resolve(PenaltyService.parsePenalty(response.data.Value));
+        resolve(PenaltyService.parsePenalty(response.data));
       }).catch((error) => {
         reject(new Error(error));
       });
