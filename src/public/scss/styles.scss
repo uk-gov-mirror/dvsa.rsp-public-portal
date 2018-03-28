@@ -47,6 +47,22 @@ table.grey-table {
   }
 }
 
+table.details {
+  td:nth-child(2) {
+    font-weight: bold;
+  }
+}
+
+.error, 
+.unconfirmed {
+  color: $error-colour;
+}
+
+.confirmed {
+  color: #00823B;
+}
+
+
 // Hide side-bar on mobile
 @media (max-width : 480px) {
   .govuk-related-items {
