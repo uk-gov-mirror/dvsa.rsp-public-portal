@@ -1,4 +1,3 @@
-/* eslint-disable */
 import PaymentService from './../services/payment.service';
 import PenaltyService from './../services/penalty.service';
 import CpmsService from './../services/cpms.service';
@@ -24,18 +23,16 @@ export const redirectToPaymentPage = async (req, res) => {
     if (penaltyDetails.status === 'PAID') {
       return res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
     }
-    //const redirectUrl = `https://${req.get('host')}${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}/confirmPayment`;
-    const redirectUrl = `https://8pp5fzn8ih.execute-api.eu-west-1.amazonaws.com/dev/payment-code/${penaltyDetails.paymentCode}/confirmPayment`;
-    console.log(redirectUrl);
-    cpmsService.createCardPaymentTransaction(
+
+    const redirectUrl = `https://${req.get('host')}${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}/confirmPayment`;
+
+    return cpmsService.createCardPaymentTransaction(
       penaltyDetails.reference,
       penaltyDetails.type,
       penaltyDetails.amount,
       redirectUrl,
-    ).then((response) => {
-      console.log(response);
-      res.redirect(response.data.gateway_url);
-    }).catch(error => console.log(error));
+    ).then(response => res.redirect(response.data.gateway_url))
+      .catch(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`));
   } catch (error) {
     return res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
   }
@@ -43,14 +40,12 @@ export const redirectToPaymentPage = async (req, res) => {
 
 export const confirmPayment = async (req, res) => {
   const receiptReference = req.query.receipt_reference;
-  console.log(req.params);
   let penaltyDetails;
+
   try {
     penaltyDetails = await getPenaltyDetails(req);
     cpmsService.confirmPayment(receiptReference, penaltyDetails.type).then((response) => {
-      console.log('confirmPayment response');
-      console.log(response.data);
-      if(response.data.code === 801) {
+      if (response.data.code === 801) {
         // Payment successful
         const details = {
           PenaltyStatus: 'PAID',
@@ -63,34 +58,13 @@ export const confirmPayment = async (req, res) => {
             PaymentDate: Math.round((new Date()).getTime() / 1000),
           },
         };
-        paymentService.makePayment(details).then(() => {
-          res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
-        }).catch(error => console.log(error));
+        paymentService.makePayment(details).then(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`))
+          .catch(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`));
       } else {
-        res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
+        res.render('payment/failedPayment');
       }
-    }).catch(error => console.log(error));
+    }).catch(() => res.render('payment/failedPayment'));
   } catch (error) {
-    console.log(error);
     res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
   }
 };
-
-export const makePayment = (req, res) => {
-  const details = {
-    PenaltyStatus: 'PAID',
-    PenaltyType: req.body.type,
-    PenaltyReference: req.body.reference,
-    PaymentDetail: {
-      PaymentRef: '12345678',
-      AuthCode: '1234TBD',
-      PaymentAmount: req.body.amount,
-      PaymentDate: Math.round((new Date()).getTime() / 1000),
-    },
-  };
-
-  paymentService.makePayment(details).then(() => {
-    res.redirect(`${config.urlRoot}/payment-code/${req.body.paymentCode}`);
-  }).catch(() => res.redirect('back')); // TODO: Add appropriate error page and/or logging
-};
-
