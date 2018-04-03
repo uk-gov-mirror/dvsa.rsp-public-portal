@@ -25,6 +25,7 @@ const clientId = process.env.CLIENT_ID || 'client';
 const clientSecret = process.env.CLIENT_SECRET || 'secret';
 const penaltyServiceUrl = process.env.PENALTY_SERVICE_URL;
 const paymentServiceUrl = process.env.PAYMENT_SERVICE_URL;
+const cpmsServiceUrl = process.env.CPMS_SERVICE_URL;
 
 const config = {
   env,
@@ -37,6 +38,7 @@ const config = {
   urlRoot,
   penaltyServiceUrl,
   paymentServiceUrl,
+  cpmsServiceUrl,
 };
 
 export default config;

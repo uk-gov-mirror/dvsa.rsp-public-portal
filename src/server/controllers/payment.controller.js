@@ -1,56 +1,70 @@
-import { validationResult } from 'express-validator/check';
-import paymentCodeValidation from './../validation/paymentCode';
+import PaymentService from './../services/payment.service';
 import PenaltyService from './../services/penalty.service';
-import config from '../config';
+import CpmsService from './../services/cpms.service';
+import config from './../config';
 
+const paymentService = new PaymentService(config.paymentServiceUrl);
 const penaltyService = new PenaltyService(config.penaltyServiceUrl);
+const cpmsService = new CpmsService(config.cpmsServiceUrl);
 
-// Index Route
-export const index = (req, res) => {
-  if (Object.keys(req.query).some(param => param === 'invalidPaymentCode')) {
-    return res.render('payment/index', { invalidPaymentCode: true });
+const getPenaltyDetails = (req) => {
+  if (req.params.payment_code) {
+    return penaltyService.getByPaymentCode(req.params.payment_code);
   }
-  return res.render('payment/index');
+  return penaltyService.getById(req.params.penalty_id);
 };
 
-// Removes all non-alphanumeric characters and converts to lowercase
-export const normalizePaymentcode = (req, res, next) => {
-  req.body.payment_code = req.body.payment_code.replace(/\W|_/g, '').toLowerCase();
-  next();
+export const redirectToPaymentPage = async (req, res) => {
+  let penaltyDetails;
+
+  try {
+    penaltyDetails = await getPenaltyDetails(req);
+
+    if (penaltyDetails.status === 'PAID') {
+      return res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
+    }
+
+    const redirectUrl = `https://${req.get('host')}${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}/confirmPayment`;
+
+    return cpmsService.createCardPaymentTransaction(
+      penaltyDetails.reference,
+      penaltyDetails.type,
+      penaltyDetails.amount,
+      redirectUrl,
+    ).then(response => res.redirect(response.data.gateway_url))
+      .catch(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`));
+  } catch (error) {
+    return res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
+  }
 };
 
-export const validatePaymentCode = [
-  normalizePaymentcode,
-  paymentCodeValidation,
-  (req, res) => {
-    const errors = validationResult(req);
+export const confirmPayment = async (req, res) => {
+  const receiptReference = req.query.receipt_reference;
+  let penaltyDetails;
 
-    if (!errors.isEmpty()) {
-      const viewData = {
-        invalidPaymentCode: true,
-      };
-      res.render('payment/index', viewData);
-    } else {
-      res.redirect(`payment-code/${req.body.payment_code}`);
-    }
-  },
-];
-
-export const getPaymentDetails = [
-  paymentCodeValidation,
-  (req, res) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      res.redirect('../payment-code?invalidPaymentCode');
-    } else {
-      const paymentCode = req.params.payment_code;
-
-      penaltyService.getByPaymentCode(paymentCode).then((details) => {
-        res.render('payment/paymentDetails', details);
-      }).catch(() => {
-        res.redirect('../payment-code?invalidPaymentCode');
-      });
-    }
-  },
-];
+  try {
+    penaltyDetails = await getPenaltyDetails(req);
+    cpmsService.confirmPayment(receiptReference, penaltyDetails.type).then((response) => {
+      if (response.data.code === 801) {
+        // Payment successful
+        const details = {
+          PenaltyStatus: 'PAID',
+          PenaltyType: penaltyDetails.type,
+          PenaltyReference: penaltyDetails.reference,
+          PaymentDetail: {
+            PaymentRef: response.data.receipt_reference,
+            AuthCode: response.data.auth_code,
+            PaymentAmount: penaltyDetails.amount,
+            PaymentDate: Math.round((new Date()).getTime() / 1000),
+          },
+        };
+        paymentService.makePayment(details).then(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`))
+          .catch(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`));
+      } else {
+        res.render('payment/failedPayment');
+      }
+    }).catch(() => res.render('payment/failedPayment'));
+  } catch (error) {
+    res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
+  }
+};
