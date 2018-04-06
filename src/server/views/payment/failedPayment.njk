@@ -8,9 +8,6 @@
   ] 
 %}
 
-{% set paid = true if status == 'PAID' else false %}
-{% set statusClass = 'confirmed' if paid else 'unconfirmed' %}
-
 {% block content %}
   
   {% call components.gridRow() %}

@@ -2,6 +2,7 @@ import PaymentService from './../services/payment.service';
 import PenaltyService from './../services/penalty.service';
 import CpmsService from './../services/cpms.service';
 import config from './../config';
+import logger from './../utils/logger';
 
 const paymentService = new PaymentService(config.paymentServiceUrl);
 const penaltyService = new PenaltyService(config.penaltyServiceUrl);
@@ -27,13 +28,18 @@ export const redirectToPaymentPage = async (req, res) => {
     const redirectUrl = `https://${req.get('host')}${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}/confirmPayment`;
 
     return cpmsService.createCardPaymentTransaction(
+      penaltyDetails.vehicleReg,
       penaltyDetails.reference,
       penaltyDetails.type,
       penaltyDetails.amount,
       redirectUrl,
     ).then(response => res.redirect(response.data.gateway_url))
-      .catch(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`));
+      .catch((error) => {
+        logger.error(error);
+        res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
+      });
   } catch (error) {
+    logger.error(error);
     return res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
   }
 };
@@ -61,10 +67,15 @@ export const confirmPayment = async (req, res) => {
         paymentService.makePayment(details).then(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`))
           .catch(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`));
       } else {
+        logger.warn(response.data);
         res.render('payment/failedPayment');
       }
-    }).catch(() => res.render('payment/failedPayment'));
+    }).catch((error) => {
+      logger.error(error);
+      res.render('payment/failedPayment');
+    });
   } catch (error) {
+    logger.error(error);
     res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
   }
 };
