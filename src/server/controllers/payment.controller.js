@@ -54,6 +54,7 @@ export const confirmPayment = async (req, res) => {
       if (response.data.code === 801) {
         // Payment successful
         const details = {
+          PaymentCode: penaltyDetails.paymentCode,
           PenaltyStatus: 'PAID',
           PenaltyType: penaltyDetails.type,
           PenaltyReference: penaltyDetails.reference,
