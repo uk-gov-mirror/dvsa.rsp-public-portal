@@ -58,6 +58,7 @@ export const confirmPayment = async (req, res) => {
           PenaltyType: penaltyDetails.type,
           PenaltyReference: penaltyDetails.reference,
           PaymentDetail: {
+            PaymentMethod: 'CARD',
             PaymentRef: response.data.receipt_reference,
             AuthCode: response.data.auth_code,
             PaymentAmount: penaltyDetails.amount,
