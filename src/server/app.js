@@ -65,7 +65,7 @@ app.use(validator());
 
 app.use(i18n({
   translationsPath: path.join(__dirname, 'i18n'),
-  siteLangs: ['en', 'fr', 'de', 'cy', 'es'],
+  siteLangs: ['en', 'fr', 'de', 'cy', 'es', 'pl'],
   textsVarName: 't',
 }));
 // Make the selected language available globally
