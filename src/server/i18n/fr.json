@@ -1,0 +1,24 @@
+{  
+  "footer": {
+    "cookies":"Cookies",
+    "terms_conditions": "Conditions générales",
+    "built_by":"Développé par",
+    "licence_1":"Tout le contenu est disponible sous la licence",
+    "licence_2": "sauf indication contraire"
+  },
+  "home": {
+    "title" : "Payer une pénalité DVSA",
+    "description_1" : "Utiliser ce service pour payer:",
+    "fixed_penalty": "Une pénalité fixe",
+    "immobilisation": "Une pénalité d'immobilisation",
+    "court_deposit": "Un dépôt auprès du tribunal",
+    "description_2": "Votre avis de pénalité DVSA vous indiquera combien vous devez payer et la date limite pour payer.",
+    "info_text": "Si vous ne payez pas votre amende à temps, votre véhicule restera immobilisé ou vos informations seront transmises à une agence de recouvrement de créances.",
+    "start_button": "Commencer maintenant",
+    "before_start": "Before you start:",
+    "before_start_text": "Il y a quelque chose de bizarre avec ces détails:"
+  },
+  "PENALTY_DETAILS_PAGE": {
+
+  } 
+}

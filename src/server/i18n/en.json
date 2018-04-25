@@ -1,0 +1,24 @@
+{
+  "footer": {
+    "cookies":"Cookies",
+    "terms_conditions": "Terms and conditions",
+    "built_by":"Built by the",
+    "licence_1":"All content is available under the",
+    "licence_2": "except where otherwise stated"
+  },
+  "home": {
+    "title" : "Pay a DVSA Penalty",
+    "description_1" : "Use this service to pay:",
+    "fixed_penalty": "a fixed penalty",
+    "immobilisation": "an immobilisation penalty",
+    "court_deposit": "a court deposit",
+    "description_2": "Your DVSA Penalty notice will tell you how much you have to pay and when you must pay it by.",
+    "info_text": "If you don't pay your fine on time your vehicle may remain immobilised, or your details passed to a debt collection agency.",
+    "start_button": "Start now",
+    "before_start": "Before you start:",
+    "before_start_text": "This service is also available in:"
+  },
+  "PENALTY_DETAILS_PAGE": {
+
+  } 
+}

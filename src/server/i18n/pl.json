@@ -1,0 +1,24 @@
+{
+  "footer": {
+    "cookies":"Cookies",
+    "terms_conditions": "Warunki",
+    "built_by":"Stworzone przez",
+    "licence_1":"Treść dostępna na mocy",
+    "licence_2": "o ile nie zaznaczono inaczej"
+  },
+  "home": {
+    "title" : "Zapłać karę nałożoną przez DVSA",
+    "description_1" : "Wykorzystaj niniejszą usługę do zapłaty:",
+    "fixed_penalty": "mandatu",
+    "immobilisation": "opłaty tytułem unieruchomienia pojazdu",
+    "court_deposit": "depozytu sądowego",
+    "description_2": "Kwota jaką należy zapłacić oraz termin jej płatności zostały podane w powiadomieniu o karze otrzymanym od DVSA.",
+    "info_text": "Jeśli nie zapłacą Państwo kary w terminie, pojazd może pozostać unieruchomiony lub Państwa dane mogą zostać przekazane do firmy windykacyjnej.",
+    "start_button": "Zacznij teraz",
+    "before_start": "Zanim zaczniesz:",
+    "before_start_text": "This service is also available in:"
+  },
+  "PENALTY_DETAILS_PAGE": {
+
+  } 
+}

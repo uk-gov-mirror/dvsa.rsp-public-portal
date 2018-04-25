@@ -1,0 +1,24 @@
+{
+  "footer": {
+    "cookies":"Cookies",
+    "terms_conditions": "Terms and conditions",
+    "built_by":"Built by the",
+    "licence_1":"All content is available under the",
+    "licence_2": "except where otherwise stated"
+  },
+  "home": {
+    "title" : "Talu cosb DVSA",
+    "description_1" : "Defnyddiwch y gwasanaeth hwn i dalu:",
+    "fixed_penalty": "Cosb benodedig",
+    "immobilisation": "Cosb atal cerbydau rhag symud",
+    "court_deposit": "Blaendal llys",
+    "description_2": "Bydd eich hysbysiad cosb DVSA yn dweud wrthych faint sy’n rhaid i chi ei dalu ac erbyn pryd y mae’n rhaid i chi ei dalu.",
+    "info_text": "Os nad ydych yn talu eich dirwy ar amser gellir parhau i atal eich cerbyd rhag symud, neu gellir anfon eich manylion ymlaen at asiantaeth casglu dyledion.",
+    "start_button": "Dechrau",
+    "before_start": "Cyn i chi ddechrau:",
+    "before_start_text": "Mae’r gwasanaeth hwn hefyd ar gael yn:"
+  },
+  "PENALTY_DETAILS_PAGE": {
+
+  } 
+}

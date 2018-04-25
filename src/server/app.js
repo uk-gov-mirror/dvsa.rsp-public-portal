@@ -11,6 +11,7 @@ import walkSync from 'walk-sync';
 import resolvePath from 'resolve-path';
 import validator from 'express-validator';
 import helmet from 'helmet';
+import i18n from 'i18n-express';
 import routes from './routes';
 import config from './config';
 
@@ -61,6 +62,17 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(validator());
+
+app.use(i18n({
+  translationsPath: path.join(__dirname, 'i18n'),
+  siteLangs: ['en', 'fr', 'de', 'cy', 'es'],
+  textsVarName: 't',
+}));
+// Make the selected language available globally
+app.use((req, res, next) => {
+  env.addGlobal('clang', req.query.clang);
+  next();
+});
 // Always sanitizes the body
 app.use((req, res, next) => {
   Object.keys(req.body).forEach((item) => {

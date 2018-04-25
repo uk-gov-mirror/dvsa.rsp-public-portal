@@ -1,0 +1,24 @@
+{
+  "footer": {
+    "cookies":"Cookies",
+    "terms_conditions": "Términos y condiciones",
+    "built_by":"Construido por",
+    "licence_1":"Todo el contenido se encuentra disponible en",
+    "licence_2": "excepto donde se indique de otra forma"
+  },
+  "home": {
+    "title" : "Pagar una denuncia al DVSA",
+    "description_1" : "Use este servicio para pagar:",
+    "fixed_penalty": "Una multa fija",
+    "immobilisation": "Una denuncia por inmovilización",
+    "court_deposit": "Un depósito judicial",
+    "description_2": "Su denuncia del DVSA le indicará cuanto tendrá que pagar y para cuando lo tendrá que pagar.",
+    "info_text": "Si no paga la multa a tiempo su vehículo continuará inmovilizado o sus datos serán enviados a una agencia de recaudación de deudas.",
+    "start_button": "Empezar ahora",
+    "before_start": "Antes de empezar:",
+    "before_start_text": "Este servicio también se encuentra disponible en:"
+  },
+  "PENALTY_DETAILS_PAGE": {
+
+  } 
+}

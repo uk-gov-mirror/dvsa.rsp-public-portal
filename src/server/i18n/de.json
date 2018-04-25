@@ -1,0 +1,24 @@
+{
+  "footer": {
+    "cookies":"Cookies",
+    "terms_conditions": "Terms and conditions",
+    "built_by":"Built by the",
+    "licence_1":"All content is available under the",
+    "licence_2": "except where otherwise stated"
+  },
+  "home": {
+    "title" : "Zahlen eines DVSA Strafgelds",
+    "description_1" : "Benutzen Sie diesen Service zur Zahlung:",
+    "fixed_penalty": "Eines festgesetzten Strafgelds",
+    "immobilisation": "Eines Fahrzeugimmobilisierungs-Strafgelds",
+    "court_deposit": "Einer gerichtlichen Hinterlegung",
+    "description_2": "Ihr DVSA Strafgeldbescheid informiert, wie viel Sie bezahlen müssen und bis wann es bezahlt sein muss.",
+    "info_text": "Wenn Sie Ihr Strafgeld nicht fristgerecht bezahlen, kann Ihr Fahrzeug immobilisiert bleiben und die Angaben zu Ihrer Person können an eine Inkassogesellschaft weitergeleitet werden.",
+    "start_button": "Beginnen Sie jetzt",
+    "before_start": "Bevor Sie beginnen:",
+    "before_start_text": "This service is also available in:"
+  },
+  "PENALTY_DETAILS_PAGE": {
+
+  } 
+}
