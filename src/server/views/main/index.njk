@@ -1,8 +1,8 @@
 {% extends 'layouts/default.layout.njk' %}
 
-{% set pageTitle = t.home.title %}
+{% set pageTitle = t.site_title %}
 {% set pageBreadcrumbItems = [ 
-    { text: 'Home' } 
+    { text: t.breadcrumbs.home } 
   ]   
 %} 
 {% block content %}

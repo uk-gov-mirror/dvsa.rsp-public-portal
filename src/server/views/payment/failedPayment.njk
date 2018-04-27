@@ -1,10 +1,10 @@
 {% extends 'layouts/default.layout.njk' %}
 
-{% set pageTitle = 'DVSA Road Side Payment Portal' %}
+{% set pageTitle = t.site_title %}
 {% set pageBreadcrumbItems = [
-    { text: 'Home', url: '/' },
-    { text: 'Payment Code', url: '/payment-code' },
-    { text: 'Payment' }
+    { text: t.breadcrumbs.home, url: '/' },
+    { text: t.breadcrumbs.payment_code, url: '/payment-code' },
+    { text: t.breadcrumbs.payment }
   ] 
 %}
 
@@ -12,10 +12,9 @@
   
   {% call components.gridRow() %}
     {% call components.columnTwoThirds() %}
-        {{ components.heading(text='Your payment has been declined', tag='h1', size='xlarge') }}
-        <p>No money has been taken from your account.<br />
-        Contact your bank for more details.</p>
-        {{ components.button(text='Start again', url='/payment-code') }}
+        {{ components.heading(text=t.failed_payment_page.title, tag='h1', size='xlarge') }}
+        <p>{{ t.failed_payment_page.info }}</p>
+        {{ components.button(text=t.failed_payment_page.start_again_button, url='/payment-code') }}
     {%- endcall %}
   {%- endcall %}
 {% endblock %}

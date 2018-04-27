@@ -1,4 +1,18 @@
 {
+  "site_title":"DVSA Road Side Payment Portal",
+  "breadcrumbs": {
+    "home":"Home",
+    "payment_code":"Payment Code",
+    "penalty_details": "Penalty Details",
+    "payment": "Payment"
+  },
+  "languages": {
+    "english": "English",
+    "french":"French",
+    "polish": "Polish",
+    "spanish": "Spanish",
+    "welsh": "Welsh"
+  },
   "footer": {
     "cookies":"Cookies",
     "terms_conditions": "Warunki",
@@ -18,7 +32,59 @@
     "before_start": "Zanim zaczniesz:",
     "before_start_text": "This service is also available in:"
   },
-  "PENALTY_DETAILS_PAGE": {
-
-  } 
+  "payment_code_page": {
+    "title": "Pay a DVSA Penalty",
+    "payment_code": "Payment code",
+    "hint": "This is a code issued together with the penalty notice.<br />For example, a1b2c3d4e5f6e7b8'",
+    "hidden_panel_title": "I don't have a payment code",
+    "hidden_panel_text": "The DVSA examiner normally sends the payment code (or token) via SMS or email, at the time of processing the penalty. The code is usually sent to the driver of the vehicle or their company, as requested at the time of processing.<br /><br />If you are the intended recipient, you can recheck your email inbox or text messages, or request the DVSA examiner send the payment code again. Alternatively, you can contact the customer support centre, to arrange payment by using the penalty reference number, if that is available to you",
+    "continue_button": "Continue",
+    "error": {
+      "title":"There was a problem",
+      "description":"The payment code you entered was not recognised by the system.",
+      "invalid_code": "Enter a valid payment code"
+    }
+  },
+  "penalty_details_page": {
+    "title_paid":"Penalty payment confirmation",
+    "title_unpaid":"Pay a DVSA Penalty",
+    "intro": "We found the following details in our records",
+    "confirmation":"You paid a penalty for the payment code:",
+    "confirmation_sent":"A confirmation has been sent to the DVSA location where the penalty has been issued.",
+    "penalty_table_title": "Penalty Details",
+    "payment_table_title": "Payment Details", 
+    "hidden_panel_title": "There is something wrong with these details",
+    "hidden_panel_text": "Please contact the <a href=\"https://www.gov.uk/contact-dvsa\">customer support centre</a> to confirm the correct penalty details.",
+    "you_can":"You can:",
+    "share_sms": "share payment confirmation via SMS",
+    "share_email": "share payment confirmation via email",
+    "make_note": "alternatively, make a note of the confirmation code for later reference.",
+    "return_to_page":"You can also return to this page by typing the token code in the",
+    "return_to_page_link_title":"DVSA penalty payment service",
+    "pay_another_button":"Pay another penalty",
+    "continue_to_payment_button": "Continue to payment" 
+  },
+  "penalty_details": {
+    "status": "Status",
+    "status_paid" : "PAID",
+    "status_unpaid": "UNPAID",
+    "payment_code": "Payment Code",
+    "penalty_type": "Penalty Type",
+    "amount": "Amount",
+    "reference": "Reference",
+    "vehicle_reg":"Vehicle Registration",
+    "penalty_date":"Penalty issued on",
+    "location":"Location",
+    "not_available":"Not available"
+  },
+  "payment_details": {
+    "payment_reference": "Payment reference",
+    "authorisation_code": "Authorisation code",
+    "paid_on": "Paid on"
+  },
+  "failed_payment_page": {
+    "title": "Your payment has been declined",
+    "info": "No money has been taken from your account.<br />Contact your bank for more details.",
+    "start_again_button": "Start again"
+  }
 }

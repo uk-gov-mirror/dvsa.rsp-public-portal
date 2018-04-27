@@ -1,10 +1,10 @@
 {% extends 'layouts/default.layout.njk' %}
 
-{% set pageTitle = 'DVSA Road Side Payment Portal' %}
+{% set pageTitle = t.site_title %}
 {% set pageBreadcrumbItems = [
-    { text: 'Home', url: '/' },
-    { text: 'Payment Code', url: '/payment-code' },
-    { text: 'Penalty Details' }
+    { text: t.breadcrumbs.home, url: '/' },
+    { text: t.breadcrumbs.payment_code, url: '/payment-code' },
+    { text: t.breadcrumbs.penalty_details }
   ] 
 %}
 {# This is going to be refactored once the Payment service is integrated and we have full knowledge of the payload
@@ -19,46 +19,46 @@
     {% call components.columnTwoThirds() %}
           {% call components.form(action='/payment-code/'+paymentCode+'/payment', method='POST')  %}
       {% if paid == false %}
-        {{ components.heading(text='Pay a DVSA Penalty', tag='h1', size='xlarge') }}
-        {{ components.paragraph(text='We found the following details in our records') }}
+        {{ components.heading(text=t.penalty_details_page.title_unpaid, tag='h1', size='xlarge') }}
+        {{ components.paragraph(text=t.penalty_details_page.intro) }}
       {% else %}
-        {{ components.heading(text='Penalty payment confirmation', tag='h1', size='xlarge') }}
-        <p>You paid a penalty for the payment code:&nbsp;<b>{{ paymentCode }}</b>
-        {{ components.paragraph(text='A confirmation has been sent to the DVSA location where the penalty has been issued.') }}
+        {{ components.heading(text=t.penalty_details_page.title_paid, tag='h1', size='xlarge') }}
+        <p>{{ t.penalty_details_page.confirmation }}&nbsp;<b>{{ paymentCode }}</b>
+        {{ components.paragraph(text=t.penalty_details_page.confirmation_sent) }}
       {% endif %}
         <table class="details">
-          <caption class="heading-medium">Penalty Details</caption>
+          <caption class="heading-medium">{{t.penalty_details_page.penalty_table_title}}</caption>
           <tbody>
             <tr>
-              <td>Status:</td>
-              <td id="status" class="{{ statusClass }}">{{ status }} {% if paid %} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" /> {% endif %} </td>
+              <td>{{ t.penalty_details.status }}:</td>
+              <td id="status" class="{{ statusClass }}">{% if paid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %} </td>
             </tr>
             <tr>
-              <td>Payment Code:</td>
+              <td>{{ t.penalty_details.payment_code }}:</td>
               <td>{{ paymentCode }}</td> 
             </tr>
             <tr>
-              <td>Penalty Type:</td>
+              <td>{{ t.penalty_details.penalty_type }}:</td>
               <td>{{ typeDescription }}</td>
             </tr>
             <tr>
-              <td>Amount:</td>
+              <td>{{ t.penalty_details.amount }}:</td>
               <td>£{{ amount }}</td>
             </tr>
             <tr>
-              <td>Reference:</td>
+              <td>{{ t.penalty_details.reference}}:</td>
               <td>{{ formattedReference }}</td>
             </tr>
             <tr>
-              <td>Vehicle Registration:</td>
-              <td>{{ vehicleReg if complete else 'Not available' }}</td> 
+              <td>{{ t.penalty_details.vehicle_reg }}:</td>
+              <td>{{ vehicleReg if complete else t.penalty_details.not_available }}</td> 
             </tr>
             <tr>
-              <td>Penalty issued on:</td>
+              <td>{{ t.penalty_details.penalty_date }}:</td>
               <td>{{ issueDate if complete else 'Not available' }}</td>
             </tr>
             <tr>
-              <td>Location:</td>
+              <td>{{ t.penalty_details.location }}:</td>
               <td>{{ location if complete else 'Not available' }}</td> 
             </tr>
           </tbody>
@@ -67,20 +67,20 @@
         {% if paid %}
         <p>
           <table class="details">
-              <caption class="heading-medium">Payment Details</caption>
+              <caption class="heading-medium">{{ t.penalty_details_page.payment_table_title }}</caption>
             <tbody>
               <tr>
-                <td>Payment reference:</td> 
+                <td>{{t.payment_details.payment_reference}}:</td> 
                 <td>{{ paymentRef }}</td> 
               </tr>
               {% if paymentAuthCode %}
               <tr>
-                <td>Authorisation code:</td> 
+                <td>{{t.payment_details.authorisation_code}}:</td> 
                 <td>{{ paymentAuthCode }}</td> 
               </tr>
               {% endif %}
               <tr>
-                <td>Paid on:</td> 
+                <td>{{t.payment_details.paid_on}}:</td> 
                 <td>{{ paymentDate }}</td>
               </tr>
             </tbody>
@@ -88,33 +88,33 @@
         </p>
         {% endif %}
           <details>
-            <summary><span class="summary">There is something wrong with these details</span></summary>
+            <summary><span class="summary">{{ t.penalty_details_page.hidden_panel_title }}</span></summary>
             <div class="panel panel-border-narrow">
               <p>
-                Please contact the <a href="https://www.gov.uk/contact-dvsa">customer support centre</a> to confirm the correct penalty details.
+                {{ t.penalty_details_page.hidden_panel_text }}
               </p>
             </div>
           </details>    
         </p>
         {% if paid %}
           <p>
-          You can: &nbsp; 
+          {{ t.penalty_details_page.you_can }} &nbsp; 
             {{ components.list(items=[
-              { text: 'share payment confirmation via SMS', url: '#' },
-              { text: 'share payment confirmation via email', url: '#' },
-              { text: 'alternatively, make a note of the confirmation code for later reference.' }
+              { text: t.penalty_details_page.share_sms, url: '#' },
+              { text: t.penalty_details_page.share_email, url: '#' },
+              { text: t.penalty_details_page.make_note }
             ], type='bullet') }}
           </p>
           <p>
-            You can also return to this page by typing the token code in the <a target='_blank' href='{{ urlroot }}/payment-code'>DVSA penalty payment service</a>
+            {{ t.penalty_details_page.return_to_page }} <a target='_blank' href='{{ urlroot }}/payment-code'>{{ t.penalty_details_page.return_to_page_link_title }}</a>
           </p>
-          {{ components.button(text='Pay another penalty', url='/payment-code') }}
+          {{ components.button(text=t.penalty_details_page.pay_another_button, url='/payment-code') }}
         {% else %}
 						<input type="hidden" name="reference" value="{{ reference }}">
 						<input type="hidden" name="type" value="{{ type }}">
 						<input type="hidden" name="amount" value="{{ amount }}">
 						<input type="hidden" name="paymentCode" value="{{ paymentCode }}">
-            {{ components.button(text="Continue to payment", type="submit") }}
+            {{ components.button(text=t.penalty_details_page.continue_to_payment_button, type="submit") }}
         {% endif %}
       {%- endcall %}
     {%- endcall %}
@@ -124,12 +124,11 @@
     <aside class="govuk-related-items" role="complementary">
         <nav role="navigation" aria-labelledby="subsection-title">
           <ul class="font-xsmall">
-            <li> {{ components.link(text='Portuguese', url='#') }} </li>
-            <li> {{ components.link(text='Cymraeg', url='#') }} </li>
-            <li> {{ components.link(text='Magyar', url='#') }} </li>
-            <li> {{ components.link(text='Polski', url='#') }} </li>
-            <li> {{ components.link(text='Français', url='#') }}</li>
-            <li> {{ components.link(text='Latviešu', url='#') }} </li>
+            <li> {{ components.link(text='French', url='/?clang=fr') if clang != 'fr' else components.link(text='English', url='/') }}</li>
+            <li>{{ components.link(text='German', url='/?clang=de') if clang != 'de' else components.link(text='English', url='/') }}</li>
+            <li>{{ components.link(text='Polish', url='/?clang=pl') if clang != 'pl' else components.link(text='English', url='/') }}</li>
+            <li>{{ components.link(text='Spanish', url='/?clang=es') if clang != 'es' else components.link(text='English', url='/') }}</li>
+            <li>{{ components.link(text='Welsh', url='/?clang=cy') if clang != 'cy' else components.link(text='English', url='/') }}</li>
           </ul>
         </nav>
       </aside>
