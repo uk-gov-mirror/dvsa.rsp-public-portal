@@ -30,11 +30,11 @@
       {{ components.heading(text=t.home.before_start, tag='h3', size='medium') }}
       <p>
         {{t.home.before_start_text}} &nbsp;
-          {{ components.link(text='French,', url='/?clang=fr') if clang != 'fr' else components.link(text='English,', url='/') }}
-          {{ components.link(text='German,', url='/?clang=de') if clang != 'de' else components.link(text='English,', url='/') }}
-          {{ components.link(text='Polish,', url='/?clang=pl') if clang != 'pl' else components.link(text='English,', url='/') }}
-          {{ components.link(text='Spanish,', url='/?clang=es') if clang != 'es' else components.link(text='English,', url='/') }}
-          {{ components.link(text='Welsh', url='/?clang=cy') if clang != 'cy' else components.link(text='English,', url='/') }}
+          {{ components.link(text='French,', url='?clang=fr') if clang != 'fr' else components.link(text='English,', url='?clang=en') }}
+          {{ components.link(text='German,', url='?clang=de') if clang != 'de' else components.link(text='English,', url='?clang=en') }}
+          {{ components.link(text='Polish,', url='?clang=pl') if clang != 'pl' else components.link(text='English,', url='?clang=en') }}
+          {{ components.link(text='Spanish,', url='?clang=es') if clang != 'es' else components.link(text='English,', url='?clang=en') }}
+          {{ components.link(text='Welsh', url='?clang=cy') if clang != 'cy' else components.link(text='English,', url='?clang=en') }}
       </p>
     {%- endcall %}
 
@@ -43,11 +43,11 @@
     <aside class="govuk-related-items" role="complementary">
         <nav role="navigation" aria-labelledby="subsection-title">
           <ul class="font-xsmall">
-            <li> {{ components.link(text='French', url='/?clang=fr') if clang != 'fr' else components.link(text='English', url='/') }}</li>
-            <li>{{ components.link(text='German', url='/?clang=de') if clang != 'de' else components.link(text='English', url='/') }}</li>
-            <li>{{ components.link(text='Polish', url='/?clang=pl') if clang != 'pl' else components.link(text='English', url='/') }}</li>
-            <li>{{ components.link(text='Spanish', url='/?clang=es') if clang != 'es' else components.link(text='English', url='/') }}</li>
-            <li>{{ components.link(text='Welsh', url='/?clang=cy') if clang != 'cy' else components.link(text='English', url='/') }}</li>
+            <li> {{ components.link(text='French', url='?clang=fr') if clang != 'fr' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='German', url='?clang=de') if clang != 'de' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='Polish', url='?clang=pl') if clang != 'pl' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='Spanish', url='?clang=es') if clang != 'es' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='Welsh', url='?clang=cy') if clang != 'cy' else components.link(text='English', url='?clang=en') }}</li>
           </ul>
         </nav>
       </aside>

@@ -12,6 +12,7 @@ import resolvePath from 'resolve-path';
 import validator from 'express-validator';
 import helmet from 'helmet';
 import i18n from 'i18n-express';
+import cookieParser from 'cookie-parser';
 import routes from './routes';
 import config from './config';
 
@@ -46,6 +47,7 @@ app.use(helmet());
 
 // Add express to the nunjucks enviroment instance
 env.express(app);
+app.use(cookieParser());
 
 // Create a view engine from nunjucks enviroment variable
 app.engine('njk', env.render);
@@ -67,10 +69,21 @@ app.use(i18n({
   translationsPath: path.join(__dirname, 'i18n'),
   siteLangs: ['en', 'fr', 'de', 'cy', 'es', 'pl'],
   textsVarName: 't',
+  cookieLangName: 'locale',
 }));
 // Make the selected language available globally
 app.use((req, res, next) => {
-  env.addGlobal('clang', req.query.clang);
+  let language;
+
+  if (req.query.clang) {
+    res.cookie('locale', req.query.clang);
+    language = req.query.clang;
+  } else if (req.cookies.locale) {
+    language = req.cookies.locale;
+    req.query.clang = req.cookies.locale;
+  }
+
+  env.addGlobal('clang', language);
   next();
 });
 // Always sanitizes the body
