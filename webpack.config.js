@@ -43,6 +43,7 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       { from: 'build/server/views', to: 'views/' },
+      { from: 'build/server/i18n', to: 'i18n/' },
       { from: 'build/public', to: 'public/' },
     ]),
   ],
