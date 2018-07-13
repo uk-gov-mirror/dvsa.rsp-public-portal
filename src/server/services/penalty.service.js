@@ -64,9 +64,7 @@ export default class PenaltyService {
       if (isEmpty(response.data) || !response.data.ID) {
         throw new Error('Payment code not found');
       }
-      const parsedPenalties = response.penalties.map((penalty) => {
-        return this.parsePenalty(penalty)
-      });
+      const parsedPenalties = response.penalties.map((penalty) => this.parsePenalty(penalty));
       return parsedPenalties;
     }).catch((error) => {
       throw new Error(error);
