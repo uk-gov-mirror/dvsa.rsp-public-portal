@@ -50,8 +50,8 @@ export const getPaymentDetails = [
       res.redirect('../payment-code?invalidPaymentCode');
     } else {
       const paymentCode = req.params.payment_code;
-
-      penaltyService.getByPaymentCode(paymentCode).then((details) => {
+      const getMethod = paymentCode.length === 16 ? 'getByPaymentCode' : 'getByPenaltyGroupPaymentCode';
+      penaltyService[getMethod](paymentCode).then((details) => {
         res.render('payment/paymentDetails', details);
       }).catch((error) => {
         logger.error(error);
