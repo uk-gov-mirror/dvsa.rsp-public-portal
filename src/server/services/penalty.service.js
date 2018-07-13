@@ -60,13 +60,15 @@ export default class PenaltyService {
 
   getByPenaltyGroupPaymentCode(paymentCode) {
     // TODO: Update with new endpoint when ready
-    return this.httpClient.get(`tokens/${paymentCode}`).then(response => {
+    return this.httpClient.get(`tokens/${paymentCode}`).then((response) => {
       if (isEmpty(response.data) || !response.data.ID) {
         throw new Error('Payment code not found');
       }
-      const parsedPenalties = response.penalties.map(penalty => this.parsePenalty(penalty));
+      const parsedPenalties = response.penalties.map((penalty) => {
+        return this.parsePenalty(penalty)
+      });
       return parsedPenalties;
-    }).catch(error => {
+    }).catch((error) => {
       throw new Error(error);
     });
   }
