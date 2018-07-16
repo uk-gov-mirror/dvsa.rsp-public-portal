@@ -1,10 +1,10 @@
 import { isEmpty, has } from 'lodash';
 import moment from 'moment';
-import createHttpClient from './../utils/httpclient';
+import SignedHttpClient from './../utils/httpclient';
 
 export default class PenaltyService {
   constructor(serviceUrl) {
-    this.httpClient = createHttpClient(serviceUrl);
+    this.httpClient = new SignedHttpClient(serviceUrl);
   }
 
   static getPenaltyTypeDescription(penaltyType) {
