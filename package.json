@@ -24,7 +24,7 @@
     "check-security": "git secrets --scan",
     "check-security-log": "git log -p | scanrepo"
   },
-  "author": "Fabio Simao",
+  "author": "BJSS",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.26.0",
