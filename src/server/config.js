@@ -40,7 +40,7 @@ const config = {
   penaltyServiceUrl,
   paymentServiceUrl,
   cpmsServiceUrl,
-  region
+  region,
 };
 
 export default config;
