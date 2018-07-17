@@ -13,7 +13,6 @@ export default class SignedHttpClient {
       clientSecret: config.clientSecret,
     };
     this.signingOptions = {
-      service: 'execute-api',
       host: this.baseUrlOb.host,
       region: config.region,
     };
