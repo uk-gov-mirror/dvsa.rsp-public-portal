@@ -19,7 +19,7 @@
     "package": "npm run bundle && npm prune --production && node scripts/package.js",
     "test": "mocha --require babel-register test/**/*.js",
     "test:watch": "mocha --require babel-register test/**/*.js --watch",
-    "prepush": "npm test && npm run lint && npm run check-security && npm check-security-log",
+    "prepush": "npm test && npm run lint && npm run check-security && npm run check-security-log",
     "lint": "./node_modules/.bin/eslint src/server",
     "check-security": "git secrets --scan",
     "check-security-log": "git log -p | scanrepo"
