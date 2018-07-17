@@ -35,7 +35,7 @@ describe('Penalty Service', () => {
       const result = await penaltyService.getByPaymentCode(validPaymentCode);
 
       // Assert
-      expect(result.paymentCode).to.equal(validPaymentCode);
+      expect(result[0].paymentCode).to.equal(validPaymentCode);
     });
     it('Should return a rejected promise [WHEN] an invalid payment code is provided', () => {
       // Arrange
