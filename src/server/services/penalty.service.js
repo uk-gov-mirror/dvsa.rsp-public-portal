@@ -50,7 +50,7 @@ export default class PenaltyService {
         if (isEmpty(response.data) || response.data.Enabled === false) {
           reject(new Error('Payment code not found'));
         }
-        resolve(PenaltyService.parsePenalty(response.data));
+        resolve([PenaltyService.parsePenalty(response.data)]);
       }).catch((error) => {
         reject(new Error(error));
       });
@@ -59,12 +59,12 @@ export default class PenaltyService {
   }
 
   getByPenaltyGroupPaymentCode(paymentCode) {
-    // TODO: Update with new endpoint when ready
-    return this.httpClient.get(`tokens/${paymentCode}`).then((response) => {
+    return this.httpClient.get(`penaltyGroup/${paymentCode}`).then((response) => {
       if (isEmpty(response.data) || !response.data.ID) {
         throw new Error('Payment code not found');
       }
-      const parsedPenalties = response.penalties.map(penalty => this.parsePenalty(penalty));
+      const { Penalties } = response.data;
+      const parsedPenalties = Penalties.map(penalty => PenaltyService.parsePenalty(penalty));
       return parsedPenalties;
     }).catch((error) => {
       throw new Error(error);
