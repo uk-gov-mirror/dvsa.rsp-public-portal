@@ -52,7 +52,6 @@ export const getPaymentDetails = [
       const paymentCode = req.params.payment_code;
       const getMethod = paymentCode.length === 16 ? 'getByPaymentCode' : 'getByPenaltyGroupPaymentCode';
       penaltyService[getMethod](paymentCode).then((penaltyDetails) => {
-        console.log(penaltyDetails);
         res.render('payment/paymentDetails', { penaltyDetails });
       }).catch((error) => {
         logger.error(error);
