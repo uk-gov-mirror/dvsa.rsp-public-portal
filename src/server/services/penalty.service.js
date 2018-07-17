@@ -50,7 +50,9 @@ export default class PenaltyService {
         if (isEmpty(response.data) || response.data.Enabled === false) {
           reject(new Error('Payment code not found'));
         }
-        resolve([PenaltyService.parsePenalty(response.data)]);
+        // TODO: Use commented array version when UI is ready
+        // resolve([PenaltyService.parsePenalty(response.data)]);
+        resolve(PenaltyService.parsePenalty(response.data));
       }).catch((error) => {
         reject(new Error(error));
       });
