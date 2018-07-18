@@ -7,6 +7,11 @@
     { text: t.breadcrumbs.penalty_details }
   ] 
 %}
+{# This is going to be refactored once the Payment service is integrated and we have full knowledge of the payload
+  coming from it.
+#}
+{% set paid = true if paymentStatus == 'PAID' else false %}
+{% set statusClass = 'confirmed' if paid else 'unconfirmed' %}
 
 {% block content %}
   
@@ -14,11 +19,6 @@
     {% call components.columnTwoThirds() %}
       {% call components.form(action='/payment-code/'+paymentCode+'/payment', method='POST')  %}
         {% for penalty in penaltyDetails %}
-          {# This is going to be refactored once the Payment service is integrated and we have full knowledge of the payload
-            coming from it.
-          #}
-          {% set paid = true if penalty.status == 'PAID' else false %}
-          {% set statusClass = 'confirmed' if paid else 'unconfirmed' %}
           {% if paid == false %}
             {{ components.heading(text=t.penalty_details_page.title_unpaid, tag='h1', size='xlarge') }}
             <p>Your payment code: <strong>{{ paymentCode }}</strong></p>

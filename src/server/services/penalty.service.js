@@ -52,6 +52,7 @@ export default class PenaltyService {
         }
         const penaltyDetails = PenaltyService.parsePenalty(response.data);
         resolve({
+          isPenaltyGroup: false,
           penaltyDetails: [penaltyDetails],
           paymentCode: penaltyDetails.paymentCode,
           paymentStatus: penaltyDetails.status,
@@ -71,6 +72,7 @@ export default class PenaltyService {
       const { Penalties, ID, PaymentStatus } = response.data;
       const parsedPenalties = Penalties.map(penalty => PenaltyService.parsePenalty(penalty));
       return {
+        isPenaltyGroup: true,
         paymentCode: ID,
         penalties: parsedPenalties,
         paymentStatus: PaymentStatus,
