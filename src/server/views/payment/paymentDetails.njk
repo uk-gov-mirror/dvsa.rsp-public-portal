@@ -28,23 +28,10 @@
           {{ components.paragraph(text=t.penalty_details_page.confirmation_sent) }}
         {% endif %}
         <table class="details">
-          <caption class="heading-medium">{{t.penalty_details_page.penalty_table_title}}</caption>
           <tbody>
             <tr>
               <td>{{ t.penalty_details.status }}:</td>
               <td id="status" class="{{ statusClass }}">{% if paid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %} </td>
-            </tr>
-            <tr>
-              <td>{{ t.penalty_details.penalty_type }}:</td>
-              <td>{{ typeDescription }}</td>
-            </tr>
-            <tr>
-              <td>{{ t.penalty_details.amount }}:</td>
-              <td>£{{ amount }}</td>
-            </tr>
-            <tr>
-              <td>{{ t.penalty_details.reference}}:</td>
-              <td>{{ formattedReference }}</td>
             </tr>
             <tr>
               <td>{{ t.penalty_details.vehicle_reg }}:</td>
@@ -57,6 +44,18 @@
             <tr>
               <td>{{ t.penalty_details.location }}:</td>
               <td>{{ location if complete else 'Not available' }}</td> 
+            </tr>
+            <tr>
+              <td>{{ t.penalty_details.amount }}:</td>
+              <td>£{{ amount }}</td>
+            </tr>
+            <tr>
+              <td>{{ t.penalty_details.reference}}:</td>
+              <td>{{ formattedReference }}</td>
+            </tr>
+            <tr>
+              <td>{{ t.penalty_details.penalty_type }}:</td>
+              <td>{{ typeDescription }}</td>
             </tr>
           </tbody>
         </table>
