@@ -76,7 +76,7 @@ export default class PenaltyService {
         RegistrationNumber,
         Location,
         Timestamp,
-        Amount,
+        TotalAmount,
       } = response.data;
       const parsedPenalties = Penalties.map(penalty => PenaltyService.parsePenalty(penalty));
       return {
@@ -85,7 +85,7 @@ export default class PenaltyService {
           registrationNumber: RegistrationNumber,
           location: Location,
           date: moment.unix(Timestamp).format('DD/MM/YYYY'),
-          amount: Amount,
+          amount: TotalAmount,
         },
         paymentCode: ID,
         penaltyDetails: parsedPenalties,
