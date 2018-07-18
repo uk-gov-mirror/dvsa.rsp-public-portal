@@ -62,7 +62,8 @@
     "return_to_page":"You can also return to this page by typing the token code in the",
     "return_to_page_link_title":"DVSA penalty payment service",
     "pay_another_button":"Pay another penalty",
-    "continue_to_payment_button": "Continue to payment" 
+    "continue_to_payment_button": "Continue to payment",
+    "includes_following_penalties": "This payment code includes the following penalties:"
   },
   "penalty_details": {
     "status": "Status",

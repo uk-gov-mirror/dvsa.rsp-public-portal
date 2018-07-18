@@ -52,8 +52,8 @@ export default class PenaltyService {
         }
         const penaltyDetails = PenaltyService.parsePenalty(response.data);
         resolve({
+          penaltyDetails,
           isPenaltyGroup: false,
-          penaltyDetails: [penaltyDetails],
           paymentCode: penaltyDetails.paymentCode,
           paymentStatus: penaltyDetails.status,
         });
@@ -69,12 +69,26 @@ export default class PenaltyService {
       if (isEmpty(response.data) || !response.data.ID) {
         throw new Error('Payment code not found');
       }
-      const { Penalties, ID, PaymentStatus } = response.data;
+      const {
+        Penalties,
+        ID,
+        PaymentStatus,
+        RegistrationNumber,
+        Location,
+        Timestamp,
+        Amount,
+      } = response.data;
       const parsedPenalties = Penalties.map(penalty => PenaltyService.parsePenalty(penalty));
       return {
         isPenaltyGroup: true,
+        penaltyGroupDetails: {
+          registrationNumber: RegistrationNumber,
+          location: Location,
+          date: moment.unix(Timestamp).format('DD/MM/YYYY'),
+          amount: Amount,
+        },
         paymentCode: ID,
-        penalties: parsedPenalties,
+        penaltyDetails: parsedPenalties,
         paymentStatus: PaymentStatus,
       };
     }).catch((error) => {
