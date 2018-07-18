@@ -20,6 +20,7 @@
       {% call components.form(action='/payment-code/'+paymentCode+'/payment', method='POST')  %}
         {% if paid == false %}
           {{ components.heading(text=t.penalty_details_page.title_unpaid, tag='h1', size='xlarge') }}
+          <p>Your payment code: <strong>{{ paymentCode }}</strong></p>
           {{ components.paragraph(text=t.penalty_details_page.intro) }}
         {% else %}
           {{ components.heading(text=t.penalty_details_page.title_paid, tag='h1', size='xlarge') }}
@@ -32,10 +33,6 @@
             <tr>
               <td>{{ t.penalty_details.status }}:</td>
               <td id="status" class="{{ statusClass }}">{% if paid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %} </td>
-            </tr>
-            <tr>
-              <td>{{ t.penalty_details.payment_code }}:</td>
-              <td>{{ paymentCode }}</td> 
             </tr>
             <tr>
               <td>{{ t.penalty_details.penalty_type }}:</td>
