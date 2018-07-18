@@ -7,111 +7,113 @@
     { text: t.breadcrumbs.penalty_details }
   ] 
 %}
-{# This is going to be refactored once the Payment service is integrated and we have full knowledge of the payload
-   coming from it.
-#}
-{% set paid = true if status == 'PAID' else false %}
-{% set statusClass = 'confirmed' if paid else 'unconfirmed' %}
 
 {% block content %}
   
   {% call components.gridRow() %}
     {% call components.columnTwoThirds() %}
       {% call components.form(action='/payment-code/'+paymentCode+'/payment', method='POST')  %}
-        {% if paid == false %}
-          {{ components.heading(text=t.penalty_details_page.title_unpaid, tag='h1', size='xlarge') }}
-          <p>Your payment code: <strong>{{ paymentCode }}</strong></p>
-          {{ components.paragraph(text=t.penalty_details_page.intro) }}
-        {% else %}
-          {{ components.heading(text=t.penalty_details_page.title_paid, tag='h1', size='xlarge') }}
-          <p>{{ t.penalty_details_page.confirmation }}&nbsp;<b>{{ paymentCode }}</b>
-          {{ components.paragraph(text=t.penalty_details_page.confirmation_sent) }}
-        {% endif %}
-        <table class="details">
-          <tbody>
-            <tr>
-              <td>{{ t.penalty_details.status }}:</td>
-              <td id="status" class="{{ statusClass }}">{% if paid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %} </td>
-            </tr>
-            <tr>
-              <td>{{ t.penalty_details.vehicle_reg }}:</td>
-              <td>{{ vehicleReg if complete else t.penalty_details.not_available }}</td> 
-            </tr>
-            <tr>
-              <td>{{ t.penalty_details.penalty_date }}:</td>
-              <td>{{ issueDate if complete else 'Not available' }}</td>
-            </tr>
-            <tr>
-              <td>{{ t.penalty_details.location }}:</td>
-              <td>{{ location if complete else 'Not available' }}</td> 
-            </tr>
-            <tr>
-              <td>{{ t.penalty_details.amount }}:</td>
-              <td>£{{ amount }}</td>
-            </tr>
-            <tr>
-              <td>{{ t.penalty_details.reference}}:</td>
-              <td>{{ formattedReference }}</td>
-            </tr>
-            <tr>
-              <td>{{ t.penalty_details.penalty_type }}:</td>
-              <td>{{ typeDescription }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          {% if paid %}
-          <p>
-            <table class="details">
-              <caption class="heading-medium">{{ t.penalty_details_page.payment_table_title }}</caption>
-              <tbody>
-                <tr>
-                  <td>{{t.payment_details.payment_reference}}:</td> 
-                  <td>{{ paymentRef }}</td> 
-                </tr>
-                {% if paymentAuthCode %}
-                <tr>
-                  <td>{{t.payment_details.authorisation_code}}:</td> 
-                  <td>{{ paymentAuthCode }}</td> 
-                </tr>
-                {% endif %}
-                <tr>
-                  <td>{{t.payment_details.paid_on}}:</td> 
-                  <td>{{ paymentDate }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </p>
+        {% for penalty in penaltyDetails %}
+          {# This is going to be refactored once the Payment service is integrated and we have full knowledge of the payload
+            coming from it.
+          #}
+          {% set paid = true if penalty.status == 'PAID' else false %}
+          {% set statusClass = 'confirmed' if paid else 'unconfirmed' %}
+          {% if paid == false %}
+            {{ components.heading(text=t.penalty_details_page.title_unpaid, tag='h1', size='xlarge') }}
+            <p>Your payment code: <strong>{{ paymentCode }}</strong></p>
+            {{ components.paragraph(text=t.penalty_details_page.intro) }}
+          {% else %}
+            {{ components.heading(text=t.penalty_details_page.title_paid, tag='h1', size='xlarge') }}
+            <p>{{ t.penalty_details_page.confirmation }}&nbsp;<b>{{ paymentCode }}</b>
+            {{ components.paragraph(text=t.penalty_details_page.confirmation_sent) }}
           {% endif %}
-          <details>
-            <summary><span class="summary">{{ t.penalty_details_page.hidden_panel_title }}</span></summary>
-            <div class="panel panel-border-narrow">
-              <p>
-                {{ t.penalty_details_page.hidden_panel_text }}
-              </p>
-            </div>
-          </details>    
-        </p>
-        {% if paid %}
+          <table class="details">
+            <tbody>
+              <tr>
+                <td>{{ t.penalty_details.status }}:</td>
+                <td id="status" class="{{ statusClass }}">{% if paid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %} </td>
+              </tr>
+              <tr>
+                <td>{{ t.penalty_details.vehicle_reg }}:</td>
+                <td>{{ penalty.vehicleReg if penalty.complete else t.penalty_details.not_available }}</td> 
+              </tr>
+              <tr>
+                <td>{{ t.penalty_details.penalty_date }}:</td>
+                <td>{{ penalty.issueDate if penalty.complete else 'Not available' }}</td>
+              </tr>
+              <tr>
+                <td>{{ t.penalty_details.location }}:</td>
+                <td>{{ penalty.location if penalty.complete else 'Not available' }}</td> 
+              </tr>
+              <tr>
+                <td>{{ t.penalty_details.amount }}:</td>
+                <td>£{{ penalty.amount }}</td>
+              </tr>
+              <tr>
+                <td>{{ t.penalty_details.reference}}:</td>
+                <td>{{ penalty.formattedReference }}</td>
+              </tr>
+              <tr>
+                <td>{{ t.penalty_details.penalty_type }}:</td>
+                <td>{{ penalty.typeDescription }}</td>
+              </tr>
+            </tbody>
+          </table>
           <p>
-          {{ t.penalty_details_page.you_can }} &nbsp; 
-            {{ components.list(items=[
-              { text: t.penalty_details_page.share_sms, url: '#' },
-              { text: t.penalty_details_page.share_email, url: '#' },
-              { text: t.penalty_details_page.make_note }
-            ], type='bullet') }}
+            {% if paid %}
+            <p>
+              <table class="details">
+                <caption class="heading-medium">{{ t.penalty_details_page.payment_table_title }}</caption>
+                <tbody>
+                  <tr>
+                    <td>{{t.payment_details.payment_reference}}:</td> 
+                    <td>{{ penalty.paymentRef }}</td> 
+                  </tr>
+                  {% if penalty.paymentAuthCode %}
+                  <tr>
+                    <td>{{t.payment_details.authorisation_code}}:</td> 
+                    <td>{{ penalty.paymentAuthCode }}</td> 
+                  </tr>
+                  {% endif %}
+                  <tr>
+                    <td>{{t.payment_details.paid_on}}:</td> 
+                    <td>{{ penalty.paymentDate }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </p>
+            {% endif %}
+            <details>
+              <summary><span class="summary">{{ t.penalty_details_page.hidden_panel_title }}</span></summary>
+              <div class="panel panel-border-narrow">
+                <p>
+                  {{ t.penalty_details_page.hidden_panel_text }}
+                </p>
+              </div>
+            </details>    
           </p>
-          <p>
-            {{ t.penalty_details_page.return_to_page }} <a target='_blank' href='{{ urlroot }}/payment-code'>{{ t.penalty_details_page.return_to_page_link_title }}</a>
-          </p>
-          {{ components.button(text=t.penalty_details_page.pay_another_button, url='/payment-code') }}
-        {% else %}
-            <input type="hidden" name="reference" value="{{ reference }}">
-            <input type="hidden" name="type" value="{{ type }}">
-            <input type="hidden" name="amount" value="{{ amount }}">
-            <input type="hidden" name="paymentCode" value="{{ paymentCode }}">
-            {{ components.button(text=t.penalty_details_page.continue_to_payment_button, type="submit") }}
-        {% endif %}
+          {% if paid %}
+            <p>
+            {{ t.penalty_details_page.you_can }} &nbsp; 
+              {{ components.list(items=[
+                { text: t.penalty_details_page.share_sms, url: '#' },
+                { text: t.penalty_details_page.share_email, url: '#' },
+                { text: t.penalty_details_page.make_note }
+              ], type='bullet') }}
+            </p>
+            <p>
+              {{ t.penalty_details_page.return_to_page }} <a target='_blank' href='{{ urlroot }}/payment-code'>{{ t.penalty_details_page.return_to_page_link_title }}</a>
+            </p>
+            {{ components.button(text=t.penalty_details_page.pay_another_button, url='/payment-code') }}
+          {% else %}
+              <input type="hidden" name="reference" value="{{ penalty.reference }}">
+              <input type="hidden" name="type" value="{{ penalty.type }}">
+              <input type="hidden" name="amount" value="{{ penalty.amount }}">
+              <input type="hidden" name="paymentCode" value="{{ paymentCode }}">
+              {{ components.button(text=t.penalty_details_page.continue_to_payment_button, type="submit") }}
+          {% endif %}
+        {% endfor %}
       {# ends components.form #}
       {%- endcall %}
     {# ends components.columnTwoThirds #}

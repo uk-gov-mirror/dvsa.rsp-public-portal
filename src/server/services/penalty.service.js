@@ -50,9 +50,12 @@ export default class PenaltyService {
         if (isEmpty(response.data) || response.data.Enabled === false) {
           reject(new Error('Payment code not found'));
         }
-        // TODO: Use commented array version when UI is ready
-        // resolve([PenaltyService.parsePenalty(response.data)]);
-        resolve(PenaltyService.parsePenalty(response.data));
+        const penaltyDetails = PenaltyService.parsePenalty(response.data);
+        resolve({
+          penaltyDetails: [penaltyDetails],
+          paymentCode: penaltyDetails.paymentCode,
+          paymentStatus: penaltyDetails.status,
+        });
       }).catch((error) => {
         reject(new Error(error));
       });
@@ -65,9 +68,13 @@ export default class PenaltyService {
       if (isEmpty(response.data) || !response.data.ID) {
         throw new Error('Payment code not found');
       }
-      const { Penalties } = response.data;
+      const { Penalties, ID, PaymentStatus } = response.data;
       const parsedPenalties = Penalties.map(penalty => PenaltyService.parsePenalty(penalty));
-      return parsedPenalties;
+      return {
+        paymentCode: ID,
+        penalties: parsedPenalties,
+        paymentStatus: PaymentStatus,
+      };
     }).catch((error) => {
       throw new Error(error);
     });

@@ -52,7 +52,6 @@ export const getPaymentDetails = [
       const paymentCode = req.params.payment_code;
       const getMethod = paymentCode.length === 16 ? 'getByPaymentCode' : 'getByPenaltyGroupPaymentCode';
       penaltyService[getMethod](paymentCode).then((penaltyDetails) => {
-        // TODO: Wrap in object when multi penalty UI is done, then use loop in paymentDetails.njk
         res.render('payment/paymentDetails', penaltyDetails);
       }).catch((error) => {
         logger.error(error);
