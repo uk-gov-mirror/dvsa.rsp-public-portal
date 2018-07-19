@@ -73,7 +73,7 @@ export default class PenaltyService {
         Penalties,
         ID,
         PaymentStatus,
-        RegistrationNumber,
+        VehicleRegistration,
         Location,
         Timestamp,
         TotalAmount,
@@ -82,7 +82,7 @@ export default class PenaltyService {
       return {
         isPenaltyGroup: true,
         penaltyGroupDetails: {
-          registrationNumber: RegistrationNumber,
+          registrationNumber: VehicleRegistration,
           location: Location,
           date: moment.unix(Timestamp).format('DD/MM/YYYY'),
           amount: TotalAmount,
