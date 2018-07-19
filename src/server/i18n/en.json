@@ -72,6 +72,7 @@
     "payment_code": "Payment Code",
     "penalty_type": "Penalty Type",
     "amount": "Amount",
+    "total_amount": "Total Amount",
     "reference": "Reference",
     "vehicle_reg":"Vehicle Registration",
     "penalty_date":"Penalty issued on",
