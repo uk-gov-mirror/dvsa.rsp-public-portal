@@ -81,12 +81,12 @@
         {% if isPenaltyGroup == true %}
           <p>
             <p>{{t.penalty_details_page.includes_following_penalties}}</p>
-            <table class="details">
-              <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                  <th class="govuk-table__header" scope="col">{{t.penalty_details.reference}}</th>
-                  <th class="govuk-table__header" scope="col">{{t.penalty_details.penalty_type}}</th>
-                  <th class="govuk-table__header" scope="col">{{t.penalty_details.total_amount}}</th>
+            <table>
+              <thead>
+                <tr>
+                  <th>{{t.penalty_details.reference}}</th>
+                  <th>{{t.penalty_details.penalty_type}}</th>
+                  <th>{{t.penalty_details.total_amount}}</th>
                 </tr>
               </thead>
               <tbody>
@@ -94,7 +94,7 @@
                   <tr>
                     <td>{{ penalty.reference }}</td> 
                     <td>{{ penalty.type }}</td>
-                    <td><strong>&pound;{{ penalty.amount }}</strong></td> 
+                    <td>&pound;{{ penalty.amount }}</td> 
                   </tr>   
                 {% endfor %}
                 <tr>
