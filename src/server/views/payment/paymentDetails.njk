@@ -39,7 +39,7 @@
               {% if isPenaltyGroup == false %}
                 <td>{{ penaltyDetails.vehicleReg if penaltyDetails.complete else t.penalty_details.not_available }}</td>
               {% else %}
-                <td>{{ penaltyGroupDetails.registrationNumber }}</td>
+                <td>{{ penaltyGroupDetails.registrationNumber if penaltyGroupDetails.registrationNumber else 'N/A' }}</td>
               {% endif %}
             </tr>
             <tr>
