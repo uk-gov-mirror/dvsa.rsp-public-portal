@@ -53,7 +53,7 @@
             <tr>
               <td>{{ t.penalty_details.location }}:</td>
               {% if isPenaltyGroup == false %}
-                <td>{{ penaltyDetails.location if penalty.complete else 'Not available' }}</td> 
+                <td>{{ penaltyDetails.location if penaltyDetails.complete else 'Not available' }}</td> 
               {% else %}
                 <td>{{ penaltyGroupDetails.location }}</td>
               {% endif %}
