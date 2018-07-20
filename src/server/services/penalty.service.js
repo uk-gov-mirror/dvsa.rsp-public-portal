@@ -1,4 +1,4 @@
-import { isEmpty, has } from 'lodash';
+import { isEmpty, has, sum, uniq } from 'lodash';
 import moment from 'moment';
 import SignedHttpClient from './../utils/httpclient';
 
@@ -44,6 +44,15 @@ export default class PenaltyService {
     return penaltyDetails;
   }
 
+  static splitAmountByType(penaltiesArr) {
+    const types = uniq(penaltiesArr.map(p => p.type));
+    return types.map((type) => { // eslint-disable-line arrow-body-style
+      return {
+        [type]: sum(penaltiesArr.filter(p => p.type === type).map(p => p.amount)),
+      };
+    });
+  }
+
   getByPaymentCode(paymentCode) {
     const promise = new Promise((resolve, reject) => {
       this.httpClient.get(`documents/tokens/${paymentCode}`).then((response) => {
@@ -79,6 +88,7 @@ export default class PenaltyService {
         TotalAmount,
       } = response.data;
       const parsedPenalties = Penalties.map(penalty => PenaltyService.parsePenalty(penalty));
+      const splitAmounts = PenaltyService.splitAmountByType(parsedPenalties);
       return {
         isPenaltyGroup: true,
         penaltyGroupDetails: {
@@ -86,6 +96,7 @@ export default class PenaltyService {
           location: Location,
           date: moment.unix(Timestamp).format('DD/MM/YYYY'),
           amount: TotalAmount,
+          splitAmounts,
         },
         paymentCode: ID,
         penaltyDetails: parsedPenalties,
