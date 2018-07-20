@@ -1,0 +1,207 @@
+{% extends 'layouts/default.layout.njk' %}
+
+{% set pageTitle = t.site_title %}
+{% set pageBreadcrumbItems = [
+    { text: t.breadcrumbs.home, url: '/' },
+    { text: t.breadcrumbs.payment_code, url: '/payment-code' },
+    { text: t.breadcrumbs.penalty_details }
+  ] 
+%}
+{# This is going to be refactored once the Payment service is integrated and we have full knowledge of the payload
+  coming from it.
+#}
+{% set paid = true if paymentStatus == 'PAID' else false %}
+{% set statusClass = 'confirmed' if paid else 'unconfirmed' %}
+
+{% block content %}
+  
+  {% call components.gridRow() %}
+    {% call components.columnTwoThirds() %}
+      {% call components.form(action='/payment-code/'+paymentCode+'/payment', method='POST')  %}
+        {% if paid == false %}
+          {{ components.heading(text=t.penalty_details_page.title_unpaid, tag='h1', size='xlarge') }}
+          <p>Your payment code: <strong>{{ paymentCode }}</strong></p>
+          {{ components.paragraph(text=t.penalty_details_page.intro) }}
+        {% else %}
+          {{ components.heading(text=t.penalty_details_page.title_paid, tag='h1', size='xlarge') }}
+          <p>{{ t.penalty_details_page.confirmation }}&nbsp;<b>{{ paymentCode }}</b>
+          {{ components.paragraph(text=t.penalty_details_page.confirmation_sent) }}
+        {% endif %}
+        {# Penalty details summary table #}
+        <table class="details">
+          <tbody>
+            <tr>
+              <td>{{ t.penalty_details.status }}:</td>
+              <td id="status" class="{{ statusClass }}">{% if paid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %} </td>
+            </tr>
+            <tr>
+              <td>{{ t.penalty_details.vehicle_reg }}:</td>
+              {% if isPenaltyGroup == false %}
+                <td>{{ penaltyDetails.vehicleReg if penaltyDetails.complete else t.penalty_details.not_available }}</td>
+              {% else %}
+                <td>{{ penaltyGroupDetails.registrationNumber if penaltyGroupDetails.registrationNumber else 'N/A' }}</td>
+              {% endif %}
+            </tr>
+            <tr>
+              <td>{{ t.penalty_details.penalty_date }}:</td>
+              {% if isPenaltyGroup == false %}
+                <td>{{ penaltyDetails.issueDate if penaltyDetails.complete else 'Not available' }}</td>
+              {% else %}
+                <td>{{ penaltyGroupDetails.date }}</td>
+              {% endif %}
+            </tr>
+            <tr>
+              <td>{{ t.penalty_details.location }}:</td>
+              {% if isPenaltyGroup == false %}
+                <td>{{ penaltyDetails.location if penaltyDetails.complete else 'Not available' }}</td> 
+              {% else %}
+                <td>{{ penaltyGroupDetails.location }}</td>
+              {% endif %}
+            </tr>
+            {% if isPenaltyGroup == false %}
+              <tr>
+                <td>{{ t.penalty_details.amount }}:</td>
+                <td>&pound;{{ penaltyDetails.amount }}</td>
+              </tr>
+            {% else %}
+              {% for amount in penaltyGroupDetails.splitAmounts %}
+                {% if amount.type == 'FPN' %}
+                  <tr>
+                    <td>{{ t.penalty_details.FPN }}:</td>
+                    <td>&pound;{{ amount.amount }}</td>
+                  </tr>
+                  {% elif amount.type == 'IM' %}
+                    <tr>
+                      <td>{{ t.penalty_details.IM }}:</td>
+                      <td>&pound;{{ amount.amount }}</td>
+                    </tr>
+                {% endif %}
+              {% endfor %}
+            {% endif %}    
+            {% if isPenaltyGroup == false %}
+              <tr>
+                <td>{{ t.penalty_details.reference}}:</td>
+                <td>{{ penaltyDetails.formattedReference }}</td>
+              </tr>
+              <tr>
+                <td>{{ t.penalty_details.penalty_type }}:</td>
+                <td>{{ penaltyDetails.typeDescription }}</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+        {% if isPenaltyGroup == true %}
+          <p>
+            <div class="notice">
+              <i class="icon icon-important">
+                <span class="visually-hidden">{{t.penalty_details_page.warning}}</span>
+              </i>
+              <strong class="bold-small">
+                {{t.penalty_details_page.warning_text}}
+              </strong>
+            </div>
+          </p>
+          <p>
+            <p>{{t.penalty_details_page.includes_following_penalties}}</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>{{t.penalty_details.reference}}</th>
+                  <th>{{t.penalty_details.penalty_type}}</th>
+                  <th>{{t.penalty_details.total_amount}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for penalty in penaltyDetails %}
+                  <tr>
+                    <td>{{ penalty.reference }}</td> 
+                    <td>{{ penalty.type }}</td>
+                    <td>&pound;{{ penalty.amount }}</td> 
+                  </tr>   
+                {% endfor %}
+                <tr>
+                  <td>{{ t.penalty_details.total_amount }}</td> 
+                  <td></td>
+                  <td><strong>&pound;{{ penaltyGroupDetails.amount if penaltyGroupDetails.amount else 'N/A' }}</strong></td> 
+                </tr>
+              </tbody>
+            </table>
+          </p>
+        {% endif %}
+        <p>
+          {% if paid %}
+          <p>
+            {# Payment details summary table #}
+            <table class="details">
+              <caption class="heading-medium">{{ t.penalty_details_page.payment_table_title }}</caption>
+              <tbody>
+                <tr>
+                  <td>{{t.payment_details.payment_reference}}:</td> 
+                  <td>{{ penaltyDetails.paymentRef }}</td> 
+                </tr>
+                {% if penaltyDetails.paymentAuthCode %}
+                <tr>
+                  <td>{{t.payment_details.authorisation_code}}:</td> 
+                  <td>{{ penaltyDetails.paymentAuthCode }}</td> 
+                </tr>
+                {% endif %}
+                <tr>
+                  <td>{{t.payment_details.paid_on}}:</td> 
+                  <td>{{ penaltyDetails.paymentDate }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </p>
+          {% endif %}
+          <details>
+            <summary><span class="summary">{{ t.penalty_details_page.hidden_panel_title }}</span></summary>
+            <div class="panel panel-border-narrow">
+              <p>
+                {{ t.penalty_details_page.hidden_panel_text }}
+              </p>
+            </div>
+          </details>    
+        </p>
+        {% if paid %}
+          <p>
+          {{ t.penalty_details_page.you_can }} &nbsp; 
+            {{ components.list(items=[
+              { text: t.penalty_details_page.share_sms, url: '#' },
+              { text: t.penalty_details_page.share_email, url: '#' },
+              { text: t.penalty_details_page.make_note }
+            ], type='bullet') }}
+          </p>
+          <p>
+            {{ t.penalty_details_page.return_to_page }} <a target='_blank' href='{{ urlroot }}/payment-code'>{{ t.penalty_details_page.return_to_page_link_title }}</a>
+          </p>
+          {{ components.button(text=t.penalty_details_page.pay_another_button, url='/payment-code') }}
+        {% else %}
+            <input type="hidden" name="reference" value="{{ penaltyDetails.reference }}">
+            <input type="hidden" name="type" value="{{ penaltyDetails.type }}">
+            <input type="hidden" name="amount" value="{{ penaltyDetails.amount }}">
+            <input type="hidden" name="paymentCode" value="{{ paymentCode }}">
+            {{ components.button(text=t.penalty_details_page.continue_to_payment_button, type="submit") }}
+        {% endif %}
+      {# ends components.form #}
+      {%- endcall %}
+    {# ends components.columnTwoThirds #}
+    {%- endcall %}
+
+    {% call components.columnOneThird() %}
+
+    <aside class="govuk-related-items" role="complementary">
+        <nav role="navigation" aria-labelledby="subsection-title">
+          <ul class="font-xsmall">
+            <li> {{ components.link(text='French', url='?clang=fr') if clang != 'fr' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='German', url='?clang=de') if clang != 'de' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='Polish', url='?clang=pl') if clang != 'pl' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='Spanish', url='?clang=es') if clang != 'es' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='Welsh', url='?clang=cy') if clang != 'cy' else components.link(text='English', url='?clang=en') }}</li>
+          </ul>
+        </nav>
+      </aside>
+    {%- endcall %}
+  {# ends components.gridRow #}
+  {%- endcall %}
+  
+{% endblock %}
