@@ -63,6 +63,8 @@
     "return_to_page_link_title":"DVSA penalty payment service",
     "pay_another_button":"Pay another penalty",
     "continue_to_payment_button": "Continue to payment",
+    "warning": "Warning",
+    "warning_text": "If you have fixed penalties and an immobilisation fee you need to pay them individually",
     "includes_following_penalties": "This payment code includes the following penalties:"
   },
   "penalty_details": {
