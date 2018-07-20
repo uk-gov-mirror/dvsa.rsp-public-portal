@@ -48,7 +48,8 @@ export default class PenaltyService {
     const types = uniq(penaltiesArr.map(p => p.type));
     return types.map((type) => { // eslint-disable-line arrow-body-style
       return {
-        [type]: sum(penaltiesArr.filter(p => p.type === type).map(p => p.amount)),
+        type,
+        amount: sum(penaltiesArr.filter(p => p.type === type).map(p => p.amount)),
       };
     });
   }

@@ -79,7 +79,9 @@
     "vehicle_reg":"Vehicle Registration",
     "penalty_date":"Penalty issued on",
     "location":"Location",
-    "not_available":"Not available"
+    "not_available":"Not available",
+    "IM":"Immobilisation Fee",
+    "FPN":"Fixed Penalties"
   },
   "payment_details": {
     "payment_reference": "Payment reference",

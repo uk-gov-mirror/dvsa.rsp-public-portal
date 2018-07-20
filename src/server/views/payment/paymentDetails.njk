@@ -58,14 +58,26 @@
                 <td>{{ penaltyGroupDetails.location }}</td>
               {% endif %}
             </tr>
-            <tr>
-              <td>{{ t.penalty_details.amount }}:</td>
-              {% if isPenaltyGroup == false %}
+            {% if isPenaltyGroup == false %}
+              <tr>
+                <td>{{ t.penalty_details.amount }}:</td>
                 <td>&pound;{{ penaltyDetails.amount }}</td>
-              {% else %}
-                <td>&pound;{{ penaltyGroupDetails.amount if penaltyGroupDetails.amount else 'N/A' }}</td>
-              {% endif %}    
-            </tr>
+              </tr>
+            {% else %}
+              {% for amount in penaltyGroupDetails.splitAmounts %}
+                {% if amount.type == 'FPN' %}
+                  <tr>
+                    <td>{{ t.penalty_details.FPN }}:</td>
+                    <td>&pound;{{ amount.amount }}</td>
+                  </tr>
+                  {% elif amount.type == 'IM' %}
+                    <tr>
+                      <td>{{ t.penalty_details.IM }}:</td>
+                      <td>&pound;{{ amount.amount }}</td>
+                    </tr>
+                {% endif %}
+              {% endfor %}
+            {% endif %}    
             {% if isPenaltyGroup == false %}
               <tr>
                 <td>{{ t.penalty_details.reference}}:</td>
