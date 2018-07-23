@@ -54,7 +54,7 @@ export const getPaymentDetails = [
         template: 'paymentDetails',
       } : {
         getMethod: 'getByPenaltyGroupPaymentCode',
-        template: 'multiPaymentDetails',
+        template: 'multiPaymentInfo',
       };
       penaltyService[getMethod](paymentCode).then((data) => {
         res.render(`payment/${template}`, data);
@@ -63,5 +63,12 @@ export const getPaymentDetails = [
         res.redirect('../payment-code?invalidPaymentCode');
       });
     }
+  },
+];
+
+export const getMultiPenaltyPaymentSummary = [
+  (req, res) => {
+    console.log(req.params);
+    res.render('payment/multiPaymentSummary', req.params);
   },
 ];
