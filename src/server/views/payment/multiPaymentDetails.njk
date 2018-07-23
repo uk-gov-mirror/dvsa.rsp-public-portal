@@ -11,7 +11,6 @@
   coming from it.
 #}
 {% set paid = true if paymentStatus == 'PAID' else false %}
-{% set statusClass = 'confirmed' if paid else 'unconfirmed' %}
 
 {% block content %}
   
@@ -30,10 +29,6 @@
         {# Penalty details summary table #}
         <table class="details">
           <tbody>
-            <tr>
-              <td>{{ t.penalty_details.status }}:</td>
-              <td id="status" class="{{ statusClass }}">{% if paid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %} </td>
-            </tr>
             <tr>
               <td>{{ t.penalty_details.vehicle_reg }}:</td>
               {% if isPenaltyGroup == false %}
@@ -65,15 +60,17 @@
               </tr>
             {% else %}
               {% for amount in penaltyGroupDetails.splitAmounts %}
+                {% set amountPaid = true if amount.status == 'PAID' else false %}
+                {% set statusClass = 'confirmed' if amountPaid else 'unconfirmed' %}
                 {% if amount.type == 'FPN' %}
                   <tr>
                     <td>{{ t.penalty_details.FPN }}:</td>
-                    <td>&pound;{{ amount.amount }}</td>
+                    <td>&pound;{{ amount.amount }} <span class="{{statusClass}}">{% if amountPaid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %}</span></td>
                   </tr>
                   {% elif amount.type == 'IM' %}
                     <tr>
                       <td>{{ t.penalty_details.IM }}:</td>
-                      <td>&pound;{{ amount.amount }}</td>
+                      <td>&pound;{{ amount.amount }} <span class="{{statusClass}}">{% if amountPaid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %}</span></td>
                     </tr>
                 {% endif %}
               {% endfor %}
