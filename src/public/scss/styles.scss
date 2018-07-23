@@ -51,6 +51,11 @@ table.details {
   td:nth-child(2) {
     font-weight: bold;
   }
+  td {
+    span {
+      padding-left: 20px;
+    }
+  }
 }
 
 .error, 
