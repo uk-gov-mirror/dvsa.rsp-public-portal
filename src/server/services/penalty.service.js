@@ -56,7 +56,7 @@ export default class PenaltyService {
 
   getByPaymentCode(paymentCode) {
     const promise = new Promise((resolve, reject) => {
-      this.httpClient.get(`tokens/${paymentCode}`).then((response) => {
+      this.httpClient.get(`documents/tokens/${paymentCode}`).then((response) => {
         if (isEmpty(response.data) || response.data.Enabled === false) {
           reject(new Error('Payment code not found'));
         }
