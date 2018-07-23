@@ -1,4 +1,4 @@
-import { isEmpty, has, uniq } from 'lodash';
+import { isEmpty, has, uniq, includes, find } from 'lodash';
 import moment from 'moment';
 import SignedHttpClient from './../utils/httpclient';
 
@@ -60,7 +60,9 @@ export default class PenaltyService {
         penalties: penalties.map(p => PenaltyService.parsePenalty(p)),
       };
     });
-    return { splitAmounts, parsedPenalties };
+    const unpaidPayments = paymentsArr.filter(payment => payment.status === 'UNPAID');
+    const nextPayment = includes(unpaidPayments, 'FPN') ? find(paymentsArr, 'FPN') : 'IM';
+    return { splitAmounts, parsedPenalties, nextPayment };
   }
 
   getByPaymentCode(paymentCode) {
@@ -91,7 +93,7 @@ export default class PenaltyService {
         Timestamp,
         TotalAmount,
       } = response.data;
-      const { splitAmounts, parsedPenalties } = PenaltyService.parsePayments(Payments);
+      const { splitAmounts, parsedPenalties, nextPayment } = PenaltyService.parsePayments(Payments);
       return {
         isPenaltyGroup: true,
         penaltyGroupDetails: {
@@ -104,6 +106,7 @@ export default class PenaltyService {
         paymentCode: ID,
         penaltyDetails: parsedPenalties,
         paymentStatus: PaymentStatus,
+        nextPayment,
       };
     }).catch((error) => {
       throw new Error(error);
