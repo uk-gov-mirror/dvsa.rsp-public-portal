@@ -1,4 +1,4 @@
-import { isEmpty, has, sum, uniq } from 'lodash';
+import { isEmpty, has } from 'lodash';
 import moment from 'moment';
 import SignedHttpClient from './../utils/httpclient';
 
@@ -44,12 +44,12 @@ export default class PenaltyService {
     return penaltyDetails;
   }
 
-  static splitAmountByType(penaltiesArr) {
-    const types = uniq(penaltiesArr.map(p => p.type));
-    return types.map((type) => { // eslint-disable-line arrow-body-style
+  static getSplitAmounts(paymentsArr) {
+    return paymentsArr.map((payment) => { // eslint-disable-line arrow-body-style
       return {
-        type,
-        amount: sum(penaltiesArr.filter(p => p.type === type).map(p => p.amount)),
+        type: payment.PaymentCategory,
+        amount: payment.TotalAmount,
+        status: payment.PaymentStatus,
       };
     });
   }
@@ -80,7 +80,7 @@ export default class PenaltyService {
         throw new Error('Payment code not found');
       }
       const {
-        Penalties,
+        Payments,
         ID,
         PaymentStatus,
         VehicleRegistration,
@@ -88,8 +88,7 @@ export default class PenaltyService {
         Timestamp,
         TotalAmount,
       } = response.data;
-      const parsedPenalties = Penalties.map(penalty => PenaltyService.parsePenalty(penalty));
-      const splitAmounts = PenaltyService.splitAmountByType(parsedPenalties);
+      const splitAmounts = PenaltyService.getSplitAmounts(Payments);
       return {
         isPenaltyGroup: true,
         penaltyGroupDetails: {
@@ -100,7 +99,7 @@ export default class PenaltyService {
           splitAmounts,
         },
         paymentCode: ID,
-        penaltyDetails: parsedPenalties,
+        // penaltyDetails: parsedPenalties,
         paymentStatus: PaymentStatus,
       };
     }).catch((error) => {
