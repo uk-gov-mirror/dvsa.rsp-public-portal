@@ -16,7 +16,7 @@
   
   {% call components.gridRow() %}
     {% call components.columnTwoThirds() %}
-      {% call components.form(action='/payment-code/'+paymentCode+'/payment', method='POST')  %}
+      {% call components.form(action='/payment-code/'+paymentCode+'/details', method='POST')  %}
         {% if paid == false %}
           {{ components.heading(text=t.penalty_details_page.title_unpaid, tag='h1', size='xlarge') }}
           <p>Your payment code: <strong>{{ paymentCode }}</strong></p>
@@ -72,6 +72,11 @@
                       <td>{{ t.penalty_details.IM }}:</td>
                       <td>&pound;{{ amount.amount }} <span class="{{statusClass}}">{% if amountPaid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %}</span></td>
                     </tr>
+                  {% elif amount.type == 'CDN' %}
+                    <tr>
+                      <td>{{ t.penalty_details.CDN }}:</td>
+                      <td>&pound;{{ amount.amount }} <span class="{{statusClass}}">{% if amountPaid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %}</span></td>
+                    </tr>
                 {% endif %}
               {% endfor %}
             {% endif %}    
@@ -100,6 +105,7 @@
           </p>
           <p>
             <p>{{t.penalty_details_page.includes_following_penalties}}</p>
+            {# Payment summary table #}
             <table>
               <thead>
                 <tr>
@@ -126,30 +132,6 @@
           </p>
         {% endif %}
         <p>
-          {% if paid %}
-          <p>
-            {# Payment details summary table #}
-            <table class="details">
-              <caption class="heading-medium">{{ t.penalty_details_page.payment_table_title }}</caption>
-              <tbody>
-                <tr>
-                  <td>{{t.payment_details.payment_reference}}:</td> 
-                  <td>{{ penaltyDetails.paymentRef }}</td> 
-                </tr>
-                {% if penaltyDetails.paymentAuthCode %}
-                <tr>
-                  <td>{{t.payment_details.authorisation_code}}:</td> 
-                  <td>{{ penaltyDetails.paymentAuthCode }}</td> 
-                </tr>
-                {% endif %}
-                <tr>
-                  <td>{{t.payment_details.paid_on}}:</td> 
-                  <td>{{ penaltyDetails.paymentDate }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </p>
-          {% endif %}
           <details>
             <summary><span class="summary">{{ t.penalty_details_page.hidden_panel_title }}</span></summary>
             <div class="panel panel-border-narrow">

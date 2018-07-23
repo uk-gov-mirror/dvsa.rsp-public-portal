@@ -81,7 +81,8 @@
     "location":"Location",
     "not_available":"Not available",
     "IM":"Immobilisation Fee",
-    "FPN":"Fixed Penalties"
+    "FPN":"Fixed Penalties",
+    "CDN": "Court Deposits"
   },
   "payment_details": {
     "payment_reference": "Payment reference",
