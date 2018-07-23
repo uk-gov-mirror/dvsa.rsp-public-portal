@@ -44,15 +44,20 @@ export const getPaymentDetails = [
   paymentCodeValidation,
   (req, res) => {
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
       logger.error(errors.mapped());
       res.redirect('../payment-code?invalidPaymentCode');
     } else {
       const paymentCode = req.params.payment_code;
-      const getMethod = paymentCode.length === 16 ? 'getByPaymentCode' : 'getByPenaltyGroupPaymentCode';
+      const { getMethod, template } = paymentCode.length === 16 ? {
+        getMethod: 'getByPaymentCode',
+        template: 'paymentDetails',
+      } : {
+        getMethod: 'getByPenaltyGroupPaymentCode',
+        template: 'multiPaymentDetails',
+      };
       penaltyService[getMethod](paymentCode).then((data) => {
-        res.render('payment/paymentDetails', data);
+        res.render(`payment/${template}`, data);
       }).catch((error) => {
         logger.error(error);
         res.redirect('../payment-code?invalidPaymentCode');
