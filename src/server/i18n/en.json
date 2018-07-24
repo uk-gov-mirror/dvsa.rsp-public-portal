@@ -84,6 +84,10 @@
     "FPN":"Fixed Penalties",
     "CDN": "Court Deposits"
   },
+  "multipayment_details": {
+    "title": "Pay fixed penalties and immobilisation fees",
+    "pay_fixed_penalties": "Pay fixed penalties"
+  },
   "payment_details": {
     "payment_reference": "Payment reference",
     "authorisation_code": "Authorisation code",

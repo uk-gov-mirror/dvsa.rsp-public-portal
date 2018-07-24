@@ -16,7 +16,7 @@
   
   {% call components.gridRow() %}
     {% call components.columnTwoThirds() %}
-      {% call components.form(action='/payment-code/'+paymentCode+'/details', method='POST')  %}
+      {% call components.form(action='/payment-code/'+paymentCode+'/'+nextPayment.PaymentCategory+'/details', method='POST')  %}
         {% if paid == false %}
           {{ components.heading(text=t.penalty_details_page.title_unpaid, tag='h1', size='xlarge') }}
           <p>Your payment code: <strong>{{ paymentCode }}</strong></p>
@@ -103,33 +103,6 @@
               </strong>
             </div>
           </p>
-          <p>
-            <p>{{t.penalty_details_page.includes_following_penalties}}</p>
-            {# Payment summary table #}
-            <table>
-              <thead>
-                <tr>
-                  <th>{{t.penalty_details.reference}}</th>
-                  <th>{{t.penalty_details.penalty_type}}</th>
-                  <th>{{t.penalty_details.total_amount}}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for penalty in penaltyDetails %}
-                  <tr>
-                    <td>{{ penalty.reference }}</td> 
-                    <td>{{ penalty.type }}</td>
-                    <td>&pound;{{ penalty.amount }}</td> 
-                  </tr>   
-                {% endfor %}
-                <tr>
-                  <td>{{ t.penalty_details.total_amount }}</td> 
-                  <td></td>
-                  <td><strong>&pound;{{ penaltyGroupDetails.amount if penaltyGroupDetails.amount else 'N/A' }}</strong></td> 
-                </tr>
-              </tbody>
-            </table>
-          </p>
         {% endif %}
         <p>
           <details>
@@ -155,9 +128,7 @@
           </p>
           {{ components.button(text=t.penalty_details_page.pay_another_button, url='/payment-code') }}
         {% else %}
-            <input type="hidden" name="reference" value="{{ penaltyDetails.reference }}">
-            <input type="hidden" name="type" value="{{ penaltyDetails.type }}">
-            <input type="hidden" name="amount" value="{{ penaltyDetails.amount }}">
+            <input type="hidden" name="type" value="{{ nextPayment.PaymentCategory }}">
             <input type="hidden" name="paymentCode" value="{{ paymentCode }}">
             {{ components.button(text=t.penalty_details_page.continue_to_payment_button, type="submit") }}
         {% endif %}

@@ -1,4 +1,4 @@
-import { isEmpty, has, uniq, includes, find } from 'lodash';
+import { isEmpty, has, uniq, find } from 'lodash';
 import moment from 'moment';
 import SignedHttpClient from './../utils/httpclient';
 
@@ -60,8 +60,9 @@ export default class PenaltyService {
         penalties: penalties.map(p => PenaltyService.parsePenalty(p)),
       };
     });
-    const unpaidPayments = paymentsArr.filter(payment => payment.status === 'UNPAID');
-    const nextPayment = includes(unpaidPayments, 'FPN') ? find(paymentsArr, 'FPN') : 'IM';
+    const unpaidPayments = paymentsArr.filter(payment => payment.PaymentStatus === 'UNPAID');
+    const fpnPayment = find(unpaidPayments, ['PaymentCategory', 'FPN']);
+    const nextPayment = typeof fpnPayment !== 'undefined' ? fpnPayment : find(unpaidPayments, ['PaymentCategory', 'IM']);
     return { splitAmounts, parsedPenalties, nextPayment };
   }
 
@@ -108,6 +109,19 @@ export default class PenaltyService {
         paymentStatus: PaymentStatus,
         nextPayment,
       };
+    }).catch((error) => {
+      throw new Error(error);
+    });
+  }
+
+  getPaymentsByCodeAndType(paymentCode, type) {
+    return this.httpClient.get(`penaltyGroup/${paymentCode}`).then((response) => {
+      if (isEmpty(response.data) || !response.data.ID) {
+        throw new Error('Payment code not found');
+      }
+      const { Payments } = response.data;
+      const paymentForType = Payments.filter(p => p.PaymentCategory === type)[0];
+      return paymentForType.Penalties.map(p => PenaltyService.parsePenalty(p));
     }).catch((error) => {
       throw new Error(error);
     });

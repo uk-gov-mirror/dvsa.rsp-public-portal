@@ -68,7 +68,10 @@ export const getPaymentDetails = [
 
 export const getMultiPenaltyPaymentSummary = [
   (req, res) => {
-    console.log(req.params);
-    res.render('payment/multiPaymentSummary', req.params);
+    const paymentCode = req.params.payment_code;
+    const { type } = req.params;
+    penaltyService.getPaymentsByCodeAndType(paymentCode, type).then((penaltyDetails) => {
+      res.render('payment/multiPaymentSummary', { penaltyDetails });
+    });
   },
 ];
