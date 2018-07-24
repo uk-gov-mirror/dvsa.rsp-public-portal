@@ -44,6 +44,13 @@ export default class PenaltyService {
     return penaltyDetails;
   }
 
+  static getNextPayment(unpaidPayments) {
+    const FPNPayment = find(unpaidPayments, ['PaymentCategory', 'FPN']);
+    const CDNPayment = find(unpaidPayments, ['PaymentCategory', 'CDN']);
+    const IMPayment = find(unpaidPayments, ['PaymentCategory', 'IM']);
+    return FPNPayment || CDNPayment || IMPayment;
+  }
+
   static parsePayments(paymentsArr) {
     const splitAmounts = paymentsArr.map((payment) => { // eslint-disable-line arrow-body-style
       return {
@@ -61,8 +68,7 @@ export default class PenaltyService {
       };
     });
     const unpaidPayments = paymentsArr.filter(payment => payment.PaymentStatus === 'UNPAID');
-    const fpnPayment = find(unpaidPayments, ['PaymentCategory', 'FPN']);
-    const nextPayment = typeof fpnPayment !== 'undefined' ? fpnPayment : find(unpaidPayments, ['PaymentCategory', 'IM']);
+    const nextPayment = PenaltyService.getNextPayment(unpaidPayments);
     return { splitAmounts, parsedPenalties, nextPayment };
   }
 
