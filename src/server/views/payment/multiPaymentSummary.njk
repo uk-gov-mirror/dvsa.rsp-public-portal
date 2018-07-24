@@ -33,22 +33,23 @@
               <thead>
                 <tr>
                   <th>{{t.penalty_details.reference}}</th>
-                  <th>{{t.penalty_details.penalty_type}}</th>
-                  <th>{{t.penalty_details.total_amount}}</th>
+                  <th>{{t.penalty_details.amount}}</th>
+                  <th>{{t.penalty_details.status}}</th>
                 </tr>
               </thead>
               <tbody>
                 {% for penalty in penaltyDetails %}
+                  {% set statusClass = 'confirmed' if penalty.status == 'PAID' else 'unconfirmed' %}
                   <tr>
                     <td>{{ penalty.reference }}</td> 
-                    <td>{{ penalty.type }}</td>
                     <td>&pound;{{ penalty.amount }}</td> 
+                    <td class="{{ statusClass }}">{{ penalty.status }}</td>
                   </tr>   
                 {% endfor %}
                 <tr>
                   <td>{{ t.penalty_details.total_amount }}</td> 
+                  <td><strong>&pound;{{ totalAmount if totalAmount else 'N/A' }}</strong></td> 
                   <td></td>
-                  <td><strong>&pound;{{ penaltyGroupDetails.amount if penaltyGroupDetails.amount else 'N/A' }}</strong></td> 
                 </tr>
               </tbody>
             </table>

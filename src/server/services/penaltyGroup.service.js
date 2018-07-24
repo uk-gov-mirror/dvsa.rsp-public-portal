@@ -52,8 +52,11 @@ export default class PenaltyGroupService {
         throw new Error('Payment code not found');
       }
       const { Payments } = response.data;
-      const paymentForType = Payments.filter(p => p.PaymentCategory === type)[0];
-      return paymentForType.Penalties.map(p => PenaltyService.parsePenalty(p));
+      const pensOfType = Payments.filter(p => p.PaymentCategory === type)[0].Penalties;
+      return {
+        penaltyDetails: pensOfType.map(p => PenaltyService.parsePenalty(p)),
+        totalAmount: pensOfType.reduce((total, pen) => total + pen.Value.penaltyAmount, 0),
+      };
     }).catch((error) => {
       throw new Error(error);
     });
