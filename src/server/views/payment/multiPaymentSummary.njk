@@ -19,15 +19,22 @@
     {% call components.columnTwoThirds() %}
           {% call components.form(action='/payment-code/'+paymentCode+'/payment', method='POST')  %}
       {% if paid == false %}
-        {{ components.heading(text=t.penalty_details_page.title_unpaid, tag='h1', size='xlarge') }}
-        {{ components.paragraph(text=t.penalty_details_page.intro) }}
+        {{ components.heading(text=t.multipayment_details.title, tag='h1', size='xlarge') }}
+        <h3 class="heading-medium">
+          {% if penaltyType == 'FPN' %}
+            {{ t.multipayment_details.instruction_pay_fixed_penalties }}
+          {% elif penaltyType == 'CDN' %}
+            {{ t.multipayment_details.instruction_pay_court_deposit }}
+          {% elif penaltyType == 'IM' %}
+            {{ t.multipayment_details.instruction_pay_immobilisation }}
+          {% endif %}
+        </h3>
       {% else %}
         {{ components.heading(text=t.penalty_details_page.title_paid, tag='h1', size='xlarge') }}
         <p>{{ t.penalty_details_page.confirmation }}&nbsp;<b>{{ paymentCode }}</b>
         {{ components.paragraph(text=t.penalty_details_page.confirmation_sent) }}
       {% endif %}
           <p>
-            <p>{{t.penalty_details_page.includes_following_penalties}}</p>
             {# Payment summary table #}
             <table>
               <thead>
@@ -43,7 +50,7 @@
                   <tr>
                     <td>{{ penalty.reference }}</td> 
                     <td>&pound;{{ penalty.amount }}</td> 
-                    <td class="{{ statusClass }}">{{ penalty.status }}</td>
+                    <td class="{{ statusClass }}"><strong>{{ penalty.status }}</strong></td>
                   </tr>   
                 {% endfor %}
                 <tr>
@@ -54,14 +61,6 @@
               </tbody>
             </table>
           </p>
-          <details>
-            <summary><span class="summary">{{ t.penalty_details_page.hidden_panel_title }}</span></summary>
-            <div class="panel panel-border-narrow">
-              <p>
-                {{ t.penalty_details_page.hidden_panel_text }}
-              </p>
-            </div>
-          </details>    
         </p>
         {% if paid %}
           <p>
@@ -81,7 +80,13 @@
 						<input type="hidden" name="type" value="{{ type }}">
 						<input type="hidden" name="amount" value="{{ amount }}">
 						<input type="hidden" name="paymentCode" value="{{ paymentCode }}">
-            {{ components.button(text=t.penalty_details_page.continue_to_payment_button, type="submit") }}
+            {% if penaltyType == 'FPN' %}
+              {{ components.button(text=t.multipayment_details.action_pay_fixed_penalties, type="submit") }}
+            {% elif penaltyType == 'CDN' %}
+              {{ components.button(text=t.multipayment_details.action_pay_court_deposit, type="submit") }}
+            {% elif penaltyType == 'IM' %}
+              {{ components.button(text=t.multipayment_details.action_pay_immobilisation, type="submit") }}
+            {% endif %}
         {% endif %}
       {%- endcall %}
     {%- endcall %}

@@ -55,6 +55,7 @@ export default class PenaltyGroupService {
       const pensOfType = Payments.filter(p => p.PaymentCategory === type)[0].Penalties;
       return {
         penaltyDetails: pensOfType.map(p => PenaltyService.parsePenalty(p)),
+        penaltyType: type,
         totalAmount: pensOfType.reduce((total, pen) => total + pen.Value.penaltyAmount, 0),
       };
     }).catch((error) => {
