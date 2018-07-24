@@ -44,19 +44,37 @@ export const getPaymentDetails = [
   paymentCodeValidation,
   (req, res) => {
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
       logger.error(errors.mapped());
       res.redirect('../payment-code?invalidPaymentCode');
     } else {
       const paymentCode = req.params.payment_code;
-
-      penaltyService.getByPaymentCode(paymentCode).then((details) => {
-        res.render('payment/paymentDetails', details);
+      const { getMethod, template } = paymentCode.length === 16 ? {
+        getMethod: 'getByPaymentCode',
+        template: 'paymentDetails',
+      } : {
+        getMethod: 'getByPenaltyGroupPaymentCode',
+        template: 'multiPaymentInfo',
+      };
+      penaltyService[getMethod](paymentCode).then((data) => {
+        res.render(`payment/${template}`, data);
       }).catch((error) => {
         logger.error(error);
         res.redirect('../payment-code?invalidPaymentCode');
       });
     }
+  },
+];
+
+export const getMultiPenaltyPaymentSummary = [
+  (req, res) => {
+    const paymentCode = req.params.payment_code;
+    const { type } = req.params;
+    penaltyService.getPaymentsByCodeAndType(paymentCode, type).then((penaltyDetails) => {
+      res.render('payment/multiPaymentSummary', { penaltyDetails });
+    }).catch((error) => {
+      logger.error(error);
+      res.redirect('../payment-code?invalidPaymentCode');
+    });
   },
 ];

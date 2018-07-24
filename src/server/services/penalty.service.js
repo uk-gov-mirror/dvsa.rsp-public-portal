@@ -1,10 +1,10 @@
-import { isEmpty, has } from 'lodash';
+import { isEmpty, has, uniq, find } from 'lodash';
 import moment from 'moment';
-import createHttpClient from './../utils/httpclient';
+import SignedHttpClient from './../utils/httpclient';
 
 export default class PenaltyService {
   constructor(serviceUrl) {
-    this.httpClient = createHttpClient(serviceUrl);
+    this.httpClient = new SignedHttpClient(serviceUrl);
   }
 
   static getPenaltyTypeDescription(penaltyType) {
@@ -44,9 +44,37 @@ export default class PenaltyService {
     return penaltyDetails;
   }
 
+  static getNextPayment(unpaidPayments) {
+    const FPNPayment = find(unpaidPayments, ['PaymentCategory', 'FPN']);
+    const CDNPayment = find(unpaidPayments, ['PaymentCategory', 'CDN']);
+    const IMPayment = find(unpaidPayments, ['PaymentCategory', 'IM']);
+    return FPNPayment || CDNPayment || IMPayment;
+  }
+
+  static parsePayments(paymentsArr) {
+    const splitAmounts = paymentsArr.map((payment) => { // eslint-disable-line arrow-body-style
+      return {
+        type: payment.PaymentCategory,
+        amount: payment.TotalAmount,
+        status: payment.PaymentStatus,
+      };
+    });
+    const types = uniq(paymentsArr.map(payment => payment.PaymentCategory));
+    const parsedPenalties = types.map((type) => {
+      const penalties = paymentsArr.filter(p => p.PaymentCategory === type)[0].Penalties;
+      return {
+        type,
+        penalties: penalties.map(p => PenaltyService.parsePenalty(p)),
+      };
+    });
+    const unpaidPayments = paymentsArr.filter(payment => payment.PaymentStatus === 'UNPAID');
+    const nextPayment = PenaltyService.getNextPayment(unpaidPayments);
+    return { splitAmounts, parsedPenalties, nextPayment };
+  }
+
   getByPaymentCode(paymentCode) {
     const promise = new Promise((resolve, reject) => {
-      this.httpClient.get(`tokens/${paymentCode}`).then((response) => {
+      this.httpClient.get(`documents/tokens/${paymentCode}`).then((response) => {
         if (isEmpty(response.data) || response.data.Enabled === false) {
           reject(new Error('Payment code not found'));
         }
@@ -56,5 +84,52 @@ export default class PenaltyService {
       });
     });
     return promise;
+  }
+
+  getByPenaltyGroupPaymentCode(paymentCode) {
+    return this.httpClient.get(`penaltyGroup/${paymentCode}`).then((response) => {
+      if (isEmpty(response.data) || !response.data.ID) {
+        throw new Error('Payment code not found');
+      }
+      const {
+        Payments,
+        ID,
+        PaymentStatus,
+        VehicleRegistration,
+        Location,
+        Timestamp,
+        TotalAmount,
+      } = response.data;
+      const { splitAmounts, parsedPenalties, nextPayment } = PenaltyService.parsePayments(Payments);
+      return {
+        isPenaltyGroup: true,
+        penaltyGroupDetails: {
+          registrationNumber: VehicleRegistration,
+          location: Location,
+          date: moment.unix(Timestamp).format('DD/MM/YYYY'),
+          amount: TotalAmount,
+          splitAmounts,
+        },
+        paymentCode: ID,
+        penaltyDetails: parsedPenalties,
+        paymentStatus: PaymentStatus,
+        nextPayment,
+      };
+    }).catch((error) => {
+      throw new Error(error);
+    });
+  }
+
+  getPaymentsByCodeAndType(paymentCode, type) {
+    return this.httpClient.get(`penaltyGroup/${paymentCode}`).then((response) => {
+      if (isEmpty(response.data) || !response.data.ID) {
+        throw new Error('Payment code not found');
+      }
+      const { Payments } = response.data;
+      const paymentForType = Payments.filter(p => p.PaymentCategory === type)[0];
+      return paymentForType.Penalties.map(p => PenaltyService.parsePenalty(p));
+    }).catch((error) => {
+      throw new Error(error);
+    });
   }
 }

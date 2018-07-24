@@ -3,13 +3,13 @@ import sinon from 'sinon';
 import { expect, use } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import PenaltyService from '../../src/server/services/penalty.service';
-import createHttpClient from '../../src/server/utils/httpclient';
+import SignedHttpClient from '../../src/server/utils/httpclient';
 import MockedBackendAPI from '../utils/mockedBackendAPI';
 import penalties from '../data/penalties';
 
 use(chaiAsPromised);
 
-const httpClient = createHttpClient('');
+const httpClient = new SignedHttpClient('');
 
 describe('Penalty Service', () => {
   const mockedBackendAPI = new MockedBackendAPI(penalties);
