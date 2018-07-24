@@ -72,6 +72,9 @@ export const getMultiPenaltyPaymentSummary = [
     const { type } = req.params;
     penaltyService.getPaymentsByCodeAndType(paymentCode, type).then((penaltyDetails) => {
       res.render('payment/multiPaymentSummary', { penaltyDetails });
+    }).catch((error) => {
+      logger.error(error);
+      res.redirect('../payment-code?invalidPaymentCode');
     });
   },
 ];
