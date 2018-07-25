@@ -11,7 +11,7 @@
 {% block content %}
   {% call components.gridRow() %}
     {% call components.columnTwoThirds() %}
-      {% call components.form(action='/payment-code/'+ '{{ paymentCode }}' +'/payment', method='POST')  %}
+      {% call components.form(action='/payment-code/'+ paymentCode + '/' + penaltyType + '/payment', method='POST')  %}
       {{ components.heading(text=t.multipayment_details.title, tag='h1', size='xlarge') }}
       <h3 class="heading-medium">
         {% if penaltyType == 'FPN' %}
