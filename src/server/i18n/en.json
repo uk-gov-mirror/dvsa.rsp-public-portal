@@ -35,7 +35,7 @@
   "payment_code_page": {
     "title": "Pay a DVSA Penalty",
     "payment_code": "Payment code",
-    "hint": "This is a code issued together with the penalty notice.<br />For example, a1b2c3d4e5f6e7b8'",
+    "hint": "This is a code issued together with the penalty notice.<br />For example, a1b2c3d4e5f6e7b8' or 'a1b2x8y9z0'",
     "hidden_panel_title": "I don't have a payment code",
     "hidden_panel_text": "The DVSA examiner normally sends the payment code (or token) via SMS or email, at the time of processing the penalty. The code is usually sent to the driver of the vehicle or their company, as requested at the time of processing.<br /><br />If you are the intended recipient, you can recheck your email inbox or text messages, or request the DVSA examiner send the payment code again. Alternatively, you can contact the customer support centre, to arrange payment by using the penalty reference number, if that is available to you",
     "continue_button": "Continue",
@@ -86,7 +86,12 @@
   },
   "multipayment_details": {
     "title": "Pay fixed penalties and immobilisation fees",
-    "pay_fixed_penalties": "Pay fixed penalties"
+    "instruction_pay_fixed_penalties": "Pay fixed penalties",
+    "instruction_pay_court_deposit": "Pay court deposits",
+    "instruction_pay_immobilisation": "Pay immobilisation fee",
+    "action_pay_fixed_penalties": "Pay fixed penalties",
+    "action_pay_court_deposit": "Pay court deposits",
+    "action_pay_immobilisation": "Pay immobilisation fee"
   },
   "payment_details": {
     "payment_reference": "Payment reference",

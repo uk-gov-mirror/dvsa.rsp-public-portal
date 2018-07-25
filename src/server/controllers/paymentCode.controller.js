@@ -1,10 +1,12 @@
 import { validationResult } from 'express-validator/check';
 import paymentCodeValidation from './../validation/paymentCode';
-import PenaltyService from './../services/penalty.service';
+import PenaltyService from '../services/penalty.service';
+import PenaltyGroupService from '../services/penaltyGroup.service';
 import config from '../config';
 import logger from './../utils/logger';
 
 const penaltyService = new PenaltyService(config.penaltyServiceUrl);
+const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl);
 
 // Index Route
 export const index = (req, res) => {
@@ -49,14 +51,16 @@ export const getPaymentDetails = [
       res.redirect('../payment-code?invalidPaymentCode');
     } else {
       const paymentCode = req.params.payment_code;
-      const { getMethod, template } = paymentCode.length === 16 ? {
+      const { service, getMethod, template } = paymentCode.length === 16 ? {
+        service: penaltyService,
         getMethod: 'getByPaymentCode',
         template: 'paymentDetails',
       } : {
+        service: penaltyGroupService,
         getMethod: 'getByPenaltyGroupPaymentCode',
         template: 'multiPaymentInfo',
       };
-      penaltyService[getMethod](paymentCode).then((data) => {
+      service[getMethod](paymentCode).then((data) => {
         res.render(`payment/${template}`, data);
       }).catch((error) => {
         logger.error(error);
@@ -70,8 +74,8 @@ export const getMultiPenaltyPaymentSummary = [
   (req, res) => {
     const paymentCode = req.params.payment_code;
     const { type } = req.params;
-    penaltyService.getPaymentsByCodeAndType(paymentCode, type).then((penaltyDetails) => {
-      res.render('payment/multiPaymentSummary', { penaltyDetails });
+    penaltyGroupService.getPaymentsByCodeAndType(paymentCode, type).then((penaltiesForType) => {
+      res.render('payment/multiPaymentSummary', { paymentCode, ...penaltiesForType });
     }).catch((error) => {
       logger.error(error);
       res.redirect('../payment-code?invalidPaymentCode');
