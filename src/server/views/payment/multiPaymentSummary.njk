@@ -48,10 +48,6 @@
         </tbody>
       </table>
       <br />
-      <input type="hidden" name="reference" value="{{ reference }}">
-      <input type="hidden" name="type" value="{{ type }}">
-      <input type="hidden" name="amount" value="{{ amount }}">
-      <input type="hidden" name="paymentCode" value="{{ paymentCode }}">
       {% if penaltyType == 'FPN' %}
         {{ components.button(text=t.multipayment_details.action_pay_fixed_penalties, type="submit") }}
       {% elif penaltyType == 'CDN' %}
