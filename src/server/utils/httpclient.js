@@ -38,7 +38,7 @@ export default class SignedHttpClient {
         'Content-Type': 'application/json',
       },
       ...this.signingOptions,
-    }
+    };
     aws4.sign(options, {
       accessKeyId: this.credentials.clientId,
       secretAccessKey: this.credentials.clientSecret,
