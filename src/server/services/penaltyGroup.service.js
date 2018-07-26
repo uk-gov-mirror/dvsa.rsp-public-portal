@@ -67,7 +67,7 @@ export default class PenaltyGroupService {
     const FPNPayment = find(unpaidPayments, ['PaymentCategory', 'FPN']);
     const CDNPayment = find(unpaidPayments, ['PaymentCategory', 'CDN']);
     const IMPayment = find(unpaidPayments, ['PaymentCategory', 'IM']);
-    return FPNPayment || CDNPayment || IMPayment;
+    return IMPayment || FPNPayment || CDNPayment;
   }
 
   static parsePayments(paymentsArr) {
