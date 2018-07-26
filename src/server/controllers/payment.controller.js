@@ -35,7 +35,7 @@ export const redirectToPaymentPage = async (req, res) => {
       redirectUrl,
     ).then(response => res.redirect(response.data.gateway_url))
       .catch((error) => {
-        logger.error(error);
+        console.log(error);
         res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
       });
   } catch (error) {

@@ -32,15 +32,17 @@ export default class SignedHttpClient {
 
   post(path, data) {
     const options = {
-      path,
       body: JSON.stringify(data),
-      'Content-type': 'application/json',
+      path: `${this.baseUrlOb.pathname}${path}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
       ...this.signingOptions,
-    };
+    }
     aws4.sign(options, {
       accessKeyId: this.credentials.clientId,
       secretAccessKey: this.credentials.clientSecret,
     });
-    return axios.post(`${this.baseUrlOb.href}${path}`, options);
+    return axios.post(`${this.baseUrlOb.href}${path}`, data, options);
   }
 }
