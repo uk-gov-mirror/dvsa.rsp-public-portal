@@ -17,6 +17,7 @@ router.post('/payment-code', paymentCodeController.validatePaymentCode);
 router.get('/payment-code/:payment_code', paymentCodeController.getPaymentDetails);
 router.post('/payment-code/:payment_code/:type/details', paymentCodeController.getMultiPenaltyPaymentSummary);
 router.post('/payment-code/:payment_code/payment', paymentController.redirectToPaymentPage);
+router.post('/payment-code/:payment_code/:type/payment', paymentController.redirectToPaymentPage);
 router.get('/payment-code/:payment_code/confirmPayment', paymentController.confirmPayment);
 
 export default router;
