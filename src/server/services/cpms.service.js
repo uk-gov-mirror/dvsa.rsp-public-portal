@@ -15,6 +15,10 @@ export default class PaymentService {
     }));
   }
 
+  createGroupCardPaymentTransaction(amount, vehicleReg, penaltyType, penaltyDetails, redirectUrl) {
+    return null;
+  }
+
   confirmPayment(receiptReference, penaltyType) {
     return this.httpClient.post('confirm/', JSON.stringify({
       receipt_reference: receiptReference,

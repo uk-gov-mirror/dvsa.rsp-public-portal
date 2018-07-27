@@ -38,11 +38,11 @@ const redirectForSinglePenalty = (req, res, penaltyDetails) => {
 
 const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyGroupType) => {
   const redirectUrl = `https://${req.get('host')}${config.urlRoot}/payment-code/${penaltyGroupDetails.paymentCode}/confirmPayment`;
-  return cpmsService.createCardPaymentTransaction(
-    penaltyGroupDetails.penaltyGroupDetails.registrationNumber,
-    penaltyGroupDetails.paymentCode,
-    penaltyGroupType,
+  return cpmsService.createGroupCardPaymentTransaction(
     penaltyGroupDetails.penaltyGroupDetails.amount,
+    penaltyGroupDetails.penaltyGroupDetails.registrationNumber,
+    penaltyGroupType,
+    penaltyGroupDetails.penaltyDetails,
     redirectUrl,
   ).then(response => res.redirect(response.data.gateway_url))
     .catch((error) => {
@@ -52,21 +52,21 @@ const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyGroupType
 };
 
 export const redirectToPaymentPage = async (req, res) => {
-  let penaltyDetails;
+  let entityForCode;
   try {
-    penaltyDetails = await getPenaltyOrGroupDetails(req);
+    entityForCode = await getPenaltyOrGroupDetails(req);
 
-    if (penaltyDetails.status === 'PAID' || penaltyDetails.paymentStatus === 'PAID') {
-      const url = `${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`;
+    if (entityForCode.status === 'PAID' || entityForCode.paymentStatus === 'PAID') {
+      const url = `${config.urlRoot}/payment-code/${entityForCode.paymentCode}`;
       return res.redirect(url);
     }
 
-    if (penaltyDetails.isPenaltyGroup) {
+    if (entityForCode.isPenaltyGroup) {
       const penaltyGroupType = req.params.type;
-      return redirectForPenaltyGroup(req, res, penaltyDetails, penaltyGroupType);
+      return redirectForPenaltyGroup(req, res, entityForCode, penaltyGroupType);
     }
 
-    return redirectForSinglePenalty(req, res, penaltyDetails);
+    return redirectForSinglePenalty(req, res, entityForCode);
   } catch (error) {
     logger.error(error);
     return res.redirect(`${config.urlRoot}/?invalidPaymentCode`);

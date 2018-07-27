@@ -25,29 +25,33 @@ describe('Payment Controller', () => {
   describe('redirects to payment page for penalty groups', () => {
     let mockPenaltySvc;
     let mockPenaltyGroupSvc;
-    let mockCpmsSvc;
+    let mockCpmsSvcSingle;
+    let mockCpmsSvcGroup;
     let redirectSpy;
     let responseHandle;
 
     before(() => {
       mockPenaltySvc = sinon.stub(PenaltyService.prototype, 'getByPaymentCode');
       mockPenaltyGroupSvc = sinon.stub(PenaltyGroupService.prototype, 'getByPenaltyGroupPaymentCode');
-      mockCpmsSvc = sinon.stub(CpmsService.prototype, 'createCardPaymentTransaction');
+      mockCpmsSvcSingle = sinon.stub(CpmsService.prototype, 'createCardPaymentTransaction');
+      mockCpmsSvcGroup = sinon.stub(CpmsService.prototype, 'createGroupCardPaymentTransaction');
       redirectSpy = sinon.spy({ redirect: () => {} }, 'redirect');
       responseHandle = { redirect: redirectSpy };
-    });
-
-    afterEach(() => {
-      mockPenaltySvc.reset();
-      mockPenaltyGroupSvc.reset();
-      mockCpmsSvc.reset();
-      redirectSpy.reset();
     });
 
     after(() => {
       PenaltyService.prototype.getByPaymentCode.restore();
       PenaltyGroupService.prototype.getByPenaltyGroupPaymentCode.restore();
       CpmsService.prototype.createCardPaymentTransaction.restore();
+      CpmsService.prototype.createGroupCardPaymentTransaction.restore();
+    });
+
+    afterEach(() => {
+      mockPenaltySvc.resetHistory();
+      mockPenaltyGroupSvc.resetHistory();
+      mockCpmsSvcSingle.resetHistory();
+      mockCpmsSvcGroup.resetHistory();
+      redirectSpy.resetHistory();
     });
 
     describe('for single penalty payment codes', () => {
@@ -71,7 +75,7 @@ describe('Payment Controller', () => {
             type: 'FPN',
             amount: 100,
           });
-        mockCpmsSvc
+        mockCpmsSvcSingle
           .withArgs('11ABC', '123', 'FPN', 100, 'https://localhost/payment-code/1111111111111111/confirmPayment')
           .resolves({ data: { gateway_url: 'http://cpms.gateway' } });
 
@@ -83,6 +87,16 @@ describe('Payment Controller', () => {
 
     describe('for multiple penalty payment codes', () => {
       it('should redirect to the CPMS gateway URL returned when CPMS Service creates a transaction', async () => {
+        const fakePenaltyDetails = [
+          {
+            type: 'FPN',
+            penalties: [
+              {
+                vehicleRegistration: '11ABC',
+              },
+            ],
+          },
+        ];
         mockPenaltyGroupSvc
           .withArgs('46uu8efys1o')
           .resolves({
@@ -92,15 +106,15 @@ describe('Payment Controller', () => {
               location: 'some location',
               date: '01/01/1970',
               amount: 230,
-              // splitAmounts,
+              splitAmounts: null,
             },
             paymentCode: '46uu8efys1o',
-            penaltyDetails: null,
+            penaltyDetails: fakePenaltyDetails,
             paymentStatus: 'UNPAID',
-            nextPayment: {},
+            nextPayment: null,
           });
-        mockCpmsSvc
-          .withArgs('11ABC', '46uu8efys1o', 'FPN', 230, 'https://localhost/payment-code/46uu8efys1o/confirmPayment')
+        mockCpmsSvcGroup
+          .withArgs(230, '11ABC', 'FPN', fakePenaltyDetails, 'https://localhost/payment-code/46uu8efys1o/confirmPayment')
           .resolves({ data: { gateway_url: 'http://cpms.gateway' } });
 
         await PaymentController.redirectToPaymentPage(requestForPaymentCode('46uu8efys1o'), responseHandle);
