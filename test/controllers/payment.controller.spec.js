@@ -93,6 +93,23 @@ describe('Payment Controller', () => {
             penalties: [
               {
                 vehicleRegistration: '11ABC',
+                amount: 100,
+                type: 'FPN',
+              },
+              {
+                vehicleRegistration: '11ABC',
+                amount: 50,
+                type: 'FPN',
+              },
+            ],
+          },
+          {
+            type: 'IM',
+            penalties: [
+              {
+                vehicleRegistration: '11ABC',
+                amount: 80,
+                type: 'IM',
               },
             ],
           },
@@ -114,7 +131,7 @@ describe('Payment Controller', () => {
             nextPayment: null,
           });
         mockCpmsSvcGroup
-          .withArgs(230, '11ABC', 'FPN', fakePenaltyDetails, 'https://localhost/payment-code/46uu8efys1o/confirmPayment')
+          .withArgs(150, '11ABC', 'FPN', fakePenaltyDetails[0].penalties, 'https://localhost/payment-code/46uu8efys1o/confirmPayment')
           .resolves({ data: { gateway_url: 'http://cpms.gateway' } });
 
         await PaymentController.redirectToPaymentPage(requestForPaymentCode('46uu8efys1o'), responseHandle);
