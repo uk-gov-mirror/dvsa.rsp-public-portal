@@ -15,8 +15,22 @@ export default class PaymentService {
     }));
   }
 
-  createGroupCardPaymentTransaction(amount, vehicleReg, penaltyType, penaltyDetails, redirectUrl) {
-    return null;
+  createGroupCardPaymentTransaction(amount, vehicleReg, type, penaltyOverviews, redirectUrl) {
+    return this.httpClient.post('groupCardPayment/', {
+      TotalAmount: amount,
+      VehicleRegistration: vehicleReg,
+      PenaltyType: type,
+      RedirectUrl: redirectUrl,
+      Penalties: penaltyOverviews.map(PaymentService.sanitisePenaltyForCpmsGroupCall),
+    });
+  }
+
+  static sanitisePenaltyForCpmsGroupCall(penalty) {
+    return {
+      PenaltyReference: penalty.reference,
+      PenaltyAmount: penalty.amount,
+      VehicleRegistration: penalty.vehicleReg,
+    };
   }
 
   confirmPayment(receiptReference, penaltyType) {

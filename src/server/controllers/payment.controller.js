@@ -38,6 +38,7 @@ const redirectForSinglePenalty = (req, res, penaltyDetails) => {
 
 const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyGroupType) => {
   const redirectUrl = `https://${req.get('host')}${config.urlRoot}/payment-code/${penaltyGroupDetails.paymentCode}/confirmPayment`;
+
   return cpmsService.createGroupCardPaymentTransaction(
     penaltyGroupDetails.penaltyGroupDetails.amount,
     penaltyGroupDetails.penaltyGroupDetails.registrationNumber,
