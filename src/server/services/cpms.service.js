@@ -15,13 +15,14 @@ export default class PaymentService {
     });
   }
 
-  createGroupCardPaymentTransaction(amount, vehicleReg, type, penaltyOverviews, redirectUrl) {
+  createGroupCardPaymentTransaction(penGrpId, amount, vehicleReg, type, penOverviews, redirectUrl) {
     return this.httpClient.post('groupCardPayment/', {
+      PenaltyGroupId: penGrpId,
       TotalAmount: amount,
       VehicleRegistration: vehicleReg,
       PenaltyType: type,
       RedirectUrl: redirectUrl,
-      Penalties: penaltyOverviews.map(PaymentService.sanitisePenaltyForCpmsGroupCall),
+      Penalties: penOverviews.map(PaymentService.sanitisePenaltyForCpmsGroupCall),
     });
   }
 

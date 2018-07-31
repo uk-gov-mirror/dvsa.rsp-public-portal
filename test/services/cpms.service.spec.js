@@ -56,9 +56,10 @@ describe('Payment Service', () => {
         },
       ];
 
-      const returned = cpmsService.createGroupCardPaymentTransaction(150, '11ABC, 22XYZ', 'FPN', penaltyOverviews, 'http://redirect');
+      const returned = cpmsService.createGroupCardPaymentTransaction('11111111111', 150, '11ABC, 22XYZ', 'FPN', penaltyOverviews, 'http://redirect');
 
       sinon.assert.calledWith(mockHttpClient, 'groupCardPayment/', {
+        PenaltyGroupId: '11111111111',
         TotalAmount: 150,
         VehicleRegistration: '11ABC, 22XYZ',
         PenaltyType: 'FPN',
