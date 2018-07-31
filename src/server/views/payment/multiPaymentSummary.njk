@@ -35,7 +35,7 @@
           {% for penalty in penaltyDetails %}
             {% set statusClass = 'confirmed' if penalty.status == 'PAID' else 'unconfirmed' %}
             <tr>
-              <td>{{ penalty.reference }}</td> 
+              <td>{{ penalty.formattedReference }}</td> 
               <td>&pound;{{ penalty.amount }}</td> 
               <td class="{{ statusClass }}"><strong>{{ penalty.status }}</strong></td>
             </tr>   
