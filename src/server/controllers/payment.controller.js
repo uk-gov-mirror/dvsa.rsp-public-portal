@@ -43,6 +43,7 @@ const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyGroupType
   const amountForType = penaltyOverviewsForType.reduce((total, pen) => total + pen.amount, 0);
 
   return cpmsService.createGroupCardPaymentTransaction(
+    penaltyGroupDetails.paymentCode,
     amountForType,
     penaltyGroupDetails.penaltyGroupDetails.registrationNumber,
     penaltyGroupType,
