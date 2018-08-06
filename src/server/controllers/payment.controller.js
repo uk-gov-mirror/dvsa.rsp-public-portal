@@ -38,7 +38,7 @@ const redirectForSinglePenalty = (req, res, penaltyDetails) => {
 };
 
 const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType) => {
-  const redirectUrl = `https://${req.get('host')}${config.urlRoot}/payment-code/${penaltyGroupDetails.paymentCode}/${penaltyType}/receipt`;
+  const redirectUrl = `https://${req.get('host')}${config.urlRoot}/payment-code/${penaltyGroupDetails.paymentCode}/${penaltyType}/confirmGroupPayment`;
   const penaltyOverviewsForType = penaltyGroupDetails.penaltyDetails
     .find(grouping => grouping.type === penaltyType).penalties;
   const amountForType = penaltyOverviewsForType.reduce((total, pen) => total + pen.amount, 0);

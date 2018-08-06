@@ -132,7 +132,7 @@ describe('Payment Controller', () => {
             nextPayment: null,
           });
         mockCpmsSvcGroup
-          .withArgs('46uu8efys1o', 150, '11ABC', 'FPN', fakePenaltyDetails[0].penalties, 'https://localhost/payment-code/46uu8efys1o/FPN/receipt')
+          .withArgs('46uu8efys1o', 150, '11ABC', 'FPN', fakePenaltyDetails[0].penalties, 'https://localhost/payment-code/46uu8efys1o/FPN/confirmGroupPayment')
           .resolves({ data: { gateway_url: 'http://cpms.gateway' } });
 
         await PaymentController.redirectToPaymentPage(requestForPaymentCode('46uu8efys1o'), responseHandle);
