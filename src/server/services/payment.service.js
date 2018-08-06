@@ -10,6 +10,6 @@ export default class PaymentService {
   }
 
   async recordGroupPayment(details) {
-    return this.httpClient.post('paymentGroup/', details);
+    return this.httpClient.post('groupPayments/', details);
   }
 }

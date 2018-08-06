@@ -118,11 +118,12 @@ export const confirmPayment = async (req, res) => {
 
 export const confirmGroupPayment = async (req, res) => {
   try {
-    const receiptReference = req.query.receipt_reference;
-    const paymentType = req.params.type;
+    const paymentCode = req.params.payment_code;
+    const { type } = req.params;
     const penaltyGroupDetails = await getPenaltyOrGroupDetails(req);
+    const receiptReference = `${paymentCode}_${type}`;
 
-    const confirmResp = await cpmsService.confirmPayment(receiptReference, paymentType);
+    const confirmResp = await cpmsService.confirmPayment(receiptReference, type);
 
     if (confirmResp.data.code === 801) {
       await paymentService.recordGroupPayment(penaltyGroupDetails);

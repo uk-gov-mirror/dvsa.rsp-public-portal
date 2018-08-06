@@ -154,9 +154,6 @@ describe('Payment Controller', () => {
         payment_code: 'codenotlength16',
         type: 'FPN',
       },
-      query: {
-        receipt_reference: 'ref',
-      },
     };
     const penaltyGroupDetails = { paymentCode: 'codenotlength16' };
 
@@ -176,7 +173,7 @@ describe('Payment Controller', () => {
         .resolves(penaltyGroupDetails);
 
       mockCpmsSvc
-        .withArgs('ref', 'FPN')
+        .withArgs('codenotlength16_FPN', 'FPN')
         .resolves({ data: { code: 801 } });
       mockPaymentSvc
         .withArgs({
@@ -203,7 +200,7 @@ describe('Payment Controller', () => {
     context('when CPMS confirms payment with response code 801', () => {
       it('should redirect to the receipt page', async () => {
         await PaymentController.confirmGroupPayment(req, resp);
-        sinon.assert.calledWith(mockCpmsSvc, 'ref', 'FPN');
+        sinon.assert.calledWith(mockCpmsSvc, 'codenotlength16_FPN', 'FPN');
         sinon.assert.calledWith(mockPaymentSvc, penaltyGroupDetails);
         sinon.assert.calledWith(redirectSpy, '/payment-code/codenotlength16/receipt');
       });
