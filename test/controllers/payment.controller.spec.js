@@ -224,7 +224,7 @@ describe('Payment Controller', () => {
         await PaymentController.confirmGroupPayment(req, resp);
         sinon.assert.calledWith(mockCpmsSvc, 'ref', 'FPN');
         sinon.assert.calledWith(mockPaymentSvc, expectedPaymentPayload);
-        sinon.assert.calledWith(redirectSpy, '/payment-code/codenotlength16/receipt');
+        sinon.assert.calledWith(redirectSpy, '/payment-code/codenotlength16/FPN/receipt');
       });
     });
 
