@@ -120,9 +120,9 @@ export const confirmPayment = async (req, res) => {
 export const confirmGroupPayment = async (req, res) => {
   try {
     const paymentCode = req.params.payment_code;
+    const receiptReference = req.query.receipt_reference;
     const { type } = req.params;
     const penaltyGroupDetails = await getPenaltyOrGroupDetails(req);
-    const receiptReference = `${paymentCode}_${type}`;
 
     const confirmResp = await cpmsService.confirmPayment(receiptReference, type);
 
