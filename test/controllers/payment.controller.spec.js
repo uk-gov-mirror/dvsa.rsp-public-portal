@@ -251,5 +251,18 @@ describe('Payment Controller', () => {
         sinon.assert.calledWith(renderSpy, 'payment/failedPayment');
       });
     });
+
+    context('when recording group payment record fails', () => {
+      beforeEach(() => {
+        mockPaymentSvc.reset();
+        mockPaymentSvc.rejects('payment service call failed');
+      });
+      it('should redirect to the payment declined page', async () => {
+        await PaymentController.confirmGroupPayment(req, resp);
+        sinon.assert.called(mockCpmsSvc);
+        sinon.assert.called(mockPaymentSvc);
+        sinon.assert.calledWith(renderSpy, 'payment/failedPayment');
+      });
+    });
   });
 });
