@@ -155,7 +155,29 @@ describe('Payment Controller', () => {
         type: 'FPN',
       },
     };
-    const penaltyGroupDetails = { paymentCode: 'codenotlength16' };
+    const penaltyGroupDetails = {
+      paymentCode: 'codenotlength16',
+      penaltyGroupDetails: {
+        splitAmounts: [
+          {
+            type: 'FPN',
+            amount: 150,
+            status: 'PAID',
+          },
+        ],
+      },
+    };
+    const expectedPaymentPayload = {
+      PaymentCode: 'codenotlength16',
+      PenaltyType: 'FPN',
+      PaymentDetail: {
+        PaymentMethod: 'CARD',
+        PaymentRef: 'codenotlength16_FPN',
+        AuthCode: '111',
+        PaymentAmount: '150',
+        PaymentDate: sinon.match.number,
+      },
+    };
 
     before(() => {
       mockPenaltyGrpSvc = sinon.stub(PenaltyGroupService.prototype, 'getByPenaltyGroupPaymentCode');
@@ -174,12 +196,9 @@ describe('Payment Controller', () => {
 
       mockCpmsSvc
         .withArgs('codenotlength16_FPN', 'FPN')
-        .resolves({ data: { code: 801 } });
+        .resolves({ data: { code: 801, auth_code: '111' } });
       mockPaymentSvc
-        .withArgs({
-          paymentCode: 'codenotlength16',
-          paymentStatus: 'PAID',
-        })
+        .withArgs(expectedPaymentPayload)
         .resolves(true);
     });
 
@@ -201,7 +220,7 @@ describe('Payment Controller', () => {
       it('should redirect to the receipt page', async () => {
         await PaymentController.confirmGroupPayment(req, resp);
         sinon.assert.calledWith(mockCpmsSvc, 'codenotlength16_FPN', 'FPN');
-        sinon.assert.calledWith(mockPaymentSvc, penaltyGroupDetails);
+        sinon.assert.calledWith(mockPaymentSvc, expectedPaymentPayload);
         sinon.assert.calledWith(redirectSpy, '/payment-code/codenotlength16/receipt');
       });
     });
