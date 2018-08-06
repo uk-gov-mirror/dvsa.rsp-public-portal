@@ -101,8 +101,12 @@ export const confirmPayment = async (req, res) => {
             PaymentDate: Math.round((new Date()).getTime() / 1000),
           },
         };
-        paymentService.makePayment(details).then(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`))
-          .catch(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`));
+        paymentService.makePayment(details)
+          .then(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`))
+          .catch((error) => {
+            logger.error(error);
+            res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
+          });
       } else {
         logger.warn(response.data);
         res.render('payment/failedPayment');
