@@ -5,6 +5,7 @@ import * as PaymentController from '../../src/server/controllers/payment.control
 import PenaltyService from '../../src/server/services/penalty.service';
 import PenaltyGroupService from '../../src/server/services/penaltyGroup.service';
 import CpmsService from '../../src/server/services/cpms.service';
+import PaymentService from '../../src/server/services/payment.service';
 
 function requestForPaymentCode(paymentCode) {
   return {
@@ -137,6 +138,130 @@ describe('Payment Controller', () => {
         await PaymentController.redirectToPaymentPage(requestForPaymentCode('46uu8efys1o'), responseHandle);
 
         sinon.assert.calledWith(redirectSpy, 'http://cpms.gateway');
+      });
+    });
+  });
+
+  describe('confirmGroupPayment', () => {
+    let mockCpmsSvc;
+    let mockPenaltyGrpSvc;
+    let mockPaymentSvc;
+    let redirectSpy;
+    let renderSpy;
+    let resp;
+    const req = {
+      params: {
+        payment_code: 'codenotlength16',
+        type: 'FPN',
+      },
+    };
+    const penaltyGroupDetails = {
+      paymentCode: 'codenotlength16',
+      penaltyGroupDetails: {
+        splitAmounts: [
+          {
+            type: 'FPN',
+            amount: 150,
+            status: 'PAID',
+          },
+        ],
+      },
+    };
+    const expectedPaymentPayload = {
+      PaymentCode: 'codenotlength16',
+      PenaltyType: 'FPN',
+      PaymentDetail: {
+        PaymentMethod: 'CARD',
+        PaymentRef: 'codenotlength16_FPN',
+        AuthCode: '111',
+        PaymentAmount: '150',
+        PaymentDate: sinon.match.number,
+      },
+    };
+
+    before(() => {
+      mockPenaltyGrpSvc = sinon.stub(PenaltyGroupService.prototype, 'getByPenaltyGroupPaymentCode');
+      mockCpmsSvc = sinon.stub(CpmsService.prototype, 'confirmPayment');
+      mockPaymentSvc = sinon.stub(PaymentService.prototype, 'recordGroupPayment');
+
+      redirectSpy = sinon.spy();
+      renderSpy = sinon.spy();
+      resp = { redirect: redirectSpy, render: renderSpy };
+    });
+
+    beforeEach(() => {
+      mockPenaltyGrpSvc
+        .withArgs('codenotlength16')
+        .resolves(penaltyGroupDetails);
+
+      mockCpmsSvc
+        .withArgs('codenotlength16_FPN', 'FPN')
+        .resolves({ data: { code: 801, auth_code: '111' } });
+      mockPaymentSvc
+        .withArgs(expectedPaymentPayload)
+        .resolves(true);
+    });
+
+    afterEach(() => {
+      mockPenaltyGrpSvc.resetHistory();
+      mockCpmsSvc.resetHistory();
+      mockPaymentSvc.resetHistory();
+      redirectSpy.resetHistory();
+      renderSpy.resetHistory();
+    });
+
+    after(() => {
+      CpmsService.prototype.confirmPayment.restore();
+      PenaltyGroupService.prototype.getByPenaltyGroupPaymentCode.restore();
+      PaymentService.prototype.recordGroupPayment.restore();
+    });
+
+    context('when CPMS confirms payment with response code 801', () => {
+      it('should redirect to the receipt page', async () => {
+        await PaymentController.confirmGroupPayment(req, resp);
+        sinon.assert.calledWith(mockCpmsSvc, 'codenotlength16_FPN', 'FPN');
+        sinon.assert.calledWith(mockPaymentSvc, expectedPaymentPayload);
+        sinon.assert.calledWith(redirectSpy, '/payment-code/codenotlength16/receipt');
+      });
+    });
+
+    context('when the payment cannot be confirmed', () => {
+      beforeEach(() => {
+        mockCpmsSvc.reset();
+        mockCpmsSvc
+          .rejects('call failed');
+      });
+
+      it('should redirect to the payment declined page', async () => {
+        await PaymentController.confirmGroupPayment(req, resp);
+        sinon.assert.called(mockCpmsSvc);
+        sinon.assert.calledWith(renderSpy, 'payment/failedPayment');
+      });
+    });
+
+    context('when CPMS say the payment status is different to 801', () => {
+      beforeEach(() => {
+        mockCpmsSvc.reset();
+        mockCpmsSvc
+          .resolves({ data: { code: 999 } });
+      });
+      it('should redirect to the payment declined page', async () => {
+        await PaymentController.confirmGroupPayment(req, resp);
+        sinon.assert.called(mockCpmsSvc);
+        sinon.assert.calledWith(renderSpy, 'payment/failedPayment');
+      });
+    });
+
+    context('when recording group payment record fails', () => {
+      beforeEach(() => {
+        mockPaymentSvc.reset();
+        mockPaymentSvc.rejects('payment service call failed');
+      });
+      it('should redirect to the payment declined page', async () => {
+        await PaymentController.confirmGroupPayment(req, resp);
+        sinon.assert.called(mockCpmsSvc);
+        sinon.assert.called(mockPaymentSvc);
+        sinon.assert.calledWith(renderSpy, 'payment/failedPayment');
       });
     });
   });

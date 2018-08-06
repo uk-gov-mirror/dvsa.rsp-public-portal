@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import PaymentService from './../services/payment.service';
 import PenaltyService from './../services/penalty.service';
 import CpmsService from './../services/cpms.service';
@@ -115,3 +116,47 @@ export const confirmPayment = async (req, res) => {
     res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
   }
 };
+
+export const confirmGroupPayment = async (req, res) => {
+  try {
+    const paymentCode = req.params.payment_code;
+    const { type } = req.params;
+    const penaltyGroupDetails = await getPenaltyOrGroupDetails(req);
+    const receiptReference = `${paymentCode}_${type}`;
+
+    const confirmResp = await cpmsService.confirmPayment(receiptReference, type);
+
+    if (confirmResp.data.code === 801) {
+      const payload = buildGroupPaymentPayload(
+        paymentCode,
+        receiptReference,
+        type,
+        penaltyGroupDetails,
+        confirmResp,
+      );
+      await paymentService.recordGroupPayment(payload);
+      res.redirect(`/payment-code/${penaltyGroupDetails.paymentCode}/receipt`);
+    } else {
+      res.render('payment/failedPayment');
+    }
+  } catch (error) {
+    logger.error(error);
+    res.render('payment/failedPayment');
+  }
+};
+
+function buildGroupPaymentPayload(paymentCode, receiptReference, type, penaltyGroup, confirmResp) {
+  const amountForType = penaltyGroup.penaltyGroupDetails.splitAmounts
+    .find(a => a.type === type).amount;
+  return {
+    PaymentCode: paymentCode,
+    PenaltyType: type,
+    PaymentDetail: {
+      PaymentMethod: 'CARD',
+      PaymentRef: receiptReference,
+      AuthCode: confirmResp.data.auth_code,
+      PaymentAmount: String(amountForType),
+      PaymentDate: new Date().getTime(),
+    },
+  };
+}
