@@ -19,5 +19,6 @@ router.post('/payment-code/:payment_code/:type/details', paymentCodeController.g
 router.post('/payment-code/:payment_code/payment', paymentController.redirectToPaymentPage);
 router.post('/payment-code/:payment_code/:type/payment', paymentController.redirectToPaymentPage);
 router.get('/payment-code/:payment_code/confirmPayment', paymentController.confirmPayment);
+router.get('/payment-code/:payment_code/:type/confirmGroupPayment', paymentController.confirmGroupPayment);
 
 export default router;

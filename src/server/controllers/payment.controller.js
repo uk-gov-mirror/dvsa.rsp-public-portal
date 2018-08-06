@@ -115,3 +115,23 @@ export const confirmPayment = async (req, res) => {
     res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
   }
 };
+
+export const confirmGroupPayment = async (req, res) => {
+  try {
+    const receiptReference = req.query.receipt_reference;
+    const paymentType = req.params.type;
+    const penaltyGroupDetails = await getPenaltyOrGroupDetails(req);
+
+    const confirmResp = await cpmsService.confirmPayment(receiptReference, paymentType);
+
+    if (confirmResp.data.code === 801) {
+      await paymentService.recordGroupPayment(penaltyGroupDetails);
+      res.redirect(`/payment-code/${penaltyGroupDetails.paymentCode}/receipt`);
+    } else {
+      res.render('payment/failedPayment');
+    }
+  } catch (error) {
+    logger.error(error);
+    res.render('payment/failedPayment');
+  }
+};

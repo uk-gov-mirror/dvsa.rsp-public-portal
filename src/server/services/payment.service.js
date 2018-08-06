@@ -8,4 +8,8 @@ export default class PaymentService {
   makePayment(details) {
     return this.httpClient.post('payments/', details);
   }
+
+  async recordGroupPayment(details) {
+    return this.httpClient.post('paymentGroup/', details);
+  }
 }
