@@ -35,10 +35,10 @@ export default class PaymentService {
   }
 
   confirmPayment(receiptReference, penaltyType) {
-    return this.httpClient.post('confirm/', JSON.stringify({
+    return this.httpClient.post('confirm/', {
       receipt_reference: receiptReference,
       penalty_type: penaltyType,
-    }));
+    });
   }
 
   makePayment(details) {
