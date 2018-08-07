@@ -72,13 +72,21 @@
             <th>{{ t.multipayment_receipt.breakdown_amount }}</th>
             <th>{{ t.multipayment_receipt.breakdown_status }}</th>
           </tr>
+
           {% for payment in penaltyDetails %}
             {% if payment.type == paymentType %}
               {% for penalty in payment.penalties %}
+                {% set statusClass = 'confirmed' if penalty.status == 'PAID' else 'unconfirmed' %}
                 <tr>
                   <td>{{ penalty.formattedReference }}</td>
-                  <td>{{ penalty.amount }}</td>
-                  <td>{{ penalty.status }}</td>
+                  <td>&pound;{{ penalty.amount }}</td>
+                  <td>
+                    <strong><span class='{{ statusClass }}'>{{ penalty.status }}</span></strong>
+                    {% if penalty.status == 'PAID' %}
+                      &nbsp;&nbsp;
+                      <img src="{{ assets }}/images/icon-check.png" />
+                    {% endif %}
+                  </td>
                 </tr>
               {% endfor %}
             {% endif %}
