@@ -1,0 +1,101 @@
+{% extends 'layouts/default.layout.njk' %}
+
+{% set pageTitle = t.site_title %}
+{% set pageBreadcrumbItems = [
+    { text: t.breadcrumbs.home, url: '/' },
+    { text: t.breadcrumbs.payment_code, url: '/payment-code' },
+    { text: t.breadcrumbs.penalty_details }
+  ] 
+%}
+  
+{% block content %}
+  {% call components.gridRow() %}
+    {% call components.columnTwoThirds() %}
+      <h3 class="heading-medium">{{ t.multipayment_receipt.transaction_receipt }}</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td>{{ t.multipayment_receipt.transaction_amount }}
+          </tr>
+          <tr>
+            <td>{{ t.multipayment_receipt.transaction_date_time }}
+          </tr>
+            <td>{{ t.multipayment_receipt.transaction_auth_code }}
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 class="heading-medium">
+        {% if paymentType == 'FPN' %}
+          {{ t.multipayment_receipt.details_title.FPN }}
+        {% elif paymentType == 'CDN' %}
+          {{ t.multipayment_receipt.details_title.CDN }}
+        {% elif paymentType == 'IM' %}
+          {{ t.multipayment_receipt.details_title.IM }}
+        {% endif %}
+      </h3>
+      <table>
+        <tbody>
+          <tr>
+            <td>{{ t.multipayment_receipt.details_registration }}</td>
+            <td><strong>{{ penaltyGroupDetails.registrationNumber }}</strong></td>
+          </tr>
+          <tr>
+            <td>{{ t.multipayment_receipt.details_date }}</td>
+            <td><strong>{{ penaltyGroupDetails.date }}</strong></td>
+          </tr>
+          <tr>
+            <td>{{ t.multipayment_receipt.details_location }}</td>
+            <td><strong>{{ penaltyGroupDetails.location }}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table>
+        <thead>
+          <tr>
+            <th>{{ t.multipayment_receipt.breakdown_reference }}</th>
+            <th>{{ t.multipayment_receipt.breakdown_amount }}</th>
+            <th>{{ t.multipayment_receipt.breakdown_status }}</th>
+          </tr>
+          {% for payment in penaltyDetails %}
+            {% if payment.type == paymentType %}
+              {% for penalty in payment.penalties %}
+                <tr>
+                  <td>{{ penalty.formattedReference }}</td>
+                  <td>{{ penalty.amount }}</td>
+                  <td>{{ penalty.status }}</td>
+                </tr>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </thead>
+      </table>
+
+      <h3 class="heading-medium">{{ t.multipayment_receipt.email.title }}</h3>
+      {{ components.field(id='email_address', label=t.multipayment_receipt.email.address, hint=t.multipayment_receipt.email.description) }}
+      <p>
+        {{ components.button(text=t.multipayment_receipt.email.send, type="submit") }}
+      </p>
+
+      {% if nextPayment %}
+        <p>
+          <div class="notice">
+            <i class="icon icon-important">
+              <span class="visually-hidden">{{t.multipayment_receipt.further_payment_warning}}</span>
+            </i>
+            <strong class="bold-small">
+              {{t.multipayment_receipt.further_payment_warning}}
+            </strong>
+            <a target='_blank' href='{{ urlroot }}/payment-code/{{ paymentCode }}/{{ nextPayment.PaymentCategory }}/details'>fill this in...</a>
+          </div>
+        </p>
+      {% endif %}
+
+      <p>
+        <a target='_blank' href='{{ urlroot }}/payment-code/{{ paymentCode }}'>{{ t.multipayment_receipt.back_to_summary }}</a>
+      </p>
+    {%- endcall %}
+  {%- endcall %}
+  
+{% endblock %}

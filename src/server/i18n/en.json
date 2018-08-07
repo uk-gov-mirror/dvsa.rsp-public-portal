@@ -93,6 +93,36 @@
     "action_pay_court_deposit": "Pay court deposits",
     "action_pay_immobilisation": "Pay immobilisation fee"
   },
+  "multipayment_receipt": {
+    "transaction_receipt": "Transaction Receipt",
+    "banner_payment_type": {
+      "FPN": "Fixed penalties",
+      "CDN": "Court deposits",
+      "IM": "Immobilisation Fee"
+    },
+    "details_title": {
+      "FPN": "Fixed penalties details",
+      "CDN": "Court deposits details",
+      "IM": "Immobilisation fee details"
+    },
+    "email": {
+      "title": "Send payment receipt by email",
+      "address": "Email address",
+      "description": "We'll only use this to send you a payment receipt",
+      "send": "Send receipt"
+    },
+    "transaction_amount": "Amount",
+    "transaction_date_time": "Date and time",
+    "transaction_auth_code": "Authorisation code",
+    "details_registration": "Vehicle registration",
+    "details_date": "Date",
+    "details_location": "Location",
+    "breakdown_reference": "Reference",
+    "breakdown_amount": "Amount",
+    "breakdown_status": "Status",
+    "further_payment_warning": "Fixed penalties, court deposits and immobilisation fees have to be paid individually",
+    "back_to_summary": "Return to the payment code summary"
+  },
   "payment_details": {
     "payment_reference": "Payment reference",
     "authorisation_code": "Authorisation code",
