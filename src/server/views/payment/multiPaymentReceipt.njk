@@ -33,11 +33,38 @@
         <tbody>
           <tr>
             <td>{{ t.multipayment_receipt.transaction_amount }}
+              <td>
+                {% if paymentType == 'FPN' %}
+                  {{ Payments.FPN.PaymentAmount }}
+                {% elif paymentType == 'CDN' %}
+                  {{ Payments.CDN.PaymentAmount }}
+                {% elif paymentType == 'IM' %}
+                  {{ Payments.IM.PaymentAmount }}
+                {% endif %}
+              </td>
           </tr>
           <tr>
             <td>{{ t.multipayment_receipt.transaction_date_time }}
+            <td>
+              {% if paymentType == 'FPN' %}
+                {{ Payments.FPN.PaymentDate }}
+              {% elif paymentType == 'CDN' %}
+                {{ Payments.CDN.PaymentDate }}
+              {% elif paymentType == 'IM' %}
+                {{ Payments.IM.PaymentDate }}
+              {% endif %}
+            </td>
           </tr>
             <td>{{ t.multipayment_receipt.transaction_auth_code }}
+            <td>
+              {% if paymentType == 'FPN' %}
+                {{ Payments.FPN.AuthCode }}
+              {% elif paymentType == 'CDN' %}
+                {{ Payments.CDN.AuthCode }}
+              {% elif paymentType == 'IM' %}
+                {{ Payments.IM.AuthCode }}
+              {% endif %}
+            </td>
           </tr>
         </tbody>
       </table>
