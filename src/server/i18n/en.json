@@ -95,6 +95,12 @@
   },
   "multipayment_receipt": {
     "transaction_receipt": "Transaction Receipt",
+    "banner_payment_complete": "Payment complete",
+    "banner_confirmation_type": {
+      "FPN": "fixed penalties",
+      "CDN": "court deposits",
+      "IM": "immobilisation fee"
+    },
     "banner_payment_type": {
       "FPN": "Fixed penalties",
       "CDN": "Court deposits",
@@ -110,6 +116,11 @@
       "address": "Email address",
       "description": "We'll only use this to send you a payment receipt",
       "send": "Send receipt"
+    },
+    "continue_to": {
+      "FPN": "Continue to fixed penalties",
+      "CDN": "Continue to court deposits",
+      "IM": "Continue to immobilisation fee"
     },
     "transaction_amount": "Amount",
     "transaction_date_time": "Date and time",
