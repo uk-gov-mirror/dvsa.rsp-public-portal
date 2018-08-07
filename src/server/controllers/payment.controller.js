@@ -139,7 +139,7 @@ export const confirmGroupPayment = async (req, res) => {
         confirmResp,
       );
       await paymentService.recordGroupPayment(payload);
-      res.redirect(`/payment-code/${penaltyGroupDetails.paymentCode}/${type}/receipt`);
+      res.redirect(`${config.urlRoot}/payment-code/${penaltyGroupDetails.paymentCode}/${type}/receipt`);
     } else {
       res.render('payment/failedPayment');
     }
