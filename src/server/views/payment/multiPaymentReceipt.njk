@@ -11,22 +11,16 @@
 {% block content %}
   {% call components.gridRow() %}
     {% call components.columnTwoThirds() %}
-    {% if PaymentStatus != 'UNPAID' %}
+      {% if paymentStatus == 'PAID' %}
         <div class="govuk-box-highlight">
           <h1 class="heading-large">
-            {% if paymentType == 'FPN' %}
-              {{ t.multipayment_receipt.banner_confirmation_type.FPN }}
-            {% elif paymentType == 'CDN' %}
-              {{ t.multipayment_receipt.banner_confirmation_type.CDN }}
-            {% elif paymentType == 'IM' %}
-              {{ t.multipayment_receipt.banner_confirmation_type.IM }}
-            {% endif %}
+            {{ t.multipayment_receipt.banner_confirmation_type[paymentType] }}
           </h1>
           <p class="font-medium">
             {{ t.multipayment_receipt.banner_payment_complete }}
           </p>
         </div>
-    {% endif %}
+      {% endif %}
 
       <h3 class="heading-medium">{{ t.multipayment_receipt.transaction_receipt }}</h3>
       <table>
@@ -34,49 +28,25 @@
           <tr>
             <td>{{ t.multipayment_receipt.transaction_amount }}
               <td>
-                {% if paymentType == 'FPN' %}
-                  {{ Payments.FPN.PaymentAmount }}
-                {% elif paymentType == 'CDN' %}
-                  {{ Payments.CDN.PaymentAmount }}
-                {% elif paymentType == 'IM' %}
-                  {{ Payments.IM.PaymentAmount }}
-                {% endif %}
+                {{ Payments[paymentType].PaymentAmount }}
               </td>
           </tr>
           <tr>
             <td>{{ t.multipayment_receipt.transaction_date_time }}
             <td>
-              {% if paymentType == 'FPN' %}
-                {{ Payments.FPN.PaymentDate }}
-              {% elif paymentType == 'CDN' %}
-                {{ Payments.CDN.PaymentDate }}
-              {% elif paymentType == 'IM' %}
-                {{ Payments.IM.PaymentDate }}
-              {% endif %}
+              {{ Payments[paymentType].PaymentDate }}
             </td>
           </tr>
             <td>{{ t.multipayment_receipt.transaction_auth_code }}
             <td>
-              {% if paymentType == 'FPN' %}
-                {{ Payments.FPN.AuthCode }}
-              {% elif paymentType == 'CDN' %}
-                {{ Payments.CDN.AuthCode }}
-              {% elif paymentType == 'IM' %}
-                {{ Payments.IM.AuthCode }}
-              {% endif %}
+              {{ Payments[paymentType].AuthCode }}
             </td>
           </tr>
         </tbody>
       </table>
 
       <h3 class="heading-medium">
-        {% if paymentType == 'FPN' %}
-          {{ t.multipayment_receipt.details_title.FPN }}
-        {% elif paymentType == 'CDN' %}
-          {{ t.multipayment_receipt.details_title.CDN }}
-        {% elif paymentType == 'IM' %}
-          {{ t.multipayment_receipt.details_title.IM }}
-        {% endif %}
+        {{ t.multipayment_receipt.details_title[paymentType] }}
       </h3>
       <table>
         <tbody>
@@ -133,13 +103,7 @@
           </div>
         <br />
         <a target='_blank' href='{{ urlroot }}/payment-code/{{ paymentCode }}/{{ nextPayment.PaymentCategory }}/details'>
-          {% if nextPayment.PaymentCategory == 'FPN' %}
-            {{ t.multipayment_receipt.continue_to.FPN }}
-          {% elif nextPayment.PaymentCategory == 'CDN' %}
-            {{ t.multipayment_receipt.continue_to.CDN }}
-          {% elif nextPayment.PaymentCategory == 'IM' %}
-            {{ t.multipayment_receipt.continue_to.IM }}
-          {% endif %}
+          {{ t.multipayment_receipt.continue_to[paymentType] }}
         </a>
       {% endif %}
       <p>

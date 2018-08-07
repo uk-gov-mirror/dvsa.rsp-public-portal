@@ -97,9 +97,9 @@
     "transaction_receipt": "Transaction Receipt",
     "banner_payment_complete": "Payment complete",
     "banner_confirmation_type": {
-      "FPN": "fixed penalties",
-      "CDN": "court deposits",
-      "IM": "immobilisation fee"
+      "FPN": "Fixed penalties",
+      "CDN": "Court deposits",
+      "IM": "Immobilisation fee"
     },
     "banner_payment_type": {
       "FPN": "Fixed penalties",
