@@ -159,8 +159,8 @@ function buildGroupPaymentPayload(paymentCode, receiptReference, type, penaltyGr
       PaymentMethod: 'CARD',
       PaymentRef: receiptReference,
       AuthCode: confirmResp.data.auth_code,
-      PaymentAmount: String(amountForType),
-      PaymentDate: new Date().getTime(),
+      PaymentAmount: amountForType,
+      PaymentDate: Math.floor(Date.now() / 1000),
     },
   };
 }

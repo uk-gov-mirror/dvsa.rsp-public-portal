@@ -177,7 +177,7 @@ describe('Payment Controller', () => {
         PaymentMethod: 'CARD',
         PaymentRef: 'ref',
         AuthCode: '111',
-        PaymentAmount: '150',
+        PaymentAmount: 150,
         PaymentDate: sinon.match.number,
       },
     };
