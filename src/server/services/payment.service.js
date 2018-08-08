@@ -12,4 +12,8 @@ export default class PaymentService {
   async recordGroupPayment(details) {
     return this.httpClient.post('groupPayments/', details);
   }
+
+  async getGroupPayment(paymentCode) {
+    return this.httpClient.get(`groupPayments/${paymentCode}`);
+  }
 }
