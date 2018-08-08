@@ -24,9 +24,9 @@ describe('ReceiptController', () => {
         AuthCode: '1234TBD',
         PaymentAmount: '80',
         PaymentDate: 1519300376667,
-        PaymentStatus: "PAID",
-      }
-    }
+        PaymentStatus: 'PAID',
+      },
+    },
   };
   beforeEach(() => {
     penaltyGroupSvc = sinon.stub(PenaltyGroupService.prototype, 'getByPenaltyGroupPaymentCode');
