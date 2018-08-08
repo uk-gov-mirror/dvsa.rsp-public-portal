@@ -36,7 +36,7 @@ describe('ReceiptController', () => {
     paymentSvc = sinon.stub(PaymentService.prototype, 'getGroupPayment');
     paymentSvc
       .withArgs('abcdefghij1')
-      .resolves({ data: groupPaymentResp })
+      .resolves({ data: groupPaymentResp });
     redirectSpy = sinon.spy();
     renderSpy = sinon.spy();
     response = { redirect: redirectSpy, render: renderSpy };
@@ -48,12 +48,46 @@ describe('ReceiptController', () => {
     renderSpy.resetHistory();
   });
 
-  it('should render the penalty group into the receipt view', async () => {
-    await ReceiptController(request, response);
-    sinon.assert.calledWith(renderSpy, 'payment/multiPaymentReceipt', {
-      paymentType: 'FPN',
-      paymentDetails: groupPaymentResp,
-      ...penaltyGroupSvcResp
+  describe('when PenaltyGroupService and PaymentService both return data for payment code', () => {
+    it('should render the penalty group into the receipt view with payment details', async () => {
+      await ReceiptController(request, response);
+      sinon.assert.calledWith(renderSpy, 'payment/multiPaymentReceipt', {
+        paymentType: 'FPN',
+        paymentDetails: groupPaymentResp,
+        ...penaltyGroupSvcResp,
+      });
+    });
+  });
+
+  describe('when payment type parameter is invalid', () => {
+    it('should redirect to the invalid payment code page', async () => {
+      const badRequest = { params: { payment_code: 'abcdefghij1', type: 'BAD' } };
+      await ReceiptController(badRequest, response);
+      sinon.assert.calledWith(redirectSpy, '/?invalidPaymentCode');
+    });
+  });
+
+  describe('when PenaltyGroupService rejects on fetching by payment code', () => {
+    beforeEach(() => {
+      penaltyGroupSvc
+        .withArgs('abcdefghij1')
+        .rejects();
+    });
+    it('should redirect to the invalid payment code page', async () => {
+      await ReceiptController(request, response);
+      sinon.assert.calledWith(redirectSpy, '/?invalidPaymentCode');
+    });
+  });
+
+  describe('when PaymentService rejects on fetching by payment code', () => {
+    beforeEach(() => {
+      paymentSvc
+        .withArgs('abcdefghij1')
+        .rejects();
+    });
+    it('should redirect to the invalid payment code page', async () => {
+      await ReceiptController(request, response);
+      sinon.assert.calledWith(redirectSpy, '/?invalidPaymentCode');
     });
   });
 });

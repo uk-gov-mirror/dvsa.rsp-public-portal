@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+
 import config from '../config';
 import PenaltyGroupService from '../services/penaltyGroup.service';
 import PaymentService from '../services/payment.service';
@@ -6,13 +8,27 @@ const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl);
 const paymentService = new PaymentService(config.paymentServiceUrl);
 
 export default async (req, res) => {
-  const paymentCode = req.params.payment_code;
-  const penaltyGroup = await penaltyGroupService.getByPenaltyGroupPaymentCode(paymentCode);
-  const paymentDetails = (await paymentService.getGroupPayment(paymentCode)).data;
-  const resp = {
-    paymentType: req.params.type,
-    paymentDetails,
-    ...penaltyGroup,
-  };
-  res.render('payment/multiPaymentReceipt', resp);
+  try {
+    const paymentCode = req.params.payment_code;
+    const { type } = req.params;
+
+    if (!isValidPaymentPaymentType(type)) {
+      return res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
+    }
+
+    const penaltyGroup = await penaltyGroupService.getByPenaltyGroupPaymentCode(paymentCode);
+    const paymentDetails = (await paymentService.getGroupPayment(paymentCode)).data;
+    const resp = {
+      paymentType: req.params.type,
+      paymentDetails,
+      ...penaltyGroup,
+    };
+    return res.render('payment/multiPaymentReceipt', resp);
+  } catch (error) {
+    return res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
+  }
 };
+
+function isValidPaymentPaymentType(type) {
+  return ['FPN', 'CDN', 'IM'].includes(type);
+}
