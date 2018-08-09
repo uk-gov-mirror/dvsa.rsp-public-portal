@@ -39,12 +39,14 @@ function isValidPaymentPaymentType(type) {
 
 function addFormattedPaymentDateTimes(paymentDetails) {
   const newPaymentDetails = { ...paymentDetails };
-  const paymentTypes = Object.keys(newPaymentDetails.Payments);
-  for (let i = 0; i < paymentTypes.length; i += 1) {
-    const payment = newPaymentDetails.Payments[paymentTypes[i]];
-    const timestamp = payment.PaymentDate * 1000;
-    payment.FormattedDate = moment(timestamp).format('DD/MM/YYYY');
-    payment.FormattedTime = moment(timestamp).format('h:mma');
-  }
+  newPaymentDetails.Payments = Object.keys(newPaymentDetails.Payments).reduce((acc, type) => {
+    const timestamp = newPaymentDetails.Payments[type].PaymentDate * 1000;
+    acc[type] = {
+      FormattedDate: moment(timestamp).format('DD/MM/YYYY'),
+      FormattedTime: moment(timestamp).format('h:mma'),
+      ...newPaymentDetails.Payments[type],
+    };
+    return acc;
+  }, {});
   return newPaymentDetails;
 }

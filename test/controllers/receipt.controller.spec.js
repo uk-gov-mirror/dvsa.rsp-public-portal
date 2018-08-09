@@ -23,7 +23,7 @@ describe('ReceiptController', () => {
         PaymentRef: 'RJF12345',
         AuthCode: '1234TBD',
         PaymentAmount: '80',
-        PaymentDate: 1519300376667,
+        PaymentDate: 1519300376,
         PaymentStatus: 'PAID',
       },
     },
@@ -53,7 +53,20 @@ describe('ReceiptController', () => {
       await ReceiptController(request, response);
       sinon.assert.calledWith(renderSpy, 'payment/multiPaymentReceipt', {
         paymentType: 'FPN',
-        paymentDetails: groupPaymentResp,
+        paymentDetails: {
+          ID: 'abcdefghij1',
+          Payments: {
+            IM: {
+              PaymentRef: 'RJF12345',
+              AuthCode: '1234TBD',
+              PaymentAmount: '80',
+              PaymentDate: 1519300376,
+              FormattedDate: '22/02/2018',
+              FormattedTime: '11:52am',
+              PaymentStatus: 'PAID',
+            },
+          },
+        },
         ...penaltyGroupSvcResp,
       });
     });
