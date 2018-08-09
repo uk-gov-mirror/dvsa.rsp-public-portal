@@ -22,18 +22,18 @@
           <tr>
             <td>{{ t.multipayment_receipt.transaction_amount }}
               <td>
-                {{ paymentDetails.Payments[paymentType].PaymentAmount }}
+                <strong>&pound;{{ paymentDetails.Payments[paymentType].PaymentAmount }}</strong>
               </td>
           </tr>
           <tr>
             <td>{{ t.multipayment_receipt.transaction_date_time }}
             <td>
-              {{ paymentDetails.Payments[paymentType].PaymentDate }}
+              <strong>{{ paymentDetails.Payments[paymentType].PaymentDate }}</strong>
             </td>
           </tr>
             <td>{{ t.multipayment_receipt.transaction_auth_code }}
             <td>
-              {{ paymentDetails.Payments[paymentType].AuthCode }}
+              <strong>{{ paymentDetails.Payments[paymentType].AuthCode }}</strong>
             </td>
           </tr>
         </tbody>
