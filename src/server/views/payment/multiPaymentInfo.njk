@@ -58,25 +58,23 @@
               <td>&pound;{{ penaltyDetails.amount }}</td>
             </tr>
           {% else %}
-            {% for amount in penaltyGroupDetails.splitAmounts %}
+            {% for amount in penaltyGroupDetails.splitAmounts|sort(attribute='type', reverse=true) %}
               {% set amountPaid = true if amount.status == 'PAID' else false %}
               {% set statusClass = 'confirmed' if amountPaid else 'unconfirmed' %}
-              {% if amount.type == 'FPN' %}
-                <tr>
-                  <td>{{ t.penalty_details.FPN }}:</td>
-                  <td>&pound;{{ amount.amount }} <span class="{{statusClass}}">{% if amountPaid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %}</span></td>
-                </tr>
-                {% elif amount.type == 'IM' %}
-                  <tr>
-                    <td>{{ t.penalty_details.IM }}:</td>
-                    <td>&pound;{{ amount.amount }} <span class="{{statusClass}}">{% if amountPaid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %}</span></td>
-                  </tr>
-                {% elif amount.type == 'CDN' %}
-                  <tr>
-                    <td>{{ t.penalty_details.CDN }}:</td>
-                    <td>&pound;{{ amount.amount }} <span class="{{statusClass}}">{% if amountPaid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %}</span></td>
-                  </tr>
-              {% endif %}
+              <tr>
+                <td>{{ t.penalty_details[amount.type] }}:</td>
+                <td>
+                  &pound;{{ amount.amount }}
+                  <span class="{{statusClass}}">
+                    {% if amountPaid %}
+                      {{ t.penalty_details.status_paid }} &nbsp;&nbsp;
+                      <img src="{{ assets }}/images/icon-check.png" />
+                    {% else %}
+                      {{ t.penalty_details.status_unpaid }}
+                    {% endif %}
+                  </span>
+                </td>
+              </tr>
             {% endfor %}
           {% endif %}    
           {% if isPenaltyGroup == false %}
