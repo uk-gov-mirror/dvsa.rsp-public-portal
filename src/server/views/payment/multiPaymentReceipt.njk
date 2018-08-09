@@ -32,7 +32,11 @@
           <tr>
             <td>{{ t.multipayment_receipt.transaction_date_time }}
             <td>
-              <strong>{{ paymentDetails.Payments[paymentType].PaymentDate }}</strong>
+              <strong>
+                {{ paymentDetails.Payments[paymentType].FormattedDate }}
+                &nbsp;&nbsp;
+                {{ paymentDetails.Payments[paymentType].FormattedTime }}
+              </strong>
             </td>
           </tr>
             <td>{{ t.multipayment_receipt.transaction_auth_code }}

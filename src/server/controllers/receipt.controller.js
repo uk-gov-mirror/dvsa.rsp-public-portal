@@ -1,5 +1,7 @@
 /* eslint-disable no-use-before-define */
 
+import moment from 'moment';
+
 import config from '../config';
 import PenaltyGroupService from '../services/penaltyGroup.service';
 import PaymentService from '../services/payment.service';
@@ -18,9 +20,11 @@ export default async (req, res) => {
 
     const penaltyGroup = await penaltyGroupService.getByPenaltyGroupPaymentCode(paymentCode);
     const paymentDetails = (await paymentService.getGroupPayment(paymentCode)).data;
+    const enrichedPaymentDetails = addFormattedPaymentDateTimes(paymentDetails);
+
     const resp = {
       paymentType: req.params.type,
-      paymentDetails,
+      paymentDetails: enrichedPaymentDetails,
       ...penaltyGroup,
     };
     return res.render('payment/multiPaymentReceipt', resp);
@@ -31,4 +35,16 @@ export default async (req, res) => {
 
 function isValidPaymentPaymentType(type) {
   return ['FPN', 'CDN', 'IM'].includes(type);
+}
+
+function addFormattedPaymentDateTimes(paymentDetails) {
+  const newPaymentDetails = { ...paymentDetails };
+  const paymentTypes = Object.keys(newPaymentDetails.Payments);
+  for (let i = 0; i < paymentTypes.length; i += 1) {
+    const payment = newPaymentDetails.Payments[paymentTypes[i]];
+    const timestamp = payment.PaymentDate * 1000;
+    payment.FormattedDate = moment(timestamp).format('DD/MM/YYYY');
+    payment.FormattedTime = moment(timestamp).format('h:mma');
+  }
+  return newPaymentDetails;
 }
