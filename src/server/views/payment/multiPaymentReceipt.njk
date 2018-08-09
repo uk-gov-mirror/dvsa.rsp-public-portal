@@ -5,16 +5,20 @@
 {% block content %}
   {% call components.gridRow() %}
     {% call components.columnTwoThirds() %}
-      {% if paymentStatus == 'PAID' %}
-        <div class="govuk-box-highlight">
-          <h1 class="heading-large">
-            {{ t.multipayment_receipt.banner_confirmation_type[paymentType] }}
-          </h1>
-          <p class="font-medium">
-            {{ t.multipayment_receipt.banner_payment_complete }}
-          </p>
-        </div>
-      {% endif %}
+      {% for type, payment in paymentDetails.Payments %}
+        {% if type == paymentType  %}
+          {% if payment.PaymentStatus == 'PAID' %}
+            <div class="govuk-box-highlight">
+              <h1 class="heading-large">
+                {{ t.multipayment_receipt.banner_confirmation_type[paymentType] }}
+              </h1>
+              <p class="font-medium">
+                {{ t.multipayment_receipt.banner_payment_complete }}
+              </p>
+            </div>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
 
       <h3 class="heading-medium">{{ t.multipayment_receipt.transaction_receipt }}</h3>
       <table>
@@ -105,7 +109,7 @@
           </div>
         <br />
         <a target='_blank' href='{{ urlroot }}/payment-code/{{ paymentCode }}/{{ nextPayment.PaymentCategory }}/details'>
-          {{ t.multipayment_receipt.continue_to[paymentType] }}
+          {{ t.multipayment_receipt.continue_to[nextPayment.PaymentCategory] }}
         </a>
       {% endif %}
       <p>
