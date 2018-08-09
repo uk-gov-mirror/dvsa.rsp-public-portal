@@ -101,8 +101,12 @@ export const confirmPayment = async (req, res) => {
             PaymentDate: Math.round((new Date()).getTime() / 1000),
           },
         };
-        paymentService.makePayment(details).then(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`))
-          .catch(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`));
+        paymentService.makePayment(details)
+          .then(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`))
+          .catch((error) => {
+            logger.error(error);
+            res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
+          });
       } else {
         logger.warn(response.data);
         res.render('payment/failedPayment');
@@ -120,9 +124,9 @@ export const confirmPayment = async (req, res) => {
 export const confirmGroupPayment = async (req, res) => {
   try {
     const paymentCode = req.params.payment_code;
+    const receiptReference = req.query.receipt_reference;
     const { type } = req.params;
     const penaltyGroupDetails = await getPenaltyOrGroupDetails(req);
-    const receiptReference = `${paymentCode}_${type}`;
 
     const confirmResp = await cpmsService.confirmPayment(receiptReference, type);
 
@@ -135,7 +139,7 @@ export const confirmGroupPayment = async (req, res) => {
         confirmResp,
       );
       await paymentService.recordGroupPayment(payload);
-      res.redirect(`/payment-code/${penaltyGroupDetails.paymentCode}/receipt`);
+      res.redirect(`${config.urlRoot}/payment-code/${penaltyGroupDetails.paymentCode}/${type}/receipt`);
     } else {
       res.render('payment/failedPayment');
     }
@@ -155,8 +159,8 @@ function buildGroupPaymentPayload(paymentCode, receiptReference, type, penaltyGr
       PaymentMethod: 'CARD',
       PaymentRef: receiptReference,
       AuthCode: confirmResp.data.auth_code,
-      PaymentAmount: String(amountForType),
-      PaymentDate: new Date().getTime(),
+      PaymentAmount: amountForType,
+      PaymentDate: Math.floor(Date.now() / 1000),
     },
   };
 }
