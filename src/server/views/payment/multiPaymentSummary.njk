@@ -40,11 +40,13 @@
               <td class="{{ statusClass }}"><strong>{{ penalty.status }}</strong></td>
             </tr>   
           {% endfor %}
-          <tr>
-            <td>{{ t.penalty_details.total_amount }}</td> 
-            <td><strong>&pound;{{ totalAmount if totalAmount else 'N/A' }}</strong></td> 
-            <td></td>
-          </tr>
+          {% if penaltyDetails.length > 1 %}
+            <tr>
+              <td>{{ t.penalty_details.total_amount }}</td> 
+              <td><strong>&pound;{{ totalAmount if totalAmount else 'N/A' }}</strong></td> 
+              <td></td>
+            </tr>
+          {% endif %}
         </tbody>
       </table>
       <br />
