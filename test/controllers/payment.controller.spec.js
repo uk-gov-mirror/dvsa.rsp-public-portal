@@ -169,6 +169,19 @@ describe('Payment Controller', () => {
           },
         ],
       },
+      penaltyDetails: [
+        {
+          type: 'FPN',
+          penalties: [
+            {
+              reference: '111111111111',
+            },
+            {
+              reference: '222222222222',
+            },
+          ],
+        },
+      ],
     };
     const expectedPaymentPayload = {
       PaymentCode: 'codenotlength16',
@@ -180,6 +193,10 @@ describe('Payment Controller', () => {
         PaymentAmount: 150,
         PaymentDate: sinon.match.number,
       },
+      PenaltyIds: [
+        '111111111111_FPN',
+        '222222222222_FPN',
+      ],
     };
 
     before(() => {
