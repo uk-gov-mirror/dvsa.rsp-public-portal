@@ -162,5 +162,8 @@ function buildGroupPaymentPayload(paymentCode, receiptReference, type, penaltyGr
       PaymentAmount: amountForType,
       PaymentDate: Math.floor(Date.now() / 1000),
     },
+    PenaltyIds: penaltyGroup.penaltyDetails
+      .find(penaltiesOfType => penaltiesOfType.type === type).penalties
+      .map(penalties => `${penalties.reference}_${type}`),
   };
 }
