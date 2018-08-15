@@ -1,8 +1,8 @@
 /* eslint-disable */
-import path from 'path';
-import common from './webpack.config.common.babel';
-import merge from 'webpack-merge';
-import MinifyPlugin from 'babel-minify-webpack-plugin';
+const path = require('path');
+const common = require('./webpack.config.common.babel');
+const merge = require('webpack-merge');
+const MinifyPlugin = require('babel-minify-webpack-plugin');
 
 module.exports = merge(common, {
   output: {

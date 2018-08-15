@@ -1,8 +1,8 @@
 /* eslint-disable */
-import path from 'path';
-import webpack from 'webpack';
-import common from './webpack.config.common.babel';
-import merge from 'webpack-merge';
+const path = require('path');
+const webpack = require('webpack');
+const common = require('./webpack.config.common.babel');
+const merge = require('webpack-merge');
 
 module.exports = merge(common, {
   output: {
