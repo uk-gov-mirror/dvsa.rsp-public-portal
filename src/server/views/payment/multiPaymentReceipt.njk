@@ -21,21 +21,26 @@
       {% endfor %}
 
       <h3 class="heading-medium">{{ t.multipayment_receipt.transaction_receipt }}</h3>
-      <table>
+      <table class='receipt-details'>
         <tbody>
           <tr>
-            <td>{{ t.multipayment_receipt.transaction_amount }}
+            <td>{{ t.multipayment_receipt.transaction_amount }}</td>
               <td>
                 <strong>&pound;{{ paymentDetails.Payments[paymentType].PaymentAmount }}</strong>
               </td>
           </tr>
           <tr>
-            <td>{{ t.multipayment_receipt.transaction_date_time }}
+            <td>{{ t.multipayment_receipt.transaction_date_time }}</td>
             <td>
-              <strong>{{ paymentDetails.Payments[paymentType].PaymentDate }}</strong>
+              <strong>
+                {{ paymentDetails.Payments[paymentType].FormattedDate }}
+                &nbsp;&nbsp;
+                {{ paymentDetails.Payments[paymentType].FormattedTime }}
+              </strong>
             </td>
           </tr>
-            <td>{{ t.multipayment_receipt.transaction_auth_code }}
+          <tr>
+            <td>{{ t.multipayment_receipt.transaction_auth_code }}</td>
             <td>
               <strong>{{ paymentDetails.Payments[paymentType].AuthCode }}</strong>
             </td>
@@ -46,7 +51,7 @@
       <h3 class="heading-medium">
         {{ t.multipayment_receipt.details_title[paymentType] }}
       </h3>
-      <table>
+      <table class='receipt-details'>
         <tbody>
           <tr>
             <td>{{ t.multipayment_receipt.details_registration }}</td>
@@ -63,7 +68,7 @@
         </tbody>
       </table>
 
-      <table>
+      <table id='receipt-breakdown'>
         <thead>
           <tr>
             <th>{{ t.multipayment_receipt.breakdown_reference }}</th>
@@ -94,9 +99,9 @@
 
       <h3 class="heading-medium">{{ t.multipayment_receipt.email.title }}</h3>
       {{ components.field(id='email_address', label=t.multipayment_receipt.email.address, hint=t.multipayment_receipt.email.description) }}
-      <p>
+      <div id="send-receipt-button-container">
         {{ components.button(text=t.multipayment_receipt.email.send, type="submit") }}
-      </p>
+      </div>
 
       {% if nextPayment %}
           <div class="notice">
@@ -113,7 +118,7 @@
         </a>
       {% endif %}
       <p>
-        <a target='_blank' href='{{ urlroot }}/payment-code/{{ paymentCode }}'>{{ t.multipayment_receipt.back_to_summary }}</a>
+        <a href='{{ urlroot }}/payment-code/{{ paymentCode }}'>{{ t.multipayment_receipt.back_to_summary }}</a>
       </p>
     {%- endcall %}
   {%- endcall %}
