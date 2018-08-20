@@ -16,7 +16,7 @@ export default class PaymentService {
   }
 
   createGroupCardPaymentTransaction(penGrpId, amount, vehicleReg, type, penOverviews, redirectUrl) {
-    return this.httpClient.post('groupCardPayment/', {
+    return this.httpClient.post('groupPayment/', {
       PenaltyGroupId: penGrpId,
       TotalAmount: amount,
       VehicleRegistration: vehicleReg,
