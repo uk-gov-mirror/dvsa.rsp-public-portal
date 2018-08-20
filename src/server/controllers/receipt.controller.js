@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import config from '../config';
 import PenaltyGroupService from '../services/penaltyGroup.service';
@@ -41,9 +41,10 @@ function addFormattedPaymentDateTimes(paymentDetails) {
   const newPaymentDetails = { ...paymentDetails };
   newPaymentDetails.Payments = Object.keys(newPaymentDetails.Payments).reduce((acc, type) => {
     const timestamp = newPaymentDetails.Payments[type].PaymentDate * 1000;
+    const timezoneId = 'Europe/London';
     acc[type] = {
-      FormattedDate: moment(timestamp).format('DD/MM/YYYY'),
-      FormattedTime: moment(timestamp).format('h:mma'),
+      FormattedDate: moment.tz(timestamp, timezoneId).format('DD/MM/YYYY'),
+      FormattedTime: moment.tz(timestamp, timezoneId).format('h:mma'),
       ...newPaymentDetails.Payments[type],
     };
     return acc;
