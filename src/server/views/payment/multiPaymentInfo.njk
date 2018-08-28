@@ -62,7 +62,15 @@
               {% set amountPaid = true if amount.status == 'PAID' else false %}
               {% set statusClass = 'confirmed' if amountPaid else 'unconfirmed' %}
               <tr>
-                <td>{{ t.penalty_details[amount.type] }}:</td>
+                <td>
+                  {{ t.penalty_details[amount.type] }}:
+                  {% for penaltyType in penaltyDetails %}
+                    {% if (penaltyType.type == amount.type) and (penaltyType.penalties.length) == 1 %}
+                      <br />
+                      {{ penaltyType.penalties[0].formattedReference }}
+                    {% endif %}
+                  {% endfor %}
+                </td>
                 <td>
                   &pound;{{ amount.amount }}
                 </td>
@@ -71,7 +79,6 @@
                     {% if amountPaid %}
                       <strong>{{ t.penalty_details.status_paid }}</strong> &nbsp;&nbsp;
                       <img src="{{ assets }}/images/icon-check.png" />
-                      &nbsp;&nbsp;
                     {% else %}
                       <strong>{{ t.penalty_details.status_unpaid }}</strong>
                     {% endif %}
@@ -98,7 +105,7 @@
         </tbody>
       </table>
       {% for penaltyType in penaltyDetails %}
-        {% if (penaltyType.type == 'FPN') or (penaltyType.type == 'CDN') %}
+        {% if ((penaltyType.type == 'FPN') or (penaltyType.type == 'CDN')) and (penaltyType.penalties.length > 1) %}
           <p>
             <details>
               <summary><span class="summary">{{ t.penalty_details_page.penalty_details_panel_title }}</span></summary>
