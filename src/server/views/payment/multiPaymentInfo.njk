@@ -41,7 +41,7 @@
             {% if isPenaltyGroup == false %}
               <td>{{ penaltyDetails.issueDate if penaltyDetails.complete else 'Not available' }}</td>
             {% else %}
-              <td>{{ penaltyGroupDetails.date }}</td>
+              <td colspan=3>{{ penaltyGroupDetails.date }}</td>
             {% endif %}
           </tr>
           <tr>
@@ -49,7 +49,7 @@
             {% if isPenaltyGroup == false %}
               <td>{{ penaltyDetails.location if penaltyDetails.complete else 'Not available' }}</td> 
             {% else %}
-              <td>{{ penaltyGroupDetails.location }}</td>
+              <td colspan=3>{{ penaltyGroupDetails.location }}</td>
             {% endif %}
           </tr>
           {% if isPenaltyGroup == false %}
@@ -65,14 +65,22 @@
                 <td>{{ t.penalty_details[amount.type] }}:</td>
                 <td>
                   &pound;{{ amount.amount }}
+                </td>
+                <td>
                   <span class="{{statusClass}}">
                     {% if amountPaid %}
                       {{ t.penalty_details.status_paid }} &nbsp;&nbsp;
                       <img src="{{ assets }}/images/icon-check.png" />
+                      &nbsp;&nbsp;
                     {% else %}
                       {{ t.penalty_details.status_unpaid }}
                     {% endif %}
                   </span>
+                </td>
+                <td>
+                  {% if amountPaid %}
+                    <a href="{{paymentCode}}/{{amount.type}}/receipt">{{ t.penalty_details.receipt_link }}</a>
+                  {% endif %}
                 </td>
               </tr>
             {% endfor %}
@@ -129,21 +137,6 @@
         {{ components.button(text=t.penalty_details_page.continue_to_payment_button, url=nextPaymentUrl) }}
       {% endif %}
     {# ends components.columnTwoThirds #}
-    {%- endcall %}
-
-    {% call components.columnOneThird() %}
-
-    <aside class="govuk-related-items" role="complementary">
-        <nav role="navigation" aria-labelledby="subsection-title">
-          <ul class="font-xsmall">
-            <li> {{ components.link(text='French', url='?clang=fr') if clang != 'fr' else components.link(text='English', url='?clang=en') }}</li>
-            <li>{{ components.link(text='German', url='?clang=de') if clang != 'de' else components.link(text='English', url='?clang=en') }}</li>
-            <li>{{ components.link(text='Polish', url='?clang=pl') if clang != 'pl' else components.link(text='English', url='?clang=en') }}</li>
-            <li>{{ components.link(text='Spanish', url='?clang=es') if clang != 'es' else components.link(text='English', url='?clang=en') }}</li>
-            <li>{{ components.link(text='Welsh', url='?clang=cy') if clang != 'cy' else components.link(text='English', url='?clang=en') }}</li>
-          </ul>
-        </nav>
-      </aside>
     {%- endcall %}
   {# ends components.gridRow #}
   {%- endcall %}

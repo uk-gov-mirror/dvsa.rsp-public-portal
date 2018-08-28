@@ -71,6 +71,7 @@
   "penalty_details": {
     "status": "Status",
     "status_paid" : "PAID",
+    "receipt_link": "Receipt",
     "status_unpaid": "UNPAID",
     "payment_code": "Payment Code",
     "penalty_type": "Penalty Type",
