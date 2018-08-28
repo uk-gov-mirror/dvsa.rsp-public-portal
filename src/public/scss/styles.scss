@@ -66,6 +66,12 @@ table.bottomless-table {
   }
 }
 
+table.multipenalty-summary-table {
+  td:first-child {
+    width: 33%;
+  }
+}
+
 table.receipt-details {
   td {
     width: 50%;

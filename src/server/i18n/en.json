@@ -4,6 +4,9 @@
     "home":"Home",
     "payment_code":"Payment Code",
     "penalty_details": "Penalty Details",
+    "find_payment_code": "Find payment code",
+    "pay_dvsa_fine": "Pay DVSA fine",
+    "fines_summary": "Fines summary",
     "payment": "Payment"
   },
   "languages": {

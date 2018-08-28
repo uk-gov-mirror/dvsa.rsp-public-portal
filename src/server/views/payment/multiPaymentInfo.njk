@@ -3,8 +3,9 @@
 {% set pageTitle = t.site_title %}
 {% set pageBreadcrumbItems = [
     { text: t.breadcrumbs.home, url: '/' },
-    { text: t.breadcrumbs.payment_code, url: '/payment-code' },
-    { text: t.breadcrumbs.penalty_details }
+    { text: t.breadcrumbs.pay_dvsa_fine, url: '/' },
+    { text: t.breadcrumbs.find_payment_code, url: '/payment-code' },
+    { text: t.breadcrumbs.fines_summary }
   ] 
 %}
 {# This is going to be refactored once the Payment service is integrated and we have full knowledge of the payload
@@ -23,7 +24,7 @@
         {{ components.paragraph(text=t.penalty_details_page.intro_paid) }}
       {% endif %}
       {# Penalty details summary table #}
-      <table class="details bottomless-table">
+      <table class="details bottomless-table multipenalty-summary-table">
         <tbody>
           <tr>
             <td>{{ t.penalty_details.payment_code }}:</td>
