@@ -114,14 +114,14 @@
                   <thead>
                     <tr>
                       <th>{{ t.penalty_details.reference }}</th>
-                      <th>{{ t.penalty_details.amount }}</th>
+                      <th class="numeric">{{ t.penalty_details.amount }}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for penalty in penaltyType.penalties %}
                       <tr>
                         <td>{{ penalty.formattedReference }}</td>
-                        <td>&pound;{{ penalty.amount }}</td>
+                        <td class="numeric">&pound;{{ penalty.amount }}</td>
                       </tr>
                     {% endfor %}
                   </tbody>
