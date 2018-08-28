@@ -24,7 +24,7 @@
         <div class="panel panel-border-narrow">
           {{ t.penalty_details_page.penalty_payment_instructions }}
         </div>
-        {% set nextUrl = urlroot + "/payment-code/" + paymentCode + "/" + nextPayment.PaymentCategory + "/details" %}
+        {% set nextUrl = "/payment-code/" + paymentCode + "/" + nextPayment.PaymentCategory + "/details" %}
         {{ components.button(text=t.multipayment_receipt.continue_to[nextPayment.PaymentCategory], type="submit", url=nextUrl) }}
       {% endif %}
 
