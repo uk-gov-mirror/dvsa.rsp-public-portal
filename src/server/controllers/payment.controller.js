@@ -30,11 +30,13 @@ const redirectForSinglePenalty = (req, res, penaltyDetails) => {
     penaltyDetails.type,
     penaltyDetails.amount,
     redirectUrl,
-  ).then(response => res.redirect(response.data.gateway_url))
-    .catch((error) => {
-      logger.error(error);
-      res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
-    });
+  ).then((response) => {
+    logger.error(JSON.stringify(response.data));
+    res.redirect(response.data.gateway_url);
+  }).catch((error) => {
+    logger.error(error);
+    res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
+  });
 };
 
 const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType) => {

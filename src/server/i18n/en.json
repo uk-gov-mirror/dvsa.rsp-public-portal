@@ -46,9 +46,9 @@
     }
   },
   "penalty_details_page": {
-    "title_paid":"Penalty payment confirmation",
-    "title_unpaid":"Pay a DVSA Penalty",
+    "penalty_details_title":"Summary of DVSA roadside fines",
     "intro": "We found the following details in our records",
+    "intro_paid": "All outstanding fines for this payment code have been paid",
     "confirmation":"You paid a penalty for the payment code:",
     "confirmation_sent":"A confirmation has been sent to the DVSA location where the penalty has been issued.",
     "penalty_table_title": "Penalty Details",
@@ -74,7 +74,7 @@
     "status_paid" : "PAID",
     "receipt_link": "Receipt",
     "status_unpaid": "UNPAID",
-    "payment_code": "Payment Code",
+    "payment_code": "Payment code",
     "penalty_type": "Penalty Type",
     "amount": "Amount",
     "total_amount": "Total Amount",
