@@ -20,6 +20,14 @@
         {% endif %}
       {% endfor %}
 
+      {% if nextPayment %}
+        <div class="panel panel-border-narrow">
+          {{ t.penalty_details_page.penalty_payment_instructions }}
+        </div>
+        {% set nextUrl = urlroot + "/payment-code/" + paymentCode + "/" + nextPayment.PaymentCategory + "/details" %}
+        {{ components.button(text=t.multipayment_receipt.continue_to[nextPayment.PaymentCategory], type="submit", url=nextUrl) }}
+      {% endif %}
+
       <h3 class="heading-medium">{{ t.multipayment_receipt.transaction_receipt }}</h3>
       <table class='receipt-details'>
         <tbody>
@@ -103,20 +111,6 @@
         {{ components.button(text=t.multipayment_receipt.email.send, type="submit") }}
       </div>
 
-      {% if nextPayment %}
-          <div class="notice">
-            <i class="icon icon-important">
-              <span class="visually-hidden">{{t.multipayment_receipt.further_payment_warning}}</span>
-            </i>
-            <strong class="bold-small">
-              {{t.multipayment_receipt.further_payment_warning}}
-            </strong>
-          </div>
-        <br />
-        <a href='{{ urlroot }}/payment-code/{{ paymentCode }}/{{ nextPayment.PaymentCategory }}/details'>
-          {{ t.multipayment_receipt.continue_to[nextPayment.PaymentCategory] }}
-        </a>
-      {% endif %}
       <p>
         <a href='{{ urlroot }}/payment-code/{{ paymentCode }}'>{{ t.multipayment_receipt.back_to_summary }}</a>
       </p>
