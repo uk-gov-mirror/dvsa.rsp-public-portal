@@ -26,7 +26,7 @@
         {{ components.paragraph(text=t.penalty_details_page.confirmation_sent) }}
       {% endif %}
       {# Penalty details summary table #}
-      <table class="details">
+      <table class="details bottomless-table">
         <tbody>
           <tr>
             <td>{{ t.penalty_details.vehicle_reg }}:</td>
@@ -69,11 +69,11 @@
                 <td>
                   <span class="{{statusClass}}">
                     {% if amountPaid %}
-                      {{ t.penalty_details.status_paid }} &nbsp;&nbsp;
+                      <strong>{{ t.penalty_details.status_paid }}</strong> &nbsp;&nbsp;
                       <img src="{{ assets }}/images/icon-check.png" />
                       &nbsp;&nbsp;
                     {% else %}
-                      {{ t.penalty_details.status_unpaid }}
+                      <strong>{{ t.penalty_details.status_unpaid }}</strong>
                     {% endif %}
                   </span>
                 </td>
@@ -97,6 +97,33 @@
           {% endif %}
         </tbody>
       </table>
+      {% for penaltyType in penaltyDetails %}
+        {% if (penaltyType.type == 'FPN') or (penaltyType.type == 'CDN') %}
+          <p>
+            <details>
+              <summary><span class="summary">{{ t.penalty_details_page.penalty_details_panel_title }}</span></summary>
+              <div class="panel panel-border-narrow">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>{{ t.penalty_details.reference }}</th>
+                      <th>{{ t.penalty_details.amount }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for penalty in penaltyType.penalties %}
+                      <tr>
+                        <td>{{ penalty.formattedReference }}</td>
+                        <td>&pound;{{ penalty.amount }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </details>    
+          </p>
+        {% endif %}
+      {% endfor %}
       {% if isPenaltyGroup == true %}
         <p>
           <div class="notice">

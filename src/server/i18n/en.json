@@ -54,6 +54,7 @@
     "penalty_table_title": "Penalty Details",
     "payment_table_title": "Payment Details", 
     "hidden_panel_title": "There is something wrong with these details",
+    "penalty_details_panel_title": "See penalty details",
     "hidden_panel_text": "Please contact the <a href=\"https://www.gov.uk/contact-dvsa\">customer support centre</a> to confirm the correct penalty details.",
     "penalty_payment_instructions": "You need to pay immobilisation fees, fixed penalties and court deposits separately.",
     "you_can":"You can:",

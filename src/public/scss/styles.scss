@@ -58,6 +58,14 @@ table.details {
   }
 }
 
+table.bottomless-table {
+  tr:last-child {
+    td {
+      border-bottom-style: none;
+    }
+  }
+}
+
 table.receipt-details {
   td {
     width: 50%;
