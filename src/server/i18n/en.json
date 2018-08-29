@@ -4,6 +4,9 @@
     "home":"Home",
     "payment_code":"Payment Code",
     "penalty_details": "Penalty Details",
+    "find_payment_code": "Find payment code",
+    "pay_dvsa_fine": "Pay DVSA fine",
+    "fines_summary": "Fines summary",
     "payment": "Payment"
   },
   "languages": {
@@ -46,15 +49,17 @@
     }
   },
   "penalty_details_page": {
-    "title_paid":"Penalty payment confirmation",
-    "title_unpaid":"Pay a DVSA Penalty",
+    "penalty_details_title":"Summary of DVSA roadside fines",
     "intro": "We found the following details in our records",
+    "intro_paid": "All outstanding fines for this payment code have been paid",
     "confirmation":"You paid a penalty for the payment code:",
     "confirmation_sent":"A confirmation has been sent to the DVSA location where the penalty has been issued.",
     "penalty_table_title": "Penalty Details",
     "payment_table_title": "Payment Details", 
     "hidden_panel_title": "There is something wrong with these details",
+    "penalty_details_panel_title": "See penalty details",
     "hidden_panel_text": "Please contact the <a href=\"https://www.gov.uk/contact-dvsa\">customer support centre</a> to confirm the correct penalty details.",
+    "penalty_payment_instructions": "You need to pay immobilisation fees, fixed penalties and court deposits separately.",
     "you_can":"You can:",
     "share_sms": "share payment confirmation via SMS",
     "share_email": "share payment confirmation via email",
@@ -70,8 +75,9 @@
   "penalty_details": {
     "status": "Status",
     "status_paid" : "PAID",
+    "receipt_link": "Receipt",
     "status_unpaid": "UNPAID",
-    "payment_code": "Payment Code",
+    "payment_code": "Payment code",
     "penalty_type": "Penalty Type",
     "amount": "Amount",
     "total_amount": "Total Amount",
