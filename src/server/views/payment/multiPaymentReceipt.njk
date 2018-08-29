@@ -104,13 +104,7 @@
           {% endfor %}
         </thead>
       </table>
-
-      <h3 class="heading-medium">{{ t.multipayment_receipt.email.title }}</h3>
-      {{ components.field(id='email_address', label=t.multipayment_receipt.email.address, hint=t.multipayment_receipt.email.description) }}
-      <div id="send-receipt-button-container">
-        {{ components.button(text=t.multipayment_receipt.email.send, type="submit") }}
-      </div>
-
+      <br />
       <p>
         <a href='{{ urlroot }}/payment-code/{{ paymentCode }}'>{{ t.multipayment_receipt.back_to_summary }}</a>
       </p>
