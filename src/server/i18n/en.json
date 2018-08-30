@@ -82,7 +82,7 @@
     "amount_due": "Total amount due",
     "penalty_details_panel_title": "See penalties details",
     "deposit_details_panel_title": "See court deposits details",
-    "penalty_payment_instructions": "You need to pay immobilisation fees, fixed penalties and court deposits separately",
+    "penalty_payment_instructions": "You need to pay immobilisation fees, fixed penalties and court deposits separately.",
     "penalty_payment_warning": "If you don't pay a fine on time, your vehicle could be immobilised, you might have to pay more, or you could be taken to court.",
     "details_assistance_panel_title": "If these details are wrong or you need help",
     "payment_assistance_panel_title": "If you are having difficulty making a payment",
