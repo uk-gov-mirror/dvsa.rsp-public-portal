@@ -18,11 +18,10 @@
   {% call components.gridRow() %}
     {% call components.columnTwoThirds() %}
           {% call components.form(action='/payment-code/'+paymentCode+'/payment', method='POST')  %}
+      {{ components.heading(text=t.penalty_details_page.penalty_details_title, tag='h1', size='xlarge') }}
       {% if paid == false %}
-        {{ components.heading(text=t.penalty_details_page.title_unpaid, tag='h1', size='xlarge') }}
         {{ components.paragraph(text=t.penalty_details_page.intro) }}
       {% else %}
-        {{ components.heading(text=t.penalty_details_page.title_paid, tag='h1', size='xlarge') }}
         <p>{{ t.penalty_details_page.confirmation }}&nbsp;<b>{{ paymentCode }}</b>
         {{ components.paragraph(text=t.penalty_details_page.confirmation_sent) }}
       {% endif %}

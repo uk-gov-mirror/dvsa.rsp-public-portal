@@ -1,10 +1,12 @@
 import { validationResult } from 'express-validator/check';
 import paymentCodeValidation from './../validation/paymentCode';
-import PenaltyService from './../services/penalty.service';
+import PenaltyService from '../services/penalty.service';
+import PenaltyGroupService from '../services/penaltyGroup.service';
 import config from '../config';
 import logger from './../utils/logger';
 
 const penaltyService = new PenaltyService(config.penaltyServiceUrl);
+const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl);
 
 // Index Route
 export const index = (req, res) => {
@@ -44,19 +46,39 @@ export const getPaymentDetails = [
   paymentCodeValidation,
   (req, res) => {
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
       logger.error(errors.mapped());
       res.redirect('../payment-code?invalidPaymentCode');
     } else {
       const paymentCode = req.params.payment_code;
-
-      penaltyService.getByPaymentCode(paymentCode).then((details) => {
-        res.render('payment/paymentDetails', details);
+      const { service, getMethod, template } = paymentCode.length === 16 ? {
+        service: penaltyService,
+        getMethod: 'getByPaymentCode',
+        template: 'paymentDetails',
+      } : {
+        service: penaltyGroupService,
+        getMethod: 'getByPenaltyGroupPaymentCode',
+        template: 'multiPaymentInfo',
+      };
+      service[getMethod](paymentCode).then((data) => {
+        res.render(`payment/${template}`, data);
       }).catch((error) => {
         logger.error(error);
         res.redirect('../payment-code?invalidPaymentCode');
       });
     }
+  },
+];
+
+export const getMultiPenaltyPaymentSummary = [
+  (req, res) => {
+    const paymentCode = req.params.payment_code;
+    const { type } = req.params;
+    penaltyGroupService.getPaymentsByCodeAndType(paymentCode, type).then((penaltiesForType) => {
+      res.render('payment/multiPaymentSummary', { paymentCode, ...penaltiesForType });
+    }).catch((error) => {
+      logger.error(error);
+      res.redirect('../payment-code?invalidPaymentCode');
+    });
   },
 ];

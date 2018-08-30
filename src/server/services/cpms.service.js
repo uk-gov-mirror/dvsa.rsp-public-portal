@@ -1,25 +1,44 @@
-import createHttpClient from './../utils/httpclient';
+import SignedHttpClient from './../utils/httpclient';
 
 export default class PaymentService {
   constructor(serviceUrl) {
-    this.httpClient = createHttpClient(serviceUrl);
+    this.httpClient = new SignedHttpClient(serviceUrl);
   }
 
   createCardPaymentTransaction(vehicleReg, penaltyReference, penaltyType, amount, redirectUrl) {
-    return this.httpClient.post('cardPayment/', JSON.stringify({
+    return this.httpClient.post('cardPayment/', {
       penalty_reference: penaltyReference,
       penalty_type: penaltyType,
       penalty_amount: amount,
       redirect_url: redirectUrl,
       vehicle_reg: vehicleReg,
-    }));
+    });
+  }
+
+  createGroupCardPaymentTransaction(penGrpId, amount, vehicleReg, type, penOverviews, redirectUrl) {
+    return this.httpClient.post('groupPayment/', {
+      PenaltyGroupId: penGrpId,
+      TotalAmount: amount,
+      VehicleRegistration: vehicleReg,
+      PenaltyType: type,
+      RedirectUrl: redirectUrl,
+      Penalties: penOverviews.map(PaymentService.sanitisePenaltyForCpmsGroupCall),
+    });
+  }
+
+  static sanitisePenaltyForCpmsGroupCall(penalty) {
+    return {
+      PenaltyReference: penalty.reference,
+      PenaltyAmount: penalty.amount,
+      VehicleRegistration: penalty.vehicleReg,
+    };
   }
 
   confirmPayment(receiptReference, penaltyType) {
-    return this.httpClient.post('confirm/', JSON.stringify({
+    return this.httpClient.post('confirm/', {
       receipt_reference: receiptReference,
       penalty_type: penaltyType,
-    }));
+    });
   }
 
   makePayment(details) {

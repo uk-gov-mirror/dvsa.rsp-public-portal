@@ -1,43 +1,80 @@
+/* eslint-disable no-use-before-define */
 import PaymentService from './../services/payment.service';
 import PenaltyService from './../services/penalty.service';
 import CpmsService from './../services/cpms.service';
 import config from './../config';
 import logger from './../utils/logger';
+import PenaltyGroupService from '../services/penaltyGroup.service';
 
 const paymentService = new PaymentService(config.paymentServiceUrl);
 const penaltyService = new PenaltyService(config.penaltyServiceUrl);
+const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl);
 const cpmsService = new CpmsService(config.cpmsServiceUrl);
 
-const getPenaltyDetails = (req) => {
-  if (req.params.payment_code) {
-    return penaltyService.getByPaymentCode(req.params.payment_code);
+const getPenaltyOrGroupDetails = (req) => {
+  const paymentCode = req.params.payment_code;
+  if (paymentCode) {
+    return paymentCode.length === 16 ?
+      penaltyService.getByPaymentCode(paymentCode)
+      : penaltyGroupService.getByPenaltyGroupPaymentCode(paymentCode);
   }
   return penaltyService.getById(req.params.penalty_id);
 };
 
+const redirectForSinglePenalty = (req, res, penaltyDetails) => {
+  const redirectUrl = `https://${req.get('host')}${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}/confirmPayment`;
+
+  return cpmsService.createCardPaymentTransaction(
+    penaltyDetails.vehicleReg,
+    penaltyDetails.reference,
+    penaltyDetails.type,
+    penaltyDetails.amount,
+    redirectUrl,
+  ).then((response) => {
+    logger.error(JSON.stringify(response.data));
+    res.redirect(response.data.gateway_url);
+  }).catch((error) => {
+    logger.error(error);
+    res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
+  });
+};
+
+const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType) => {
+  const redirectUrl = `https://${req.get('host')}${config.urlRoot}/payment-code/${penaltyGroupDetails.paymentCode}/${penaltyType}/confirmGroupPayment`;
+  const penaltyOverviewsForType = penaltyGroupDetails.penaltyDetails
+    .find(grouping => grouping.type === penaltyType).penalties;
+  const amountForType = penaltyOverviewsForType.reduce((total, pen) => total + pen.amount, 0);
+
+  return cpmsService.createGroupCardPaymentTransaction(
+    penaltyGroupDetails.paymentCode,
+    amountForType,
+    penaltyGroupDetails.penaltyGroupDetails.registrationNumber,
+    penaltyType,
+    penaltyOverviewsForType,
+    redirectUrl,
+  ).then(response => res.redirect(response.data.gateway_url))
+    .catch((error) => {
+      logger.error(error);
+      res.redirect(`${config.urlRoot}/payment-code/${penaltyGroupDetails.paymentCode}`);
+    });
+};
+
 export const redirectToPaymentPage = async (req, res) => {
-  let penaltyDetails;
-
+  let entityForCode;
   try {
-    penaltyDetails = await getPenaltyDetails(req);
+    entityForCode = await getPenaltyOrGroupDetails(req);
 
-    if (penaltyDetails.status === 'PAID') {
-      return res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
+    if (entityForCode.status === 'PAID' || entityForCode.paymentStatus === 'PAID') {
+      const url = `${config.urlRoot}/payment-code/${entityForCode.paymentCode}`;
+      return res.redirect(url);
     }
 
-    const redirectUrl = `https://${req.get('host')}${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}/confirmPayment`;
+    if (entityForCode.isPenaltyGroup) {
+      const penaltyGroupType = req.params.type;
+      return redirectForPenaltyGroup(req, res, entityForCode, penaltyGroupType);
+    }
 
-    return cpmsService.createCardPaymentTransaction(
-      penaltyDetails.vehicleReg,
-      penaltyDetails.reference,
-      penaltyDetails.type,
-      penaltyDetails.amount,
-      redirectUrl,
-    ).then(response => res.redirect(response.data.gateway_url))
-      .catch((error) => {
-        logger.error(error);
-        res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
-      });
+    return redirectForSinglePenalty(req, res, entityForCode);
   } catch (error) {
     logger.error(error);
     return res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
@@ -49,7 +86,7 @@ export const confirmPayment = async (req, res) => {
   let penaltyDetails;
 
   try {
-    penaltyDetails = await getPenaltyDetails(req);
+    penaltyDetails = await getPenaltyOrGroupDetails(req);
     cpmsService.confirmPayment(receiptReference, penaltyDetails.type).then((response) => {
       if (response.data.code === 801) {
         // Payment successful
@@ -66,8 +103,12 @@ export const confirmPayment = async (req, res) => {
             PaymentDate: Math.round((new Date()).getTime() / 1000),
           },
         };
-        paymentService.makePayment(details).then(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`))
-          .catch(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`));
+        paymentService.makePayment(details)
+          .then(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`))
+          .catch((error) => {
+            logger.error(error);
+            res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
+          });
       } else {
         logger.warn(response.data);
         res.render('payment/failedPayment');
@@ -81,3 +122,50 @@ export const confirmPayment = async (req, res) => {
     res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
   }
 };
+
+export const confirmGroupPayment = async (req, res) => {
+  try {
+    const paymentCode = req.params.payment_code;
+    const receiptReference = req.query.receipt_reference;
+    const { type } = req.params;
+    const penaltyGroupDetails = await getPenaltyOrGroupDetails(req);
+
+    const confirmResp = await cpmsService.confirmPayment(receiptReference, type);
+
+    if (confirmResp.data.code === 801) {
+      const payload = buildGroupPaymentPayload(
+        paymentCode,
+        receiptReference,
+        type,
+        penaltyGroupDetails,
+        confirmResp,
+      );
+      await paymentService.recordGroupPayment(payload);
+      res.redirect(`${config.urlRoot}/payment-code/${penaltyGroupDetails.paymentCode}/${type}/receipt`);
+    } else {
+      res.render('payment/failedPayment');
+    }
+  } catch (error) {
+    logger.error(error);
+    res.render('payment/failedPayment');
+  }
+};
+
+function buildGroupPaymentPayload(paymentCode, receiptReference, type, penaltyGroup, confirmResp) {
+  const amountForType = penaltyGroup.penaltyGroupDetails.splitAmounts
+    .find(a => a.type === type).amount;
+  return {
+    PaymentCode: paymentCode,
+    PenaltyType: type,
+    PaymentDetail: {
+      PaymentMethod: 'CARD',
+      PaymentRef: receiptReference,
+      AuthCode: confirmResp.data.auth_code,
+      PaymentAmount: amountForType,
+      PaymentDate: Math.floor(Date.now() / 1000),
+    },
+    PenaltyIds: penaltyGroup.penaltyDetails
+      .find(penaltiesOfType => penaltiesOfType.type === type).penalties
+      .map(penalties => `${penalties.reference}_${type}`),
+  };
+}
