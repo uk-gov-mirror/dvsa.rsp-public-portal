@@ -58,6 +58,20 @@ table.details {
   }
 }
 
+table.bottomless-table {
+  tr:last-child {
+    td {
+      border-bottom-style: none;
+    }
+  }
+}
+
+table.multipenalty-summary-table {
+  td:first-child {
+    width: 33%;
+  }
+}
+
 table.receipt-details {
   td {
     width: 50%;
