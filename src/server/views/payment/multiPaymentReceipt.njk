@@ -33,9 +33,6 @@
       {% endfor %}
 
       {% if nextPayment %}
-        <div class="panel panel-border-wide">
-          {{ t.penalty_details_page.penalty_payment_instructions }}
-        </div>
         {% set nextUrl = "/payment-code/" + paymentCode + "/" + nextPayment.PaymentCategory + "/details" %}
         {% if nextPayment.PaymentCategory == 'FPN' %}
           {% set nextPaymentButtonText = t.penalty_details_page.continue_fixed_penalties %}
