@@ -5,13 +5,11 @@
 {% if paymentType == 'FPN' %}
   {% set paymentBannerTitle = t.penalty_details.type_fixed_penalty %}
   {% set nextPaymentButtonText = t.penalty_details_page.continue_fixed_penalties %}
-  {% set detailsHeaderTitle = t.payment_details.transaction_fixed_penalties_details %}
 {% elif paymentType == 'CDN' %}
   {% set paymentBannerTitle = t.penalty_details.type_court_deposit %}
 {% elif paymentType == 'IM' %}
   {% set paymentBannerTitle = t.penalty_details.type_immobilisation %}
   {% set nextPaymentButtonText = t.penalty_details_page.continue_court_deposits %}
-  {% set detailsHeaderTitle = t.payment_details.transaction_immobilisation_fee_details %}
 {% endif %}
   
 {% block content %}
@@ -69,12 +67,6 @@
               </td>
             </tr>
           {% endif %}
-        </tbody>
-      </table>
-
-      <h3 class="heading-medium">{{ detailsHeaderTitle  }}</h3>
-      <table class='receipt-details'>
-        <tbody>
           <tr>
             <td>{{ t.penalty_details.vehicle_reg }}</td>
             <td><strong>{{ penaltyGroupDetails.registrationNumber }}</strong></td>
