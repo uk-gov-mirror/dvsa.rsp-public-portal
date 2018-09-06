@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isNumber } from 'lodash';
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import aws4 from 'aws4';
@@ -47,7 +47,7 @@ export default class SignedHttpClient {
       secretAccessKey: this.credentials.clientSecret,
     });
 
-    if (_.isNumber(retryAttempts)) {
+    if (isNumber(retryAttempts)) {
       options['axios-retry'] = {
         retries: retryAttempts,
         retryCondition: axiosRetry.isRetryableError,
