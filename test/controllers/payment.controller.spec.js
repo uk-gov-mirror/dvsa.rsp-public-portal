@@ -36,7 +36,7 @@ describe('Payment Controller', () => {
       mockPenaltyGroupSvc = sinon.stub(PenaltyGroupService.prototype, 'getByPenaltyGroupPaymentCode');
       mockCpmsSvcSingle = sinon.stub(CpmsService.prototype, 'createCardPaymentTransaction');
       mockCpmsSvcGroup = sinon.stub(CpmsService.prototype, 'createGroupCardPaymentTransaction');
-      redirectSpy = sinon.spy({ redirect: () => {} }, 'redirect');
+      redirectSpy = sinon.spy({ redirect: () => { } }, 'redirect');
       responseHandle = { redirect: redirectSpy };
     });
 
@@ -259,7 +259,20 @@ describe('Payment Controller', () => {
       });
     });
 
-    context('when CPMS say the payment status is different to 801', () => {
+    context('when CPMS respond indicating that the user cancelled out of the payment', () => {
+      beforeEach(() => {
+        mockCpmsSvc.reset();
+        mockCpmsSvc
+          .resolves({ data: { code: 807 } });
+      });
+      it('should redirect back to the payment code summary', async () => {
+        await PaymentController.confirmGroupPayment(req, resp);
+        sinon.assert.called(mockCpmsSvc);
+        sinon.assert.calledWith(redirectSpy, '/payment-code/codenotlength16');
+      });
+    });
+
+    context('when CPMS respond with an unhandled code', () => {
       beforeEach(() => {
         mockCpmsSvc.reset();
         mockCpmsSvc
