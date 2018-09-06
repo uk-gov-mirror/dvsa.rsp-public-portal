@@ -38,7 +38,7 @@ export default class PaymentService {
     return this.httpClient.post('confirm/', {
       receipt_reference: receiptReference,
       penalty_type: penaltyType,
-    });
+    }, 3);
   }
 
   makePayment(details) {
