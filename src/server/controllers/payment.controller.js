@@ -128,9 +128,10 @@ export const confirmGroupPayment = async (req, res) => {
     const paymentCode = req.params.payment_code;
     const receiptReference = req.query.receipt_reference;
     const { type } = req.params;
-    const penaltyGroupDetails = await getPenaltyOrGroupDetails(req);
+    const confirmPromise = cpmsService.confirmPayment(receiptReference, type);
+    const groupDetailsPromise = getPenaltyOrGroupDetails(req);
+    const [groupDetails, confirmResp] = await Promise.all([groupDetailsPromise, confirmPromise]);
 
-    const confirmResp = await cpmsService.confirmPayment(receiptReference, type);
     const cpmsCode = confirmResp.data.code;
 
     if (cpmsCode === 801) {
@@ -138,7 +139,7 @@ export const confirmGroupPayment = async (req, res) => {
         paymentCode,
         receiptReference,
         type,
-        penaltyGroupDetails,
+        groupDetails,
         confirmResp,
       );
       await paymentService.recordGroupPayment(payload);
