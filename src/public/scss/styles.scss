@@ -97,6 +97,15 @@ table#receipt-penalty-details {
   }
 }
 
+details {
+  ul {
+    > li {
+      list-style-type: disc;
+      margin-left: 20px;
+    }
+  }
+}
+
 div#send-receipt-button-container {
   margin: 25px 0px;
 }
