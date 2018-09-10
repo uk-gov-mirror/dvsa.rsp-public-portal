@@ -48,20 +48,16 @@ table.grey-table {
 }
 
 table.details {
-  td:nth-child(2) {
-    font-weight: bold;
-  }
-  td {
-    span {
-      padding-left: 20px;
-    }
-  }
-}
-
-table.bottomless-table {
-  tr:last-child {
-    td {
-      border-bottom-style: none;
+  > tbody {
+    > tr {
+      > td:nth-child(2) {
+        font-weight: bold;
+      }
+      > td {
+        > span {
+          padding-left: 20px;
+        }
+      }
     }
   }
 }
@@ -84,6 +80,12 @@ table#receipt-breakdown {
     td:first-child {
       width: 50%;
     }
+  }
+}
+
+tr.no-border {
+  > td {
+    border-style: none
   }
 }
 

@@ -19,19 +19,19 @@
     {% call components.columnTwoThirds() %}
       {{ components.heading(text=t.penalty_details_page.penalty_details_title, tag='h1', size='large') }}
       {% if paid == false %}
-        {{ components.paragraph(text=t.penalty_details_page.intro) }}
+        {{ components.paragraph(text=t.penalty_details_page.intro_part_paid) }}
       {% else %}
         {{ components.paragraph(text=t.penalty_details_page.intro_paid) }}
       {% endif %}
       {# Penalty details summary table #}
-      <table class="details bottomless-table multipenalty-summary-table">
+      <table class="details multipenalty-summary-table">
         <tbody>
           <tr>
-            <td>{{ t.penalty_details.payment_code }}:</td>
+            <td>{{ t.penalty_details.payment_code }}</td>
             <td colspan=3>{{ paymentCode }}</td>
           </tr>
           <tr>
-            <td>{{ t.penalty_details.vehicle_reg }}:</td>
+            <td>{{ t.penalty_details.vehicle_reg }}</td>
             {% if isPenaltyGroup == false %}
               <td>{{ penaltyDetails.vehicleReg if penaltyDetails.complete else t.penalty_details.not_available }}</td>
             {% else %}
@@ -39,7 +39,7 @@
             {% endif %}
           </tr>
           <tr>
-            <td>{{ t.penalty_details.penalty_date }}:</td>
+            <td>{{ t.penalty_details.penalty_date }}</td>
             {% if isPenaltyGroup == false %}
               <td>{{ penaltyDetails.issueDate if penaltyDetails.complete else 'Not available' }}</td>
             {% else %}
@@ -47,7 +47,7 @@
             {% endif %}
           </tr>
           <tr>
-            <td>{{ t.penalty_details.location }}:</td>
+            <td>{{ t.penalty_details.location }}</td>
             {% if isPenaltyGroup == false %}
               <td>{{ penaltyDetails.location if penaltyDetails.complete else 'Not available' }}</td> 
             {% else %}
@@ -56,22 +56,23 @@
           </tr>
           {% if isPenaltyGroup == false %}
             <tr>
-              <td>{{ t.penalty_details.amount }}:</td>
+              <td>{{ t.penalty_details.amount }}</td>
               <td>&pound;{{ penaltyDetails.amount }}</td>
             </tr>
           {% else %}
             {% for amount in penaltyGroupDetails.splitAmounts|sort(attribute='type', reverse=true) %}
               {% set amountPaid = true if amount.status == 'PAID' else false %}
               {% set statusClass = 'confirmed' if amountPaid else 'unconfirmed' %}
-              <tr>
+              {% set showPaymentButton = amount.status == 'UNPAID' %}
+              <tr class='no-border'>
                 <td>
-                  {{ t.penalty_details[amount.type] }}:
-                  {% for penaltyType in penaltyDetails %}
-                    {% if (penaltyType.type == amount.type) and (penaltyType.penalties.length) == 1 %}
-                      <br />
-                      {{ penaltyType.penalties[0].formattedReference }}
-                    {% endif %}
-                  {% endfor %}
+                  {% if amount.type == 'FPN' %}
+                    {{ t.penalty_details.type_fixed_penalty }}
+                  {% elif amount.type == 'CDN' %}
+                    {{ t.penalty_details.type_court_deposit }}
+                  {% elif amount.type == 'IM' %}
+                    {{ t.penalty_details.type_immobilisation }}
+                  {% endif %}
                 </td>
                 <td>
                   &pound;{{ amount.amount }}
@@ -92,6 +93,47 @@
                   {% endif %}
                 </td>
               </tr>
+              {% for penaltyType in penaltyDetails %}
+                {% if penaltyType.type == amount.type %}
+                  {% if penaltyType.penalties.length == 1 %}
+                    <tr class='no-border'>
+                      <td colspan=3>
+                        <strong>{{ penaltyType.penalties[0].formattedReference }}</strong>
+                      </td>
+                    </tr>
+                  {% else %}
+                    <tr class='no-border'>
+                      <td colspan=3>
+                        <details>
+                          <summary><span class="summary">{{ t.penalty_details_page.penalty_details_panel_title }}</span></summary>
+                          <div class="panel panel-border-narrow">
+                            <table>
+                              <tr>
+                                <td>{{ t.penalty_details.reference }}</td>
+                                <td class="numeric">{{ t.penalty_details.amount }}</td>
+                              </tr>
+                              {% for penalty in penaltyType.penalties %}
+                                <tr>
+                                  <td><strong>{{ penalty.formattedReference }}</strong></td>
+                                  <td class="numeric"><strong>&pound;{{ penalty.amount }}</strong></td>
+                                </tr>
+                              {% endfor %}
+                            </table>
+                          </div>
+                        </details>
+                      </td>
+                    </tr>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+              {% if showPaymentButton %}
+                <tr>
+                  <td colspan=3>
+                    {% set detailsUrl = '/payment-code/' + paymentCode + '/' + amount.type + '/details' %}
+                    {{ components.button(text=t.penalty_details_page.continue_to_payment_button, url=detailsUrl) }}
+                  </td>
+                </tr>
+              {% endif %}
             {% endfor %}
           {% endif %}    
           {% if isPenaltyGroup == false %}
@@ -106,50 +148,31 @@
           {% endif %}
         </tbody>
       </table>
-      {% for penaltyType in penaltyDetails %}
-        {% if ((penaltyType.type == 'FPN') or (penaltyType.type == 'CDN')) and (penaltyType.penalties.length > 1) %}
-          <p>
-            <details>
-              <summary><span class="summary">{{ t.penalty_details_page.penalty_details_panel_title }}</span></summary>
-              <div class="panel panel-border-narrow">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>{{ t.penalty_details.reference }}</th>
-                      <th class="numeric">{{ t.penalty_details.amount }}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for penalty in penaltyType.penalties %}
-                      <tr>
-                        <td>{{ penalty.formattedReference }}</td>
-                        <td class="numeric">&pound;{{ penalty.amount }}</td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            </details>    
-          </p>
-        {% endif %}
-      {% endfor %}
+      <p>
+        {{ components.notice(text=t.home.info_text) }}
+      </p>
       {% if isPenaltyGroup == true and paymentStatus != 'PAID' %}
-        <div class="panel panel-border-narrow">
-          {{t.penalty_details_page.warning_text}}
-        </div>
-
-        {% set nextPaymentUrl = '/payment-code/' + paymentCode  + '/' + nextPayment.PaymentCategory + '/details' %}
-        {{ components.button(text=t.penalty_details_page.continue_to_payment_button, url=nextPaymentUrl) }}
-
         <p>
           <details>
-            <summary><span class="summary">{{ t.penalty_details_page.hidden_panel_title }}</span></summary>
+            <summary><span class="summary">{{ t.penalty_details_page.details_assistance_panel_title }}</span></summary>
             <div class="panel panel-border-narrow">
               <p>
-                {{ t.penalty_details_page.hidden_panel_text }}
+                {{ t.penalty_details_page.details_assistance_panel_paragraph_1 }}
               </p>
+              <ul>
+                <li>
+                  {{ t.penalty_details_page.tell_examiner }}
+                </li>
+                <li>
+                  {{ t.penalty_details_page.call_dvsa }}
+                  <br />
+                  {{ t.penalty_details_page.call_charges_link }}
+                  <br />
+                  {{ t.penalty_details_page.info_needed }}
+                </li>
+              </ul>
             </div>
-          </details>    
+          </details>
         </p>
       {% endif %}
     {# ends components.columnTwoThirds #}
