@@ -60,6 +60,7 @@ const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType) => 
 };
 
 export const redirectToPaymentPage = async (req, res) => {
+  console.log('redirecting to payment page');
   let entityForCode;
   try {
     entityForCode = await getPenaltyOrGroupDetails(req);
@@ -82,6 +83,7 @@ export const redirectToPaymentPage = async (req, res) => {
 };
 
 export const confirmPayment = async (req, res) => {
+  console.log('confirming payment');
   const receiptReference = req.query.receipt_reference;
   let penaltyDetails;
 
@@ -124,6 +126,7 @@ export const confirmPayment = async (req, res) => {
 };
 
 export const confirmGroupPayment = async (req, res) => {
+  console.log('confirming group payment');
   try {
     const paymentCode = req.params.payment_code;
     const receiptReference = req.query.receipt_reference;
