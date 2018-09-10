@@ -5,8 +5,7 @@
     "rules": {
         "linebreak-style":"off",
         "no-unused-expressions": 0,
-        "chai-friendly/no-unused-expressions": 2,
-        "no-console": "warn"
+        "chai-friendly/no-unused-expressions": 2
     },
     "plugins": [
         "chai-friendly"
