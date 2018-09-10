@@ -68,6 +68,12 @@ table.multipenalty-summary-table {
   }
 }
 
+table.single-penalty-summary {
+  td:first-child {
+    width: 33%;
+  }
+}
+
 table.receipt-details {
   td {
     width: 50%;
