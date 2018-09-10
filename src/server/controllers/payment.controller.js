@@ -147,11 +147,11 @@ export const confirmGroupPayment = async (req, res) => {
     } else if (cpmsCode === 807) {
       res.redirect(`${config.urlRoot}/payment-code/${paymentCode}`);
     } else {
-      res.render('error');
+      res.render('payment/failedPayment');
     }
   } catch (error) {
     logger.error(error);
-    res.render('error');
+    res.render('payment/failedPayment');
   }
 };
 
