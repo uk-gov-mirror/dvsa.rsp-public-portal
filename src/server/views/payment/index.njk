@@ -29,8 +29,20 @@
             <summary><span class="summary">{{ t.payment_code_page.hidden_panel_title }}</span></summary>
             <div class="panel panel-border-narrow">
               <p>
-              {{ t.payment_code_page.hidden_panel_text }}
+                {{ t.penalty_details_page.details_assistance_panel_paragraph_1 }}
               </p>
+              <ul>
+                <li>
+                  {{ t.penalty_details_page.tell_examiner }}
+                </li>
+                <li>
+                  {{ t.penalty_details_page.call_dvsa }}
+                  <br />
+                  {{ components.link(text=t.penalty_details_page.call_charges_link, url='https://www.gov.uk/call-charges') }}
+                  <br />
+                  {{ t.penalty_details_page.info_needed }}
+                </li>
+              </ul>
             </div>
           </details>    
         </p>
