@@ -20,10 +20,10 @@
           {% if payment.PaymentStatus == 'PAID' %}
             <div class="govuk-box-highlight">
               <h1 class="heading-large">
-                {{ paymentBannerTitle }}
+                {{ t.payment_details.payment_success }}
               </h1>
               <p class="font-medium">
-                {{ t.payment_details.payment_success }}
+                {{ paymentBannerTitle }}
               </p>
             </div>
           {% endif %}
@@ -67,36 +67,25 @@
               </td>
             </tr>
           {% endif %}
-          <tr>
-            <td>{{ t.penalty_details.vehicle_reg }}</td>
-            <td><strong>{{ penaltyGroupDetails.registrationNumber }}</strong></td>
-          </tr>
-          <tr>
-            <td>{{ t.penalty_details.penalty_date }}</td>
-            <td><strong>{{ penaltyGroupDetails.date }}</strong></td>
-          </tr>
-          <tr>
-            <td>{{ t.penalty_details.location }}</td>
-            <td><strong>{{ penaltyGroupDetails.location }}</strong></td>
-          </tr>
         </tbody>
       </table>
 
       <table id='receipt-breakdown'>
         <thead>
           <tr>
-            <th>{{ t.penalty_details.reference }}</th>
-            <th>{{ t.penalty_details.amount }}</th>
-            <th>{{ t.penalty_details.status }}</th>
+            <td>{{ t.penalty_details.reference }}</td>
+            <td>{{ t.penalty_details.amount }}</td>
+            <td>{{ t.penalty_details.status }}</td>
           </tr>
-
+        </thead>
+        <tbody>
           {% for payment in penaltyDetails %}
             {% if payment.type == paymentType %}
               {% for penalty in payment.penalties %}
                 {% set statusClass = 'confirmed' if penalty.status == 'PAID' else 'unconfirmed' %}
                 <tr>
-                  <td>{{ penalty.formattedReference }}</td>
-                  <td>&pound;{{ penalty.amount }}</td>
+                  <td><strong>{{ penalty.formattedReference }}</strong></td>
+                  <td><strong>&pound;{{ penalty.amount }}</strong></td>
                   <td>
                     <strong><span class='{{ statusClass }}'>{{ penalty.status }}</span></strong>
                     {% if penalty.status == 'PAID' %}
@@ -108,17 +97,34 @@
               {% endfor %}
             {% endif %}
           {% endfor %}
-        </thead>
+        </tbody>
       </table>
-      <br />
-      <p>
-        <a href='{{ urlroot }}/payment-code/{{ paymentCode }}'>{{ t.penalty_details_page.return_to_summary }}</a>
-      </p>
-
+      <table id='receipt-penalty-details'>
+        <tr>
+          <td>{{ t.penalty_details.vehicle_reg }}</td>
+          <td><strong>{{ penaltyGroupDetails.registrationNumber }}</strong></td>
+        </tr>
+        <tr>
+          <td>{{ t.penalty_details.penalty_date }}</td>
+          <td><strong>{{ penaltyGroupDetails.date }}</strong></td>
+        </tr>
+        <tr>
+          <td>{{ t.penalty_details.location }}</td>
+          <td><strong>{{ penaltyGroupDetails.location }}</strong></td>
+        </tr>
+      </table>
       <h3 class="heading-medium">{{ t.payment_details.payment_receipt_print_header  }}</h3>
       <div class="panel panel-border-wide">
         {{ t.payment_details.payment_receipt_print_info }}
       </div>
+      <br />
+      <p>
+        {% if paymentStatus == 'PAID' %}
+          {{ components.button(text=t.penalty_details_page.return_to_summary, url='/payment-code/' + paymentCode) }}
+        {% else %}
+          <a href='{{ urlroot }}/payment-code/{{ paymentCode }}'>{{ t.penalty_details_page.return_to_summary }}</a>
+        {% endif %}
+      </p>
     {%- endcall %}
   {%- endcall %}
   

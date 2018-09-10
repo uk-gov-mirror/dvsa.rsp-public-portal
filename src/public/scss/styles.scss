@@ -80,6 +80,19 @@ table.receipt-details {
 
 table#receipt-breakdown {
   margin-top: 30px;
+  tr {
+    td:first-child {
+      width: 50%;
+    }
+  }
+}
+
+table#receipt-penalty-details {
+  tr {
+    td:first-child {
+      width: 50%;
+    }
+  }
 }
 
 div#send-receipt-button-container {
