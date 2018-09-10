@@ -77,7 +77,7 @@
   "penalty_details_page": {
     "penalty_details_title": "Summary of DVSA roadside fines",
     "intro_unpaid": "We found the following details in our records",
-    "intro_part_paid": "You still have outstanding fines for this payment code.",
+    "intro_part_paid": "You have outstanding fines for this payment code.",
     "intro_paid": "All outstanding fines for this payment code have been paid.",
     "amount_due": "Total amount due",
     "penalty_details_panel_title": "See details",

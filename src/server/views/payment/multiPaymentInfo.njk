@@ -69,7 +69,10 @@
               {% if penaltyType.type == amount.type %}
                 {% if penaltyType.penalties.length == 1 %}
                   <tr {% if showPaymentButton %}class='no-border'{% endif %}>
-                    <td colspan=4>
+                    <td>
+                      {{ t.penalty_details.reference }}
+                    </td>
+                    <td colspan=3>
                       <strong>{{ penaltyType.penalties[0].formattedReference }}</strong>
                     </td>
                   </tr>
