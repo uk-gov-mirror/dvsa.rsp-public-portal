@@ -1,4 +1,6 @@
+import { isNumber } from 'lodash';
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
 import aws4 from 'aws4';
 import URL from 'url-parse';
 
@@ -16,6 +18,7 @@ export default class SignedHttpClient {
       host: this.baseUrlOb.host,
       region: config.region,
     };
+    axiosRetry(axios);
   }
 
   get(path) {
@@ -30,7 +33,7 @@ export default class SignedHttpClient {
     return axios.get(`${this.baseUrlOb.href}${path}`, options);
   }
 
-  post(path, data) {
+  post(path, data, retryAttempts) {
     const options = {
       body: JSON.stringify(data),
       path: `${this.baseUrlOb.pathname}${path}`,
@@ -43,6 +46,14 @@ export default class SignedHttpClient {
       accessKeyId: this.credentials.clientId,
       secretAccessKey: this.credentials.clientSecret,
     });
+
+    if (isNumber(retryAttempts)) {
+      options['axios-retry'] = {
+        retries: retryAttempts,
+        retryCondition: axiosRetry.isRetryableError,
+      };
+    }
+
     return axios.post(`${this.baseUrlOb.href}${path}`, data, options);
   }
 }
