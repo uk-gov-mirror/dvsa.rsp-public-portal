@@ -12,7 +12,7 @@ export default class PaymentService {
       penalty_amount: amount,
       redirect_url: redirectUrl,
       vehicle_reg: vehicleReg,
-    });
+    }, 3);
   }
 
   createGroupCardPaymentTransaction(penGrpId, amount, vehicleReg, type, penOverviews, redirectUrl) {
@@ -23,7 +23,7 @@ export default class PaymentService {
       PenaltyType: type,
       RedirectUrl: redirectUrl,
       Penalties: penOverviews.map(PaymentService.sanitisePenaltyForCpmsGroupCall),
-    });
+    }, 3);
   }
 
   static sanitisePenaltyForCpmsGroupCall(penalty) {
