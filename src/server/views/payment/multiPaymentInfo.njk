@@ -166,7 +166,7 @@
                 <li>
                   {{ t.penalty_details_page.call_dvsa }}
                   <br />
-                  {{ t.penalty_details_page.call_charges_link }}
+                  {{ components.link(text=t.penalty_details_page.call_charges_link, url='') }}
                   <br />
                   {{ t.penalty_details_page.info_needed }}
                 </li>
@@ -177,7 +177,20 @@
       {% endif %}
     {# ends components.columnTwoThirds #}
     {%- endcall %}
+    {% call components.columnOneThird() %}
+    <aside class="govuk-related-items" role="complementary">
+        <nav role="navigation" aria-labelledby="subsection-title">
+          <ul class="font-xsmall">
+            <li> {{ components.link(text='French', url='?clang=fr') if clang != 'fr' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='German', url='?clang=de') if clang != 'de' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='Polish', url='?clang=pl') if clang != 'pl' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='Spanish', url='?clang=es') if clang != 'es' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='Welsh', url='?clang=cy') if clang != 'cy' else components.link(text='English', url='?clang=en') }}</li>
+          </ul>
+        </nav>
+      </aside>
+    {%- endcall %}
   {# ends components.gridRow #}
   {%- endcall %}
-  
+
 {% endblock %}
