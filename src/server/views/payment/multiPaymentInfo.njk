@@ -28,7 +28,7 @@
         <tbody>
           <tr>
             <td>{{ t.penalty_details.payment_code }}</td>
-            <td colspan=3>{{ paymentCode }}</td>
+            <td colspan=4>{{ paymentCode }}</td>
           </tr>
           <tr>
             <td>{{ t.penalty_details.vehicle_reg }}</td>
@@ -43,7 +43,7 @@
             {% if isPenaltyGroup == false %}
               <td>{{ penaltyDetails.issueDate if penaltyDetails.complete else 'Not available' }}</td>
             {% else %}
-              <td colspan=3>{{ penaltyGroupDetails.date }}</td>
+              <td colspan=4>{{ penaltyGroupDetails.date }}</td>
             {% endif %}
           </tr>
           <tr>
@@ -51,7 +51,7 @@
             {% if isPenaltyGroup == false %}
               <td>{{ penaltyDetails.location if penaltyDetails.complete else 'Not available' }}</td> 
             {% else %}
-              <td colspan=3>{{ penaltyGroupDetails.location }}</td>
+              <td colspan=4>{{ penaltyGroupDetails.location }}</td>
             {% endif %}
           </tr>
           {% if isPenaltyGroup == false %}
@@ -96,14 +96,14 @@
               {% for penaltyType in penaltyDetails %}
                 {% if penaltyType.type == amount.type %}
                   {% if penaltyType.penalties.length == 1 %}
-                    <tr class='no-border'>
-                      <td colspan=3>
+                    <tr {% if showPaymentButton %}class='no-border'{% endif %}>
+                      <td colspan=4>
                         <strong>{{ penaltyType.penalties[0].formattedReference }}</strong>
                       </td>
                     </tr>
                   {% else %}
-                    <tr class='no-border'>
-                      <td colspan=3>
+                    <tr {% if showPaymentButton %}class='no-border'{% endif %}>
+                      <td colspan=4>
                         <details>
                           <summary><span class="summary">{{ t.penalty_details_page.penalty_details_panel_title }}</span></summary>
                           <div class="panel panel-border-narrow">
@@ -128,7 +128,7 @@
               {% endfor %}
               {% if showPaymentButton %}
                 <tr>
-                  <td colspan=3>
+                  <td colspan=4>
                     {% set detailsUrl = '/payment-code/' + paymentCode + '/' + amount.type + '/details' %}
                     {{ components.button(text=t.penalty_details_page.continue_to_payment_button, url=detailsUrl) }}
                   </td>
