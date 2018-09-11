@@ -112,10 +112,10 @@
           {% endfor %}
         </tbody>
       </table>
-      <p>
-        {{ components.notice(text=t.home.info_text) }}
-      </p>
       {% if paid == false %}
+        <p>
+          {{ components.notice(text=t.home.info_text) }}
+        </p>
         <p>
           <details>
             <summary><span class="summary">{{ t.penalty_details_page.details_assistance_panel_title }}</span></summary>
