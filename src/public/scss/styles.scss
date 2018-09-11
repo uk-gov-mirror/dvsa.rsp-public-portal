@@ -48,25 +48,27 @@ table.grey-table {
 }
 
 table.details {
-  td:nth-child(2) {
-    font-weight: bold;
-  }
-  td {
-    span {
-      padding-left: 20px;
-    }
-  }
-}
-
-table.bottomless-table {
-  tr:last-child {
-    td {
-      border-bottom-style: none;
+  > tbody {
+    > tr {
+      > td:nth-child(2) {
+        font-weight: bold;
+      }
+      > td {
+        > span {
+          padding-left: 20px;
+        }
+      }
     }
   }
 }
 
 table.multipenalty-summary-table {
+  td:first-child {
+    width: 33%;
+  }
+}
+
+table.single-penalty-summary {
   td:first-child {
     width: 33%;
   }
@@ -80,6 +82,34 @@ table.receipt-details {
 
 table#receipt-breakdown {
   margin-top: 30px;
+  tr {
+    td:first-child {
+      width: 50%;
+    }
+  }
+}
+
+tr.no-border {
+  > td {
+    border-style: none
+  }
+}
+
+table#receipt-penalty-details {
+  tr {
+    td:first-child {
+      width: 50%;
+    }
+  }
+}
+
+details {
+  ul {
+    > li {
+      list-style-type: disc;
+      margin-left: 20px;
+    }
+  }
 }
 
 div#send-receipt-button-container {

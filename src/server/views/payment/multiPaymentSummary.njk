@@ -7,73 +7,71 @@
     { text: t.breadcrumbs.penalty_details }
   ] 
 %}
-  
+
+{% if penaltyType == 'FPN' %}
+  {% set titleAndContinueButtonText = t.penalty_details_page.pay_fixed_penalties_text %}
+{% elif penaltyType == 'CDN' %}
+  {% set titleAndContinueButtonText = t.penalty_details_page.pay_court_deposits_text %}
+{% elif penaltyType == 'IM' %}
+  {% set titleAndContinueButtonText = t.penalty_details_page.pay_immobilisation_fee_text %}
+{% endif %}
+
 {% block content %}
   {% call components.gridRow() %}
     {% call components.columnTwoThirds() %}
       {% call components.form(action='/payment-code/'+ paymentCode + '/' + penaltyType + '/payment', method='POST')  %}
-      {{ components.heading(text=t.multipayment_details.title, tag='h1', size='xlarge') }}
-      <h3 class="heading-medium">
-        {% if penaltyType == 'FPN' %}
-          {{ t.multipayment_details.instruction_pay_fixed_penalties }}
-        {% elif penaltyType == 'CDN' %}
-          {{ t.multipayment_details.instruction_pay_court_deposit }}
-        {% elif penaltyType == 'IM' %}
-          {{ t.multipayment_details.instruction_pay_immobilisation }}
-        {% endif %}
-      </h3>
-      {# Payment summary table #}
-      <table>
-        <thead>
-          <tr>
-            <th>{{t.penalty_details.reference}}</th>
-            <th>{{t.penalty_details.amount}}</th>
-            <th>{{t.penalty_details.status}}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for penalty in penaltyDetails %}
-            {% set statusClass = 'confirmed' if penalty.status == 'PAID' else 'unconfirmed' %}
+        {{ components.heading(text=titleAndContinueButtonText, tag='h1', size='xlarge') }}
+        {# Payment summary table #}
+        <table>
+          <thead>
             <tr>
-              <td>{{ penalty.formattedReference }}</td> 
-              <td>&pound;{{ penalty.amount }}</td> 
-              <td class="{{ statusClass }}"><strong>{{ penalty.status }}</strong></td>
-            </tr>   
-          {% endfor %}
-          {% if penaltyDetails.length > 1 %}
-            <tr>
-              <td>{{ t.penalty_details.total_amount }}</td> 
-              <td><strong>&pound;{{ totalAmount if totalAmount else 'N/A' }}</strong></td> 
-              <td></td>
+              <th>{{t.penalty_details.reference}}</th>
+              <th>{{t.penalty_details.amount}}</th>
+              <th>{{t.penalty_details.status}}</th>
             </tr>
-          {% endif %}
-        </tbody>
-      </table>
-      <br />
-      {% if penaltyType == 'FPN' %}
-        {{ components.button(text=t.multipayment_details.action_pay_fixed_penalties, type="submit") }}
-      {% elif penaltyType == 'CDN' %}
-        {{ components.button(text=t.multipayment_details.action_pay_court_deposit, type="submit") }}
-      {% elif penaltyType == 'IM' %}
-        {{ components.button(text=t.multipayment_details.action_pay_immobilisation, type="submit") }}
-      {% endif %}
+          </thead>
+          <tbody>
+            {% for penalty in penaltyDetails %}
+              {% set statusClass = 'confirmed' if penalty.status == 'PAID' else 'unconfirmed' %}
+              <tr>
+                <td>{{ penalty.formattedReference }}</td> 
+                <td>&pound;{{ penalty.amount }}</td> 
+                <td class="{{ statusClass }}"><strong>{{ penalty.status }}</strong></td>
+              </tr>   
+            {% endfor %}
+            {% if penaltyDetails.length > 1 %}
+              <tr>
+                <td>{{ t.penalty_details_page.amount_due }}</td> 
+                <td><strong>&pound;{{ totalAmount if totalAmount else 'N/A' }}</strong></td> 
+                <td></td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+
+        {% if paymentStatus != 'PAID' %}
+          <br />
+          <div class="panel panel-border-wide">{{ t.penalty_details_page.gdpr_notification }}</div>
+          <br />
+          {{ components.button(text=titleAndContinueButtonText, type="submit") }}
+          <p>
+            <details>
+              <summary><span class="summary">{{ t.penalty_details_page.payment_assistance_panel_title }}</span></summary>
+              <div class="panel panel-border-narrow">
+                <p>{{ t.penalty_details_page.call_dvsa }}</p>
+                <p>
+                  <a href="https://www.gov.uk/call-charges" target="_blank">
+                    {{ t.penalty_details_page.call_charges_link }}
+                  </a>
+                </p>
+                <p>{{ t.penalty_details_page.info_needed }}</p>
+                </p>
+              </div>
+            </details>    
+          </p>
+        {% endif %}
       {%- endcall %}
     {%- endcall %}
-
-    {% call components.columnOneThird() %}
-    <aside class="govuk-related-items" role="complementary">
-        <nav role="navigation" aria-labelledby="subsection-title">
-          <ul class="font-xsmall">
-            <li> {{ components.link(text='French', url='?clang=fr') if clang != 'fr' else components.link(text='English', url='?clang=en') }}</li>
-            <li>{{ components.link(text='German', url='?clang=de') if clang != 'de' else components.link(text='English', url='?clang=en') }}</li>
-            <li>{{ components.link(text='Polish', url='?clang=pl') if clang != 'pl' else components.link(text='English', url='?clang=en') }}</li>
-            <li>{{ components.link(text='Spanish', url='?clang=es') if clang != 'es' else components.link(text='English', url='?clang=en') }}</li>
-            <li>{{ components.link(text='Welsh', url='?clang=cy') if clang != 'cy' else components.link(text='English', url='?clang=en') }}</li>
-          </ul>
-        </nav>
-      </aside>
-    {%- endcall %}
-
   {%- endcall %}
   
 {% endblock %}

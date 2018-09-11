@@ -1,6 +1,16 @@
 {% extends 'layouts/default.layout.njk' %}
 
 {% set pageTitle = t.site_title %}
+
+{% if paymentType == 'FPN' %}
+  {% set paymentBannerTitle = t.penalty_details.type_fixed_penalty %}
+  {% set nextPaymentButtonText = t.penalty_details_page.continue_fixed_penalties %}
+{% elif paymentType == 'CDN' %}
+  {% set paymentBannerTitle = t.penalty_details.type_court_deposit %}
+{% elif paymentType == 'IM' %}
+  {% set paymentBannerTitle = t.penalty_details.type_immobilisation %}
+  {% set nextPaymentButtonText = t.penalty_details_page.continue_court_deposits %}
+{% endif %}
   
 {% block content %}
   {% call components.gridRow() %}
@@ -10,10 +20,10 @@
           {% if payment.PaymentStatus == 'PAID' %}
             <div class="govuk-box-highlight">
               <h1 class="heading-large">
-                {{ t.multipayment_receipt.banner_confirmation_type[paymentType] }}
+                {{ t.payment_details.payment_success }}
               </h1>
               <p class="font-medium">
-                {{ t.multipayment_receipt.banner_payment_complete }}
+                {{ paymentBannerTitle }}
               </p>
             </div>
           {% endif %}
@@ -21,24 +31,26 @@
       {% endfor %}
 
       {% if nextPayment %}
-        <div class="panel panel-border-narrow">
-          {{ t.penalty_details_page.penalty_payment_instructions }}
-        </div>
         {% set nextUrl = "/payment-code/" + paymentCode + "/" + nextPayment.PaymentCategory + "/details" %}
-        {{ components.button(text=t.multipayment_receipt.continue_to[nextPayment.PaymentCategory], type="submit", url=nextUrl) }}
+        {% if nextPayment.PaymentCategory == 'FPN' %}
+          {% set nextPaymentButtonText = t.penalty_details_page.continue_fixed_penalties %}
+        {% elif nextPayment.PaymentCategory == 'CDN' %}
+          {% set nextPaymentButtonText = t.penalty_details_page.continue_court_deposits %}
+        {% endif %}
+        {{ components.button(text=nextPaymentButtonText, type="submit", url=nextUrl) }}
       {% endif %}
 
-      <h3 class="heading-medium">{{ t.multipayment_receipt.transaction_receipt }}</h3>
+      <h3 class="heading-medium">{{ t.payment_details.transaction_receipt }}</h3>
       <table class='receipt-details'>
         <tbody>
           <tr>
-            <td>{{ t.multipayment_receipt.transaction_amount }}</td>
+            <td>{{ t.penalty_details.amount }}</td>
               <td>
                 <strong>&pound;{{ paymentDetails.Payments[paymentType].PaymentAmount }}</strong>
               </td>
           </tr>
           <tr>
-            <td>{{ t.multipayment_receipt.transaction_date_time }}</td>
+            <td>{{ t.payment_details.paid_on }}</td>
             <td>
               <strong>
                 {{ paymentDetails.Payments[paymentType].FormattedDate }}
@@ -47,50 +59,33 @@
               </strong>
             </td>
           </tr>
-          <tr>
-            <td>{{ t.multipayment_receipt.transaction_auth_code }}</td>
-            <td>
-              <strong>{{ paymentDetails.Payments[paymentType].AuthCode }}</strong>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h3 class="heading-medium">
-        {{ t.multipayment_receipt.details_title[paymentType] }}
-      </h3>
-      <table class='receipt-details'>
-        <tbody>
-          <tr>
-            <td>{{ t.multipayment_receipt.details_registration }}</td>
-            <td><strong>{{ penaltyGroupDetails.registrationNumber }}</strong></td>
-          </tr>
-          <tr>
-            <td>{{ t.multipayment_receipt.details_date }}</td>
-            <td><strong>{{ penaltyGroupDetails.date }}</strong></td>
-          </tr>
-          <tr>
-            <td>{{ t.multipayment_receipt.details_location }}</td>
-            <td><strong>{{ penaltyGroupDetails.location }}</strong></td>
-          </tr>
+          {% if paymentDetails.Payments[paymentType].PaymentMethod == 'CARD' or paymentDetails.Payments[paymentType].PaymentMethod == 'CNP' %}
+            <tr>
+              <td>{{ t.payment_details.authorisation_code }}</td>
+              <td>
+                <strong>{{ paymentDetails.Payments[paymentType].AuthCode }}</strong>
+              </td>
+            </tr>
+          {% endif %}
         </tbody>
       </table>
 
       <table id='receipt-breakdown'>
         <thead>
           <tr>
-            <th>{{ t.multipayment_receipt.breakdown_reference }}</th>
-            <th>{{ t.multipayment_receipt.breakdown_amount }}</th>
-            <th>{{ t.multipayment_receipt.breakdown_status }}</th>
+            <td>{{ t.penalty_details.reference }}</td>
+            <td>{{ t.penalty_details.amount }}</td>
+            <td>{{ t.penalty_details.status }}</td>
           </tr>
-
+        </thead>
+        <tbody>
           {% for payment in penaltyDetails %}
             {% if payment.type == paymentType %}
               {% for penalty in payment.penalties %}
                 {% set statusClass = 'confirmed' if penalty.status == 'PAID' else 'unconfirmed' %}
                 <tr>
-                  <td>{{ penalty.formattedReference }}</td>
-                  <td>&pound;{{ penalty.amount }}</td>
+                  <td><strong>{{ penalty.formattedReference }}</strong></td>
+                  <td><strong>&pound;{{ penalty.amount }}</strong></td>
                   <td>
                     <strong><span class='{{ statusClass }}'>{{ penalty.status }}</span></strong>
                     {% if penalty.status == 'PAID' %}
@@ -102,11 +97,33 @@
               {% endfor %}
             {% endif %}
           {% endfor %}
-        </thead>
+        </tbody>
       </table>
+      <table id='receipt-penalty-details'>
+        <tr>
+          <td>{{ t.penalty_details.vehicle_reg }}</td>
+          <td><strong>{{ penaltyGroupDetails.registrationNumber }}</strong></td>
+        </tr>
+        <tr>
+          <td>{{ t.penalty_details.penalty_date }}</td>
+          <td><strong>{{ penaltyGroupDetails.date }}</strong></td>
+        </tr>
+        <tr>
+          <td>{{ t.penalty_details.location }}</td>
+          <td><strong>{{ penaltyGroupDetails.location }}</strong></td>
+        </tr>
+      </table>
+      <h3 class="heading-medium">{{ t.payment_details.payment_receipt_print_header  }}</h3>
+      <div class="panel panel-border-wide">
+        {{ t.payment_details.payment_receipt_print_info }}
+      </div>
       <br />
       <p>
-        <a href='{{ urlroot }}/payment-code/{{ paymentCode }}'>{{ t.multipayment_receipt.back_to_summary }}</a>
+        {% if paymentStatus == 'PAID' %}
+          {{ components.button(text=t.penalty_details_page.return_to_summary, url='/payment-code/' + paymentCode) }}
+        {% else %}
+          <a href='{{ urlroot }}/payment-code/{{ paymentCode }}'>{{ t.penalty_details_page.return_to_summary }}</a>
+        {% endif %}
       </p>
     {%- endcall %}
   {%- endcall %}
