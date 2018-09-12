@@ -97,8 +97,9 @@
     "gdpr_notification": "Payments will be processed by a third party application. You will be redirected to an external payment system. Once processed, you will be returned to a confirmation page.",
     "back_button": "Back",
     "return_to_summary": "Return to summary ",
-    "continue_fixed_penalties": "Continue to fixed penalties",
-    "continue_court_deposits": "Continue to court deposits",
+    "continue_fixed_penalties": "Continue to pay fixed penalties",
+    "continue_immobilisation_fee": "Continue to pay immobilisation fee",
+    "continue_court_deposits": "Continue to pay court deposits",
     "continue_to_payment_button": "Make a payment"
   },
   "penalty_details": {
