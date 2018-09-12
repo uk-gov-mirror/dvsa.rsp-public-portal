@@ -4,12 +4,20 @@
 
 {% if paymentType == 'FPN' %}
   {% set paymentBannerTitle = t.penalty_details.type_fixed_penalty %}
-  {% set nextPaymentButtonText = t.penalty_details_page.continue_fixed_penalties %}
 {% elif paymentType == 'CDN' %}
   {% set paymentBannerTitle = t.penalty_details.type_court_deposit %}
 {% elif paymentType == 'IM' %}
   {% set paymentBannerTitle = t.penalty_details.type_immobilisation %}
-  {% set nextPaymentButtonText = t.penalty_details_page.continue_court_deposits %}
+{% endif %}
+
+{% if nextPayment %}
+  {% if nextPayment.PaymentCategory == 'FPN' %}
+    {% set nextPaymentButtonText = t.penalty_details_page.continue_fixed_penalties %}
+  {% elif nextPayment.PaymentCategory == 'CDN' %}
+    {% set nextPaymentButtonText = t.penalty_details_page.continue_court_deposits %}
+  {% elif nextPayment.PaymentCategory == 'IM' %}
+    {% set nextPaymentButtonText = t.penalty_details_page.continue_immobilisation_fee %}
+  {% endif %}
 {% endif %}
   
 {% block content %}

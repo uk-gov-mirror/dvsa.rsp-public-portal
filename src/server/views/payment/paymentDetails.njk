@@ -44,7 +44,7 @@
               {% if type == 'FPN' %}
                 <td>{{ t.penalty_details.type_fixed_penalty }}</td>
               {% elif type == 'CDN' %}
-                <td>{{ t.penalty_details.type_court_deporit }}</td>
+                <td>{{ t.penalty_details.type_court_deposit }}</td>
               {% elif type == 'IM' %}
                 <td>{{ t.penalty_details.type_immobilisation }}</td>
               {% endif %}
@@ -101,6 +101,20 @@
               </div>
             </details>
           </p>
+          {{ components.heading(text=t.home.other_ways, tag='h3', size='medium') }}
+          {{ components.heading(text=t.home.phone_heading, tag='h4', size='small') }}
+          <p>{{ t.home.phone_contact_details }}</p>
+          {{ components.link(text=t.home.phone_charges_link, url='https://www.gov.uk/call-charges') }}
+          <p>{{ t.home.phone_info_needed }}</p>
+          <ul class="visible-bullets">
+            <li>{{ t.home.phone_bullet1 }}</li>
+            <li>{{ t.home.phone_bullet2 }}</li>
+            <li>{{ t.home.phone_bullet3 }}</li>
+          </ul>
+          {{ components.heading(text=t.home.post_heading, tag='h4', size='small') }}
+          <p>{{ t.home.post_text }}</p>
+          {{ components.heading(text=t.home.cash_heading, tag='h4', size='small') }}
+          <p>{{ t.home.cash_text }}</p>
         {% else %}
           <h3 class="heading-medium">{{ t.payment_details.payment_receipt_print_header  }}</h3>
           <div class="panel panel-border-wide">
