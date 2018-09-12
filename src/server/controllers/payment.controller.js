@@ -22,7 +22,7 @@ const getPenaltyOrGroupDetails = (req) => {
 };
 
 const redirectForSinglePenalty = (req, res, penaltyDetails) => {
-  const redirectUrl = `https://${req.get('host')}${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}/confirmPayment`;
+  const redirectUrl = `${req.get('origin')}${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}/confirmPayment`;
 
   return cpmsService.createCardPaymentTransaction(
     penaltyDetails.vehicleReg,
@@ -40,7 +40,7 @@ const redirectForSinglePenalty = (req, res, penaltyDetails) => {
 };
 
 const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType) => {
-  const redirectUrl = `https://${req.get('host')}${config.urlRoot}/payment-code/${penaltyGroupDetails.paymentCode}/${penaltyType}/confirmGroupPayment`;
+  const redirectUrl = `${req.get('origin')}${config.urlRoot}/payment-code/${penaltyGroupDetails.paymentCode}/${penaltyType}/confirmGroupPayment`;
   const penaltyOverviewsForType = penaltyGroupDetails.penaltyDetails
     .find(grouping => grouping.type === penaltyType).penalties;
   const amountForType = penaltyOverviewsForType.reduce((total, pen) => total + pen.amount, 0);
