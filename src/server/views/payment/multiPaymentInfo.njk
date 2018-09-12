@@ -123,7 +123,7 @@
               <p>
                 {{ t.penalty_details_page.details_assistance_panel_paragraph_1 }}
               </p>
-              <ul>
+              <ul class="visible-bullets">
                 <li>
                   {{ t.penalty_details_page.tell_examiner }}
                 </li>
@@ -138,6 +138,20 @@
             </div>
           </details>
         </p>
+        {{ components.heading(text=t.home.other_ways, tag='h3', size='medium') }}
+        {{ components.heading(text=t.home.phone_heading, tag='h4', size='small') }}
+        <p>{{ t.home.phone_contact_details }}</p>
+        {{ components.link(text=t.home.phone_charges_link, url='https://www.gov.uk/call-charges') }}
+        <p>{{ t.home.phone_info_needed }}</p>
+        <ul class="visible-bullets">
+          <li>{{ t.home.phone_bullet1 }}</li>
+          <li>{{ t.home.phone_bullet2 }}</li>
+          <li>{{ t.home.phone_bullet3 }}</li>
+        </ul>
+        {{ components.heading(text=t.home.post_heading, tag='h4', size='small') }}
+        <p>{{ t.home.post_text }}</p>
+        {{ components.heading(text=t.home.cash_heading, tag='h4', size='small') }}
+        <p>{{ t.home.cash_text }}</p>
       {% endif %}
     {# ends components.columnTwoThirds #}
     {%- endcall %}
