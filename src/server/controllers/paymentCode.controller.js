@@ -18,6 +18,7 @@ export const index = (req, res) => {
 
 // Removes all non-alphanumeric characters and converts to lowercase
 export const normalizePaymentcode = (req, res, next) => {
+  console.log('validating payment code and redirecting to payment page');
   if (req.body.payment_code) {
     req.body.payment_code = req.body.payment_code.replace(/\W|_/g, '').toLowerCase();
   }
@@ -45,6 +46,7 @@ export const validatePaymentCode = [
 export const getPaymentDetails = [
   paymentCodeValidation,
   (req, res) => {
+    console.log('getting payment details');
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       logger.error(errors.mapped());
@@ -72,6 +74,7 @@ export const getPaymentDetails = [
 
 export const getMultiPenaltyPaymentSummary = [
   (req, res) => {
+    console.log('getting multi penalty details and sending to payment/multiPaymentSummary');
     const paymentCode = req.params.payment_code;
     const { type } = req.params;
     penaltyGroupService.getPaymentsByCodeAndType(paymentCode, type).then((penaltiesForType) => {

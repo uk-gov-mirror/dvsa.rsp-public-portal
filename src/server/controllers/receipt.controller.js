@@ -10,6 +10,7 @@ const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl);
 const paymentService = new PaymentService(config.paymentServiceUrl);
 
 export default async (req, res) => {
+  console.log('receipt page');
   try {
     const paymentCode = req.params.payment_code;
     const { type } = req.params;
