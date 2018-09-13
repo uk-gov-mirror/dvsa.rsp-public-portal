@@ -135,7 +135,7 @@
 		"paid_on": "Date and time",
 		"payment_receipt_info_header": "Get a payment receipt",
 		"payment_receipt_print_header": "Print a receipt",
-		"payment_receipt_print_info": "To print the receipt use the browser printing facility. You can come back to this page and print at any time.",
+		"payment_receipt_print_info": "To print the receipt use the browser printing facility.<br />You can come back to this page and print at any time.",
 		"payment_receipt_other_options": "Or",
 		"send_receipt_email_header": "Send to email",
 		"send_receipt_email_text": "Enter email address",
