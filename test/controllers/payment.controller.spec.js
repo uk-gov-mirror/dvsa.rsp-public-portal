@@ -15,7 +15,7 @@ function requestForPaymentCode(paymentCode) {
     },
     get: (key) => {
       const gettables = {
-        origin: 'http://localhost',
+        host: 'localhost',
       };
       return gettables[key];
     },
@@ -77,7 +77,7 @@ describe('Payment Controller', () => {
             amount: 100,
           });
         mockCpmsSvcSingle
-          .withArgs('11ABC', '123', 'FPN', 100, 'http://localhost/payment-code/1111111111111111/confirmPayment')
+          .withArgs('11ABC', '123', 'FPN', 100, 'https://localhost/payment-code/1111111111111111/confirmPayment')
           .resolves({ data: { gateway_url: 'http://cpms.gateway' } });
 
         await PaymentController.redirectToPaymentPage(requestForPaymentCode('1111111111111111'), responseHandle);
@@ -132,7 +132,7 @@ describe('Payment Controller', () => {
             nextPayment: null,
           });
         mockCpmsSvcGroup
-          .withArgs('46uu8efys1o', 150, '11ABC', 'FPN', fakePenaltyDetails[0].penalties, 'http://localhost/payment-code/46uu8efys1o/FPN/confirmGroupPayment')
+          .withArgs('46uu8efys1o', 150, '11ABC', 'FPN', fakePenaltyDetails[0].penalties, 'https://localhost/payment-code/46uu8efys1o/FPN/confirmGroupPayment')
           .resolves({ data: { gateway_url: 'http://cpms.gateway' } });
 
         await PaymentController.redirectToPaymentPage(requestForPaymentCode('46uu8efys1o'), responseHandle);

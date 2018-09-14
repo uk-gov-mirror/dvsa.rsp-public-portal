@@ -27,6 +27,8 @@ const region = process.env.REGION;
 const penaltyServiceUrl = process.env.PENALTY_SERVICE_URL;
 const paymentServiceUrl = process.env.PAYMENT_SERVICE_URL;
 const cpmsServiceUrl = process.env.CPMS_SERVICE_URL;
+const redirectUrl = process.env.REDIRECT_URL;
+const isProd = process.env.REDIRECT_URL === 'production';
 
 const config = {
   env,
@@ -41,6 +43,8 @@ const config = {
   paymentServiceUrl,
   cpmsServiceUrl,
   region,
+  redirectUrl,
+  isProd,
 };
 
 export default config;
