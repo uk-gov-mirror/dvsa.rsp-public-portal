@@ -1,86 +1,152 @@
-{ 
-  "site_title":"DVSA Road Side Payment Portal",
-  "breadcrumbs": {
-    "home":"Home",
-    "payment_code":"Payment Code",
-    "penalty_details": "Penalty Details",
-    "payment": "Payment"
-  },
-  "languages": {
-    "english": "English",
-    "french":"French",
-    "polish": "Polish",
-    "spanish": "Spanish",
-    "welsh": "Welsh"
-  },
-  "footer": {
-    "cookies":"Cookies",
-    "terms_conditions": "Conditions générales",
-    "built_by":"Développé par",
-    "licence_1":"Tout le contenu est disponible sous la licence",
-    "licence_2": "sauf indication contraire"
-  },
-  "home": {
-    "title" : "Payer une pénalité DVSA",
-    "description_1" : "Utiliser ce service pour payer:",
-    "fixed_penalty": "Une pénalité fixe",
-    "immobilisation": "Une pénalité d'immobilisation",
-    "court_deposit": "Un dépôt auprès du tribunal",
-    "description_2": "Votre avis de pénalité DVSA vous indiquera combien vous devez payer et la date limite pour payer.",
-    "info_text": "Si vous ne payez pas votre amende à temps, votre véhicule restera immobilisé ou vos informations seront transmises à une agence de recouvrement de créances.",
-    "start_button": "Commencer maintenant",
-    "before_start": "Before you start:",
-    "before_start_text": "Il y a quelque chose de bizarre avec ces détails:"
-  },
-  "payment_code_page": {
-    "title": "Pay a DVSA Penalty",
-    "payment_code": "Payment code",
-    "hint": "Ceci est un code émis avec l'avis de pénalité. Par exemple, 'a1b2c3d4e5f6g7h8'",
-    "hidden_panel_title": "I don't have a payment code",
-    "hidden_panel_text": "The DVSA examiner normally sends the payment code (or token) via SMS or email, at the time of processing the penalty. The code is usually sent to the driver of the vehicle or their company, as requested at the time of processing. If you are the intended recipient, you can recheck your email inbox or text messages, or request the DVSA examiner send the payment code again. Alternatively, you can contact the customer support centre, to arrange payment by using the penalty reference number, if that is available to you",
-    "continue_button": "Continue",
-    "error": {
-      "title":"There was a problem",
-      "description":"The payment code you entered was not recognised by the system.",
-      "invalid_code": "Enter a valid payment code"
-    }
-  },
-  "penalty_details_page": {
-    "title":"Penalty payment confirmation",
-    "confirmation":"You paid a penalty for the payment code:",
-    "confirmation_sent":"A confirmation has been sent to the DVSA location where the penalty has been issued.",
-    "penalty_table_title": "Penalty Details",
-    "payment_table_title": "Payment Details", 
-    "hidden_panel_title": "Il y a quelque chose d’anormal avec ces détails",
-    "hidden_panel_text": "Please contact the customer support centre to confirm the correct penalty details.",
-    "you_can":"You can:",
-    "share_sms": "share payment confirmation via SMS",
-    "share_email": "Partager la confirmation de paiement via email",
-    "other": "alternatively, make a note of the confirmation code for later reference.",
-    "pay_another_button":"Payer une autre pénalité",
-    "continue_to_payment_button": "Continuer vers le paiement"
-  },
-  "penalty_details": {
-    "status": "Statut",
-    "status_paid" : "PAID",
-    "status_unpaid": "UNPAID",
-    "payment_code": "Jeton",
-    "penalty_type": "Type de pénalité",
-    "amount": "Montant",
-    "reference": "Référence",
-    "vehicle_reg":"Immatriculation du véhicule",
-    "penalty_date":"Pénalité émise le",
-    "location":"Lieu",
-    "not_available":"Not available"
-  },
-  "payment_details": {
-    "payment_reference": "Payment reference:",
-    "authorisation_code": "Code d'autorisation:",
-    "paid_on": "Paid on:"
-  },
-  "failed_payment_page": {
-    "title": "Your payment has been declined",
-    "info": "No money has been taken from your account.<br />Contact your bank for more details.",
-    "start_again_button": "Start again"
-  }
+{
+	"site_title": "Portail des amendes DVSA en bordure de route",
+	"feedback_banner": "Ceci est un nouveau service - vos commentaires nous aideront à l'améliorer.",
+	"breadcrumbs": {
+		"home": "Accueil",
+		"pay_dvsa_fine": "Payer pénalité DVSA",
+		"payment_code": "Code de paiement ",
+		"fines_summary": "Pénalité résumé",
+		"court_deposit": "Dépôt auprès du tribunal",
+		"immobilisation_fee": "Une pénalité d'immobilisation",
+		"fixed_penalty": "Pénalité forfaitaire",
+		"receipt": "Reçu"
+	},
+	"languages": {
+		"english": "Anglais",
+		"french": "Français",
+		"polish": "Polonais",
+		"spanish": "Eespagnol",
+		"welsh": "Gallois"
+	},
+	"footer": {
+		"cookies": "Cookies",
+		"terms_conditions": "Conditions générales",
+		"built_by": "Développé par Driver & Vehicle Licensing Agency",
+		"licence": "Tout le contenu est disponible sous la licence Open Government License v3.0 sauf indication contraire",
+		"copyright": "Droit d'auteur de la couronne"
+	},
+	"validation": {
+		"payment_code_required": "Code de paiement requis",
+		"payment_code_invalid": "Code de paiement invalide",
+		"email_required": "Adresse mail requise",
+		"email_invalid": "Adresse e-mail non valide",
+		"telephone_required": "Numéro de téléphone requis",
+		"telephone_invalid": "Numéro de téléphone invalide"
+	},
+	"home": {
+		"title": "Payer une pénalité DVSA",
+		"related_content": "Contenu connexe",
+		"related_content_link_1": "Payer une amende qui vous a été donnée par l'Agence de normalisation de conduite et du véhicule (DVSA) pour les défauts de véhicule et les infractions en temps de conduite. Ceci comprend:",
+		"related_content_link_2": "Une pénalité fixe",
+		"related_content_link_3": "Une pénalité d'immobilisation",
+		"related_content_link_4": "Un dépôt auprès du tribunal",
+		"description": "Payer une amende qui vous a été donnée par l'Agence de normalisation de conduite et du véhicule (DVSA) pour les défauts de véhicule et les infractions en temps de conduite. Ceci comprend:",
+		"fixed_penalty": "Une pénalité fixe",
+		"immobilisation": "Une pénalité d'immobilisation",
+		"court_deposit": "Un dépôt auprès du tribunal",
+		"info_text": "Si vous ne payez pas votre amende à temps, votre véhicule restera immobilisé ou vos informations seront transmises à une agence de recouvrement de créances.",
+		"language_guidance": "Cette page est également disponible en Français, Allemand (Deutsch), Polonais (Polski), Espagnol (Español), et Gallois (Cymraeg) ",
+		"start_button": "Commencer maintenant",
+		"before_start": "Avant de commencer",
+		"before_start_text": "Vous aurez besoin de : ",
+		"payment_code_details": "Votre code de paiement DVSA - ceci vous a été envoyé par SMS ou email de la part de DVSA",
+		"payment_method_details": "Une carte de crédit ou de débit",
+		"other_ways": "Autres moyens de payer",
+		"phone_heading": "Par téléphone",
+		"phone_contact_details": "Service clientèle DVSA<br />Téléphone: +44 (0)300 123 900<br />Du lundi au vendredi de 7h30 à 18h00.",
+		"phone_charges_link": "Découvrez les frais d'appel",
+		"phone_info_needed": "Vous avez besoin de l'un des éléments suivants:",
+		"phone_bullet1": "Votre code de paiement DVSA",
+		"phone_bullet2": "Vos correctes références",
+		"phone_bullet3": "Le numéro d'immatriculation du véhicule (plaque d'immatriculation)",
+		"post_heading": "Par la poste",
+		"post_text": "Si vous êtes un chauffeur ou un opérateur britannique, vous pouvez payer par chèque ou mandat postal. Veuillez le libeller à l'ordre de 'DVSA Fixed Penalties Office' et écrivez votre code de paiement au verso. <br /> <br /> DVSA FPO <br /> Ellipse <br /> Padley Road <br /> Swansea <br /> SA1 8AN",
+		"cash_heading": "En personne",
+		"cash_text": "Vous pouvez payer comptant à un examinateur DVSA près de chez vous."
+	},
+	"payment_code_page": {
+		"title": "Entrez le code de paiement",
+		"payment_code": "Code de paiement",
+		"hint": "Par exemple, 'a1b2c3d4e5f6e7b8'",
+		"hidden_panel_title": "Si vous n'avez pas de code de paiement",
+		"hidden_panel_text": "Un examinateur DVSA devrait vous avoir envoyé un code de paiement par message texte ou par courrier électronique. <br /> <br /> appelez le service clientèle de DVSA au +44 (0)300 123 900 - du lundi au vendredi de 7h30 à 18h00. <br /> <br /> Vous avez besoin de votre code de paiement, des numéros de référence de pénalité ou du numéro d'immatriculation du véhicule (plaque d'immatriculation).",
+		"call_charges_link": "Consultez lez frais d'appel",
+		"continue_button": "Continuer",
+		"error": {
+			"title": "Il y avait un problème",
+			"description": "Le code de paiement que vous avez entré n'a pas été reconnu par le système.",
+			"invalid_code": "Veuillez entrer un code de paiement valide"
+		}
+	},
+	"penalty_details_page": {
+		"penalty_details_title": "Résumé des amendes DVSA en bordure de route",
+		"intro_unpaid": "Nous avons trouvé les détails suivants dans nos dossiers",
+		"intro_part_paid": "Vous avez des amendes en suspens pour ce code de paiement.",
+		"intro_paid": "Toutes les amendes impayées pour ce code de paiement ont été payées.",
+		"amount_due": "Montant total dû",
+		"penalty_details_panel_title": "Voir les détails des pénalités",
+		"deposit_details_panel_title": "Voir les détails des dépôts au tribunal",
+		"penalty_payment_instructions_a": "Vous devez payer les frais d'immobilisation et les pénalités forfaitaires séparément.",
+		"penalty_payment_instructions_b": "Vous devez payer les frais d'immobilisation et les dépôts auprès du tribunal séparément.",
+		"penalty_payment_warning": "Si vous ne payez pas une amende à temps, votre véhicule pourrait être immobilisé, vous pourriez avoir à payer plus, ou vous pourriez être poursuivi en justice.",
+		"details_assistance_panel_title": "Si ces détails sont incorrects ou si vous avez besoin d'aide",
+		"payment_assistance_panel_title": "Si vous rencontrez des difficultés pour effectuer un paiement",
+		"details_assistance_panel_paragraph_1": "Vous pouvez:",
+		"tell_examiner": "Indiquez votre emplacement sur la route à l'examinateur DVSA vafin qu'il puisse émettre un nouveau code de paiement",
+		"call_dvsa": "Appelez le service clientèle de DVSA au +44 (0)300 123 900 - du lundi au vendredi de 7h30 à 18h.",
+		"info_needed": "Vous avez besoin de votre code de paiement, des numéros de référence de pénalité ou du numéro d'immatriculation du véhicule (plaque d'immatriculation).",
+		"call_charges_link": "Consultez les frais d'appel",
+		"pay_fixed_penalties_text": "Payer des pénalités forfaitaires",
+		"pay_court_deposits_text": "Payer les dépôts auprès du tribunal",
+		"pay_immobilisation_fee_text": "Payer des frais  d'immobilisation",
+		"gdpr_notification": "Les paiements seront traités par une application tierce. Vous serez redirigé vers un système de paiement externe. Une fois traité, vous serez redirigé vers une page de confirmation.",
+		"back_button": "Retour",
+		"return_to_summary": "Retour au sommaire",
+		"continue_fixed_penalties": "Continuer à payer les pénalités forfaitaires",
+		"continue_immobilisation_fee": "Payer les frais d'immobilisation",
+		"continue_court_deposits": "Payer les dépôts auprès des tribunaux",
+		"continue_to_payment_button": "Effectuer un paiement"
+	},
+	"penalty_details": {
+		"status": "Statut",
+		"status_paid": "payé",
+		"status_unpaid": "impayé",
+		"receipt_link": "Reçu",
+		"payment_code": "Code de paiement ",
+		"penalty_type": "Type de pénalité",
+		"type_fixed_penalty": "Pénalités forfaitaires",
+		"type_immobilisation": "Frais d'immobilisation",
+		"type_court_deposit": "Dépôt auprès du tribunal",
+		"amount": "Montant ",
+		"reference": "Référence ",
+		"vehicle_reg": "Immatriculation du véhicule",
+		"penalty_date": "Pénalité émise le ",
+		"location": "Lieu ",
+		"not_available": "Non didponible"
+	},
+	"payment_details": {
+		"details": "Détails de paiement",
+		"payment_success": "Paiement complet",
+		"transaction_receipt": "Reçu de transaction",
+		"transaction_fixed_penalties_details": "Détails des pénalités forfaitaires",
+		"transaction_immobilisation_fee_details": "Frais d'immobilisation",
+		"payment_reference": "Référence de paiement",
+		"authorisation_code": "Code d'autorisation ",
+		"paid_on": "Date et l'heure",
+		"payment_receipt_info_header": "Obtenir un reçu de paiement",
+		"payment_receipt_print_header": "Imprimer reçu",
+		"payment_receipt_print_info": "Pour imprimer le reçu, utilisez l’imprimante.<br />Vous pouvez revenir à cette page et imprimer à tout moment.",
+		"payment_receipt_other_options": "Ou",
+		"send_receipt_email_header": "Envoyer à un email",
+		"send_receipt_email_text": "Entrer l'adresse e-mail",
+		"send_receipt_sms_header": "Envoyer au numéro de téléphone",
+		"send_receipt_sms_text": "Entrez le numéro de téléphone",
+		"send_receipt_info_text": "Nous l'utilisons uniquement pour vous envoyer des informations sur la façon d'obtenir votre reçu.",
+		"send_receipt_button": "Envoyer"
+	},
+	"failed_payment_page": {
+		"title": "Votre paiement a été refusé",
+		"info": "Contactez votre banque pour plus de détails.",
+		"start_again_button": "Recommencer "
+	}
 }
