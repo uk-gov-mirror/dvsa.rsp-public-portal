@@ -45,7 +45,7 @@
     "immobilisation": "Multas de inmovilización ",
     "court_deposit": "Depósitos judiciales",
     "info_text": "Si no paga la multa a tiempo su vehículo podrá ser inmovilizado, podrá tener que pagar más o podría ser procesado judicialmente.",
-    "language_guidance": "Esta página está también disponible en francés (Français), alemán (Deutsch), polaco (Polski), español y galés (Cymraeg)",
+    "language_guidance": "Esta página está también disponible en francés (<a href='?clang=fr'>Français</a>), alemán (<a href='?clang=de'>Deutsch</a>), polaco (<a href='?clang=pl'>Polski</a>), español y galés (<a href='?clang=cy'>Cymraeg</a>)",
     "start_button": "Empezar ahora",
     "before_start": "Antes de empezar",
     "before_start_text": "Necesitará:",

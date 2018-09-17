@@ -45,7 +45,7 @@
     "immobilisation": "Ffioedd atal cerbydau rhag symud",
     "court_deposit": "Blaendaliadau'r llys",
     "info_text": "Os nad ydych yn talu dirwy ar amser, gellir parhau i atal eich cerbyd rhag symud, efallai y bydd yn rhaid i chi dalu mwy, neu efallai y byddwch chi'n cael eich cymryd i'r llys.",
-    "language_guidance": "Mae'r dudalen hon hefyd ar gael yn Ffrangeg (Français), Almaeneg (Deutsch), Pwyleg (Polski), Sbaeneg (Español), a Chymraeg",
+    "language_guidance": "Mae'r dudalen hon hefyd ar gael yn Ffrangeg (<a href='?clang=fr'>Français</a>), Almaeneg (<a href='?clang=de'>Deutsch</a>), Pwyleg (<a href='?clang=pl'>Polski</a>), Sbaeneg (<a href='?clang=es'>Español</a>), a <a href='?clang=en'>English</a>",
     "start_button": "Dechrau nawr",
     "before_start": "Cyn i chi ddechrau",
     "before_start_text": "Bydd arnoch angen:",
