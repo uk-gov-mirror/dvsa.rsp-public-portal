@@ -22,8 +22,10 @@ const getPenaltyOrGroupDetails = (req) => {
 };
 
 const redirectForSinglePenalty = (req, res, penaltyDetails, redirectHost) => {
-  const redirectUrl = `${redirectHost}/payment-code/${penaltyDetails.paymentCode}/confirmPayment`;
+  const { paymentCode } = penaltyDetails;
+  const redirectUrl = `${redirectHost}/payment-code/${paymentCode}/confirmPayment`;
   return cpmsService.createCardPaymentTransaction(
+    paymentCode,
     penaltyDetails.vehicleReg,
     penaltyDetails.reference,
     penaltyDetails.type,
