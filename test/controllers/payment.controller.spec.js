@@ -77,7 +77,7 @@ describe('Payment Controller', () => {
             amount: 100,
           });
         mockCpmsSvcSingle
-          .withArgs('11ABC', '123', 'FPN', 100, 'https://localhost/payment-code/1111111111111111/confirmPayment')
+          .withArgs('1111111111111111', '11ABC', '123', 'FPN', 100, 'https://localhost/payment-code/1111111111111111/confirmPayment')
           .resolves({ data: { gateway_url: 'http://cpms.gateway' } });
 
         await PaymentController.redirectToPaymentPage(requestForPaymentCode('1111111111111111'), responseHandle);
