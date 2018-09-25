@@ -62,8 +62,12 @@ export const getPaymentDetails = [
         getMethod: 'getByPenaltyGroupPaymentCode',
         template: 'multiPaymentInfo',
       };
-      service[getMethod](paymentCode).then((data) => {
-        res.render(`payment/${template}`, data);
+      service[getMethod](paymentCode).then((entityData) => {
+        if (entityData.Enabled) {
+          res.render(`payment/${template}`, entityData);
+        } else {
+          res.redirect('../payment-code?invalidPaymentCode');
+        }
       }).catch((error) => {
         logger.error(error);
         res.redirect('../payment-code?invalidPaymentCode');
