@@ -21,6 +21,7 @@ export default class PenaltyGroupService {
         Location,
         Timestamp,
         TotalAmount,
+        Enabled,
       } = response.data;
       const {
         splitAmounts,
@@ -29,6 +30,7 @@ export default class PenaltyGroupService {
       } = PenaltyGroupService.parsePayments(Payments);
       return {
         isPenaltyGroup: true,
+        enabled: Enabled,
         penaltyGroupDetails: {
           registrationNumber: VehicleRegistration,
           location: Location,

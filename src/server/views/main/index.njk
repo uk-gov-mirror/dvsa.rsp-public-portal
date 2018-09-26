@@ -10,14 +10,12 @@
 
     {% call components.columnTwoThirds() %}
       {{ components.heading(text=t.home.title, tag='h1', size='xlarge') }}
-      {{ components.paragraph(text=t.home.related_content_link_1) }}
+      {{ components.paragraph(text=t.home.description) }}
       {{ components.list(items=[
         { text: t.home.fixed_penalty },
         { text: t.home.immobilisation },
         { text: t.home.court_deposit }
       ], type='bullet') }}
-
-      {{ components.paragraph(text=t.home.description_2) }}
       
       <p>
         {{ components.notice(text=t.home.info_text) }}

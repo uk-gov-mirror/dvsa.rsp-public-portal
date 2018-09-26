@@ -95,11 +95,17 @@
                   <td><strong>{{ penalty.formattedReference }}</strong></td>
                   <td><strong>&pound;{{ penalty.amount }}</strong></td>
                   <td>
-                    <strong><span class='{{ statusClass }}'>{{ penalty.status }}</span></strong>
-                    {% if penalty.status == 'PAID' %}
-                      &nbsp;&nbsp;
-                      <img src="{{ assets }}/images/icon-check.png" />
-                    {% endif %}
+                    <strong>
+                      <span class='{{ statusClass }}'>
+                        {% if penalty.status == 'PAID' %}
+                          {{ t.penalty_details.status_paid }}
+                          &nbsp;&nbsp;
+                          <img src="{{ assets }}/images/icon-check.png" />
+                        {% else %}
+                          {{ t.penalty_details.status_unpaid }}
+                        {% endif %}
+                      </span>
+                    </strong>
                   </td>
                 </tr>
               {% endfor %}
