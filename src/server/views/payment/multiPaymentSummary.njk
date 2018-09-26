@@ -36,7 +36,11 @@
               <tr>
                 <td>{{ penalty.formattedReference }}</td> 
                 <td>&pound;{{ penalty.amount }}</td> 
-                <td class="{{ statusClass }}"><strong>{{ penalty.status }}</strong></td>
+                <td class="{{ statusClass }}">
+                  <strong>
+                    {{ t.penalty_details.status_paid if penalty.status == 'PAID' else t.penalty_details.status_unpaid }}
+                  </strong>
+                </td>
               </tr>   
             {% endfor %}
             {% if penaltyDetails.length > 1 %}
