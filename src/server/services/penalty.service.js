@@ -28,6 +28,7 @@ export default class PenaltyService {
     const penaltyDetails = {
       complete,
       reference,
+      enabled: data.Enabled,
       paymentCode: rawPenalty.paymentToken,
       issueDate: complete && moment.unix(rawPenalty.dateTime).format('DD/MM/YYYY'),
       vehicleReg: complete && rawPenalty.vehicleDetails.regNo,
