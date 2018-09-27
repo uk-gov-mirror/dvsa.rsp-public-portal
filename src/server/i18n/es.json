@@ -144,6 +144,14 @@
     "send_receipt_info_text": "Solo lo usaremos para enviarle información sobre cómo obtener el recibo.",
     "send_receipt_button": "Enviar"
   },
+  "multi_receipt_page": {
+    "feedback_prompt": {
+      "easy_to_use": "¿El servicio fue fácil de usar?",
+      "tell_us": "Cuéntanos tu punto de vista",
+      "improve_service": "para que podamos mejorarlo",
+      "link": "https://www.smartsurvey.co.uk/s/roadsidepaymentsspanish/"
+    }
+  },
   "failed_payment_page": {
     "title": "El pago ha sido rechazado",
     "info": "Contacte con su banco para más detalles.",
