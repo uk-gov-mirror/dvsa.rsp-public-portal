@@ -36,10 +36,10 @@
 	"home": {
 		"title": "Payer une pénalité DVSA",
 		"related_content": "Contenu connexe",
-		"related_content_link_1":"Contrôles de véhicules en bordure de route pour véhicules utilitaires",
-		"related_content_link_2":"Heures de conduite",
-		"related_content_link_3":"Pénalités forfaitaires",
-		"related_content_link_4":"Que se passe-t-il si votre véhicule est immobilisé",
+		"related_content_link_1": "Contrôles de véhicules en bordure de route pour véhicules utilitaires",
+		"related_content_link_2": "Heures de conduite",
+		"related_content_link_3": "Pénalités forfaitaires",
+		"related_content_link_4": "Que se passe-t-il si votre véhicule est immobilisé",
 		"description": "Payer une amende qui vous a été donnée par l'Agence de normalisation de conduite et du véhicule (DVSA) pour les défauts de véhicule et les infractions en temps de conduite. Ceci comprend:",
 		"fixed_penalty": "Une pénalité fixe",
 		"immobilisation": "Une pénalité d'immobilisation",
@@ -148,5 +148,11 @@
 		"title": "Votre paiement a été refusé",
 		"info": "Contactez votre banque pour plus de détails.",
 		"start_again_button": "Recommencer "
+	},
+	"phase_banner": {
+		"feedback_link": "https://www.smartsurvey.co.uk/s/roadsidepaymentsfrench/",
+		"new_service": "Ceci est un nouveau service - votre",
+		"feedback": "retour d'information",
+		"help_improve": "nous aidera à l'améliorer."
 	}
 }

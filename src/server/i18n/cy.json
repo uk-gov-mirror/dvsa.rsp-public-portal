@@ -148,5 +148,11 @@
     "title": "Gwrthodwyd eich taliad",
     "info": "Cysylltwch â'ch banc i gael mwy o fanylion.",
     "start_again_button": "Dechrau eto"
+  },
+  "phase_banner": {
+    "feedback_link": "https://www.smartsurvey.co.uk/s/roadsidepaymentswelsh/",
+    "new_service": "Gwasanaeth newydd yw hwn - eich",
+    "feedback": "adborth",
+    "help_improve": "yn ein helpu i wella."
   }
 }

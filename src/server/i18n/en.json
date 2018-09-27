@@ -148,5 +148,11 @@
     "title": "Your payment has been declined",
     "info": "Contact your bank for more details.",
     "start_again_button": "Start again"
+  },
+  "phase_banner": {
+    "feedback_link": "https://www.smartsurvey.co.uk/s/roadsidepayments/",
+    "new_service": "This is a new service – your",
+    "feedback": "feedback",
+    "help_improve": "will help us improve it."
   }
 }

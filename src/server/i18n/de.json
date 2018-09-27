@@ -148,5 +148,11 @@
     "title": "Ihre Zahlung wurde abgelehnt",
     "info": "Kontaktieren Sie Ihre Bank für weitere Einzelheiten.",
     "start_again_button": "Erneut starten"
+  },
+  "phase_banner": {
+    "feedback_link": "https://www.smartsurvey.co.uk/s/roadsidepaymentsgerman/",
+    "new_service": "Dies ist ein neuer Service - Ihr",
+    "feedback": "feedback",
+    "help_improve": "wird uns helfen, es zu verbessern."
   }
 }
