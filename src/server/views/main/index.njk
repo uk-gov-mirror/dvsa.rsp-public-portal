@@ -55,8 +55,8 @@
     {% call components.columnOneThird() %}
 
     <aside class="govuk-related-items" role="complementary">
-      {{ components.heading(text='Related content', tag='h3', size='medium') }}
-        <nav role="navigation" aria-labelledby="subsection-title">
+      {{ components.heading(text='Related content', tag='h3', size='medium', id='related-content-header') }}
+        <nav role="navigation" aria-labelledby="related-content-header">
           <ul class="font-xsmall">
             <li>{{ components.link(text=t.home.related_content_link_1, url='https://www.gov.uk/roadside-vehicle-checks-for-commercial-drivers') }}</li>
             <li>{{ components.link(text=t.home.related_content_link_2, url='https://www.gov.uk/drivers-hours') }}</li>
