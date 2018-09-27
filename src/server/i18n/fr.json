@@ -46,6 +46,7 @@
 		"court_deposit": "Un dépôt auprès du tribunal",
 		"info_text": "Si vous ne payez pas votre amende à temps, votre véhicule restera immobilisé ou vos informations seront transmises à une agence de recouvrement de créances.",
 		"language_guidance": "Cette page est également disponible en Allemand (<a href='?clang=de'>Deutsch</a>), Polonais (<a href='?clang=pl'>Polski</a>), Espagnol (<a href='?clang=es'>Español</a>), Anglais (<a href='?clang=en'>English</a>) et Gallois (<a href='?clang=cy'>Cymraeg</a>)",
+		"language_guidance_header": "Cette page est également disponible en",
 		"start_button": "Commencer maintenant",
 		"before_start": "Avant de commencer",
 		"before_start_text": "Vous aurez besoin de : ",

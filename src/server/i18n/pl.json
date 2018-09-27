@@ -46,6 +46,7 @@
     "court_deposit": "Depozyt sądowy ",
     "info_text": "Jeśli nie zapłacą Państwo kary w terminie, pojazd może pozostać unieruchomiony lub mogą Państwo zostać wezwani do sądu.",
     "language_guidance": "Strona ta jest również dostępna w języku Francuskim (<a href='?clang=fr'>Français</a>), Niemieckim (<a href='?clang=de'>Deutsch</a>),  Angielski (<a href='?clang=en'>English</a>), Hiszpańskim (<a href='?clang=es'>Español</a>) i Walijskim (<a href='?clang=cy'>Cymreag</a>)",
+    "language_guidance_header": "Strona ta jest również dostępna w języku",
     "start_button": "Zacznij teraz",
     "before_start": "Zanim zaczniesz",
     "before_start_text": "Będziesz potrzebować:",

@@ -125,7 +125,8 @@
       {%- endcall %}
     {%- endcall %}
     {% call components.columnOneThird() %}
-    <aside class="govuk-related-items" role="complementary">
+      <aside class="govuk-related-items" role="complementary">
+        <p>{{ t.home.language_guidance_header }}:</p>
         <nav role="navigation" aria-labelledby="subsection-title">
           <ul class="font-xsmall">
             <li>{{ components.link(text='Cymraeg', url='?clang=cy') if clang != 'cy' else components.link(text='English', url='?clang=en') }}</li>
