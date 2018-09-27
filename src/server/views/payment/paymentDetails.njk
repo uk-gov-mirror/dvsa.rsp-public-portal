@@ -49,7 +49,17 @@
                 <td>{{ t.penalty_details.type_immobilisation }}</td>
               {% endif %}
               <td>&pound;{{ amount }}</td>
-              <td id="status" class="{{ statusClass }}"><strong>{% if paid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %}</strong></td>
+              <td id="status" class="{{ statusClass }}">
+                <strong>
+                  {% if paid %}
+                    {{ t.penalty_details.status_paid }}
+                    &nbsp;&nbsp;
+                    <img src="{{ assets }}/images/icon-check.png" alt="" />
+                  {% else %}
+                    {{ t.penalty_details.status_unpaid }}
+                  {% endif %}
+                </strong>
+              </td>
             </tr>
             <tr>
               <td>{{ t.penalty_details.reference}}</td>
