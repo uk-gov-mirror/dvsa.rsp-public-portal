@@ -148,5 +148,11 @@
     "title": "El pago ha sido rechazado",
     "info": "Contacte con su banco para más detalles.",
     "start_again_button": "Empezar otra vez"
+  },
+  "phase_banner": {
+    "feedback_link": "https://www.smartsurvey.co.uk/s/roadsidepaymentsspanish/",
+    "new_service": "Este es un nuevo servicio: tu",
+    "feedback": "realimentación",
+    "help_improve": "nos ayudará a mejorarlo."
   }
 }

@@ -148,5 +148,11 @@
     "title": "Płatność została odrzucona",
     "info": "Skontaktuj się ze swoim bankiem, aby uzyskać więcej informacji.",
     "start_again_button": "Zacznij jeszcze raz"
-  }
+  },
+	"phase_banner": {
+		"feedback_link": "https://www.smartsurvey.co.uk/s/roadsidepaymentspolish/",
+    "new_service": "To jest nowa usługa - Twoja",
+    "feedback": "informacje zwrotne",
+    "help_improve": "pomoże nam to ulepszyć."
+	}
 }
