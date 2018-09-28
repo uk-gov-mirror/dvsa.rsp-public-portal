@@ -12,6 +12,12 @@
         {{ components.paragraph(text=t.penalty_details_page.intro_part_paid) }}
       {% else %}
         {{ components.paragraph(text=t.penalty_details_page.intro_paid) }}
+        <p>
+          {{ t.feedback_prompt.easy_to_use }}
+          <a href="{{ t.feedback_prompt.link }}" target="_blank">
+            {{ t.feedback_prompt.tell_us }}</a>
+          {{ t.feedback_prompt.improve_service }}
+        </p>
       {% endif %}
       {# Penalty details summary table #}
       <table class="details multipenalty-summary-table">

@@ -145,13 +145,11 @@
     "send_receipt_info_text": "Użyjemy powyższych informacji wyłącznie w celu poinformowania o sposobie uzyskania pokwitowania.",
     "send_receipt_button": "Wyślij"
   },
-  "multi_receipt_page": {
-    "feedback_prompt": {
-      "easy_to_use": "Czy usługa była łatwa w użyciu?",
-      "tell_us": "Przekaż nam swoje opinie",
-      "improve_service": "więc możemy to poprawić.",
-      "link": "https://www.smartsurvey.co.uk/s/roadsidepaymentspolish/"
-    }
+  "feedback_prompt": {
+    "easy_to_use": "Czy usługa była łatwa w użyciu?",
+    "tell_us": "Przekaż nam swoje opinie",
+    "improve_service": "więc możemy to poprawić.",
+    "link": "https://www.smartsurvey.co.uk/s/roadsidepaymentspolish/"
   },
   "failed_payment_page": {
     "title": "Płatność została odrzucona",
