@@ -13,8 +13,6 @@
     {% call components.columnTwoThirds() %}
 
       {% call components.form(action='/payment-code', method='post') %}
-        {{ components.heading(text=t.payment_code_page.title, tag='h1', size='xlarge') }}
-        
         {% if invalidPaymentCode %}
           <div class="error-summary" role="alert" aria-labelledby="error-summary-payment-code" tabindex="1">
             <h2 class="heading-medium error-summary-heading" id="error-summary-payment-code">
@@ -23,6 +21,8 @@
              {{ t.payment_code_page.error.description }}
           </div>
         {% endif %}
+
+        {{ components.heading(text=t.payment_code_page.title, tag='h1', size='xlarge') }}
         {{ components.field(id='payment_code', label=t.payment_code_page.payment_code, hint=t.payment_code_page.hint, error=t.payment_code_page.error.invalid_code if invalidPaymentCode, maxlength=19) }}
         <p>
           <details>
