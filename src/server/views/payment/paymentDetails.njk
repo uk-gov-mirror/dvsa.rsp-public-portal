@@ -55,7 +55,17 @@
                 <td>{{ t.penalty_details.type_immobilisation }}</td>
               {% endif %}
               <td>&pound;{{ amount }}</td>
-              <td id="status" class="{{ statusClass }}"><strong>{% if paid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %}</strong></td>
+              <td id="status" class="{{ statusClass }}">
+                <strong>
+                  {% if paid %}
+                    {{ t.penalty_details.status_paid }}
+                    &nbsp;&nbsp;
+                    <img src="{{ assets }}/images/icon-check.png" alt="" />
+                  {% else %}
+                    {{ t.penalty_details.status_unpaid }}
+                  {% endif %}
+                </strong>
+              </td>
             </tr>
             <tr>
               <td>{{ t.penalty_details.reference}}</td>
@@ -131,8 +141,9 @@
       {%- endcall %}
     {%- endcall %}
     {% call components.columnOneThird() %}
-    <aside class="govuk-related-items" role="complementary">
-        <nav role="navigation" aria-labelledby="subsection-title">
+      <aside class="govuk-related-items" role="complementary">
+        <p id='language-links-header'>{{ t.home.language_guidance_header }}:</p>
+        <nav role="navigation" aria-labelledby="language-links-header">
           <ul class="font-xsmall">
             <li>{{ components.link(text='Cymraeg', url='?clang=cy') if clang != 'cy' else components.link(text='English', url='?clang=en') }}</li>
             <li>{{ components.link(text='Deutsch', url='?clang=de') if clang != 'de' else components.link(text='English', url='?clang=en') }}</li>
