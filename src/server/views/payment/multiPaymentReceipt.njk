@@ -34,6 +34,14 @@
                 {{ paymentBannerTitle }}
               </p>
             </div>
+            {% if nextPayment == undefined %}
+              <p>
+                {{ t.multi_receipt_page.feedback_prompt.easy_to_use }}
+                <a href="{{ t.multi_receipt_page.feedback_prompt.link }}" target="_blank">
+                  {{ t.multi_receipt_page.feedback_prompt.tell_us }}</a>
+                {{ t.multi_receipt_page.feedback_prompt.improve_service }}
+              </p>
+            {% endif %}
           {% endif %}
         {% endif %}
       {% endfor %}
