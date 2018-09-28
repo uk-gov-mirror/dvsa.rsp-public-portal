@@ -145,9 +145,23 @@
     "send_receipt_info_text": "Byddwn yn defnyddio hyn er mwyn anfon gwybodaeth i chi am sut i gael derbyneb yn unig",
     "send_receipt_button": "Anfon"
   },
+  "multi_receipt_page": {
+    "feedback_prompt": {
+      "easy_to_use": "A oedd y gwasanaeth yn hawdd ei ddefnyddio?",
+      "tell_us": "Dywedwch wrthym eich barn chi",
+      "improve_service": "felly gallwn ei wella.",
+      "link": "https://www.smartsurvey.co.uk/s/roadsidepaymentswelsh/"
+    }
+  },
   "failed_payment_page": {
     "title": "Gwrthodwyd eich taliad",
     "info": "Cysylltwch â'ch banc i gael mwy o fanylion.",
     "start_again_button": "Dechrau eto"
+  },
+  "phase_banner": {
+    "feedback_link": "https://www.smartsurvey.co.uk/s/roadsidepaymentswelsh/",
+    "new_service": "Gwasanaeth newydd yw hwn - eich",
+    "feedback": "adborth",
+    "help_improve": "yn ein helpu i wella."
   }
 }

@@ -145,9 +145,23 @@
     "send_receipt_info_text": "Wir benutzen diese nur zur Übermittlung der Information über den Erhalt Ihres Zahlungsnachweises.",
     "send_receipt_button": "Senden  "
   },
+  "multi_receipt_page": {
+    "feedback_prompt": {
+      "easy_to_use": "War der Service einfach zu benutzen?",
+      "tell_us": "Erzähle uns deine Meinung",
+      "improve_service": "damit wir es verbessern können.",
+      "link": "https://www.smartsurvey.co.uk/s/roadsidepaymentsgerman/"
+    }
+  },
   "failed_payment_page": {
     "title": "Ihre Zahlung wurde abgelehnt",
     "info": "Kontaktieren Sie Ihre Bank für weitere Einzelheiten.",
     "start_again_button": "Erneut starten"
+  },
+  "phase_banner": {
+    "feedback_link": "https://www.smartsurvey.co.uk/s/roadsidepaymentsgerman/",
+    "new_service": "Dies ist ein neuer Service - Ihr",
+    "feedback": "feedback",
+    "help_improve": "wird uns helfen, es zu verbessern."
   }
 }
