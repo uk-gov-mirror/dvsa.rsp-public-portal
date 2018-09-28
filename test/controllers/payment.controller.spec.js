@@ -255,7 +255,7 @@ describe('Payment Controller', () => {
       it('should render the payment declined page', async () => {
         await PaymentController.confirmGroupPayment(req, resp);
         sinon.assert.called(mockCpmsSvc);
-        sinon.assert.calledWith(renderSpy, 'payment/failedPayment');
+        sinon.assert.calledWith(renderSpy, 'payment/failedPayment', { paymentCode: 'codenotlength16' });
       });
     });
 
@@ -281,7 +281,7 @@ describe('Payment Controller', () => {
       it('render the payment declined page', async () => {
         await PaymentController.confirmGroupPayment(req, resp);
         sinon.assert.called(mockCpmsSvc);
-        sinon.assert.calledWith(renderSpy, 'payment/failedPayment');
+        sinon.assert.calledWith(renderSpy, 'payment/failedPayment', { paymentCode: 'codenotlength16' });
       });
     });
 
@@ -294,7 +294,7 @@ describe('Payment Controller', () => {
         await PaymentController.confirmGroupPayment(req, resp);
         sinon.assert.called(mockCpmsSvc);
         sinon.assert.called(mockPaymentSvc);
-        sinon.assert.calledWith(renderSpy, 'payment/failedPayment');
+        sinon.assert.calledWith(renderSpy, 'payment/failedPayment', { paymentCode: 'codenotlength16' });
       });
     });
   });

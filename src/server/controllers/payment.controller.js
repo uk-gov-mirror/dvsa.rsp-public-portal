@@ -86,6 +86,7 @@ export const redirectToPaymentPage = async (req, res) => {
 export const confirmPayment = async (req, res) => {
   console.log('confirming payment');
   const receiptReference = req.query.receipt_reference;
+  const paymentCode = req.params.payment_code;
   let penaltyDetails;
 
   try {
@@ -114,11 +115,11 @@ export const confirmPayment = async (req, res) => {
           });
       } else {
         logger.warn(response.data);
-        res.render('payment/failedPayment');
+        res.render('payment/failedPayment', { paymentCode });
       }
     }).catch((error) => {
       logger.error(error);
-      res.render('payment/failedPayment');
+      res.render('payment/failedPayment', { paymentCode });
     });
   } catch (error) {
     logger.error(error);
@@ -128,8 +129,8 @@ export const confirmPayment = async (req, res) => {
 
 export const confirmGroupPayment = async (req, res) => {
   console.log('confirming group payment');
+  const paymentCode = req.params.payment_code;
   try {
-    const paymentCode = req.params.payment_code;
     const receiptReference = req.query.receipt_reference;
     const { type } = req.params;
     const confirmPromise = cpmsService.confirmPayment(receiptReference, type);
@@ -151,11 +152,11 @@ export const confirmGroupPayment = async (req, res) => {
     } else if (cpmsCode === 807) {
       res.redirect(`${config.urlRoot}/payment-code/${paymentCode}`);
     } else {
-      res.render('payment/failedPayment');
+      res.render('payment/failedPayment', { paymentCode });
     }
   } catch (error) {
     logger.error(error);
-    res.render('payment/failedPayment');
+    res.render('payment/failedPayment', { paymentCode });
   }
 };
 
