@@ -145,13 +145,11 @@
 		"send_receipt_info_text": "Nous l'utilisons uniquement pour vous envoyer des informations sur la façon d'obtenir votre reçu.",
 		"send_receipt_button": "Envoyer"
 	},
-	"multi_receipt_page": {
-		"feedback_prompt": {
-			"easy_to_use": "Le service était-il facile à utiliser?",
-			"tell_us": "Dites-nous vos points de vue",
-			"improve_service": "afin que nous puissions l'améliorer.",
-			"link": "https://www.smartsurvey.co.uk/s/roadsidepaymentsfrench/"
-		}
+	"feedback_prompt": {
+		"easy_to_use": "Le service était-il facile à utiliser?",
+		"tell_us": "Dites-nous vos points de vue",
+		"improve_service": "afin que nous puissions l'améliorer.",
+		"link": "https://www.smartsurvey.co.uk/s/roadsidepaymentsfrench/"
 	},
 	"failed_payment_page": {
 		"title": "Votre paiement a été refusé",
