@@ -139,9 +139,6 @@
           details.__content.id = 'details-content-' + i;
         }
 
-        // Add ARIA role="group" to details
-        details.setAttribute('role', 'group');
-
         // Add role=button to summary
         details.__summary.setAttribute('role', 'button');
 

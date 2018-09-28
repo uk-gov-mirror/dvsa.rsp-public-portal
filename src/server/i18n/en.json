@@ -46,6 +46,7 @@
     "court_deposit": "Court deposits",
     "info_text": "If you don't pay a fine on time, your vehicle could be immobilised, you might have to pay more, or you could be taken to court.  ",
     "language_guidance": "This page is also available in French (<a href='?clang=fr'>Français</a>), German (<a href='?clang=de'>Deutsch</a>), Polish  (<a href='?clang=pl'>Polski</a>), Spanish (<a href='?clang=es'>Español</a>) and Welsh (<a href='?clang=cy'>Cymraeg</a>)",
+    "language_guidance_header": "This page is also available in",
     "start_button": "Start now",
     "before_start": "Before you start",
     "before_start_text": "You will need:",
@@ -144,9 +145,23 @@
     "send_receipt_info_text": "We'll only use this to send you information on how to obtain your receipt.",
     "send_receipt_button": "Send"
   },
+  "multi_receipt_page": {
+    "feedback_prompt": {
+      "easy_to_use": "Was the service easy to use?",
+      "tell_us": "Tell us your views",
+      "improve_service": "so we can improve it.",
+      "link": "https://www.smartsurvey.co.uk/s/roadsidepayments/"
+    }
+  },
   "failed_payment_page": {
     "title": "Your payment has been declined",
     "info": "Contact your bank for more details.",
     "start_again_button": "Start again"
+  },
+  "phase_banner": {
+    "feedback_link": "https://www.smartsurvey.co.uk/s/roadsidepayments/",
+    "new_service": "This is a new service – your",
+    "feedback": "feedback",
+    "help_improve": "will help us improve it."
   }
 }

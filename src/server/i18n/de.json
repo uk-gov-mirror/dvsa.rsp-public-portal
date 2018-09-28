@@ -46,6 +46,7 @@
     "court_deposit": "Einer Gerichtskaution",
     "info_text": "Wenn Sie Ihr Bußgeld nicht fristgerecht bezahlen, kann Ihr Fahrzeug stillgelegt bleiben und die Angaben zu Ihrer Person können an eine Inkassogesellschaft weitergeleitet werden.",
     "language_guidance": "Diese Seite gibt es auch in Französischer (<a href='?clang=fr'>Français</a>), Polnischer (<a href='?clang=pl'>Polski</a>), Spanischer (<a href='?clang=es'>Español</a>), Englisch (<a href='?clang=en'>English</a>) und Walisischer (<a href='?clang=cy'>Cymraeg</a>) Sprache",
+    "language_guidance_header": "Diese Seite gibt es auch in",
     "start_button": "Beginnen Sie jetzt",
     "before_start": "Bevor Sie beginnen",
     "before_start_text": "Brauchen Sie:",
@@ -144,9 +145,23 @@
     "send_receipt_info_text": "Wir benutzen diese nur zur Übermittlung der Information über den Erhalt Ihres Zahlungsnachweises.",
     "send_receipt_button": "Senden  "
   },
+  "multi_receipt_page": {
+    "feedback_prompt": {
+      "easy_to_use": "War der Service einfach zu benutzen?",
+      "tell_us": "Erzähle uns deine Meinung",
+      "improve_service": "damit wir es verbessern können.",
+      "link": "https://www.smartsurvey.co.uk/s/roadsidepaymentsgerman/"
+    }
+  },
   "failed_payment_page": {
     "title": "Ihre Zahlung wurde abgelehnt",
     "info": "Kontaktieren Sie Ihre Bank für weitere Einzelheiten.",
     "start_again_button": "Erneut starten"
+  },
+  "phase_banner": {
+    "feedback_link": "https://www.smartsurvey.co.uk/s/roadsidepaymentsgerman/",
+    "new_service": "Dies ist ein neuer Service - Ihr",
+    "feedback": "feedback",
+    "help_improve": "wird uns helfen, es zu verbessern."
   }
 }

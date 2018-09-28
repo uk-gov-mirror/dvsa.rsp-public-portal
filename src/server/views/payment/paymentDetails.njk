@@ -21,6 +21,12 @@
         {{ components.heading(text=t.penalty_details_page.intro_part_paid, tag='h3', size='medium') }}
       {% else %}
         {{ components.heading(text=t.penalty_details_page.intro_paid, tag='h3', size='medium') }}
+        <p>
+          {{ t.multi_receipt_page.feedback_prompt.easy_to_use }}
+          <a href="{{ t.multi_receipt_page.feedback_prompt.link }}" target="_blank">
+            {{ t.multi_receipt_page.feedback_prompt.tell_us }}</a>
+          {{ t.multi_receipt_page.feedback_prompt.improve_service }}
+        </p>
       {% endif %}
         <table class="details single-penalty-summary">
           <tbody>
@@ -49,7 +55,17 @@
                 <td>{{ t.penalty_details.type_immobilisation }}</td>
               {% endif %}
               <td>&pound;{{ amount }}</td>
-              <td id="status" class="{{ statusClass }}"><strong>{% if paid %}{{ t.penalty_details.status_paid }} &nbsp;&nbsp;<img src="{{ assets }}/images/icon-check.png" />{% else %}{{ t.penalty_details.status_unpaid }} {% endif %}</strong></td>
+              <td id="status" class="{{ statusClass }}">
+                <strong>
+                  {% if paid %}
+                    {{ t.penalty_details.status_paid }}
+                    &nbsp;&nbsp;
+                    <img src="{{ assets }}/images/icon-check.png" alt="" />
+                  {% else %}
+                    {{ t.penalty_details.status_unpaid }}
+                  {% endif %}
+                </strong>
+              </td>
             </tr>
             <tr>
               <td>{{ t.penalty_details.reference}}</td>
@@ -125,8 +141,9 @@
       {%- endcall %}
     {%- endcall %}
     {% call components.columnOneThird() %}
-    <aside class="govuk-related-items" role="complementary">
-        <nav role="navigation" aria-labelledby="subsection-title">
+      <aside class="govuk-related-items" role="complementary">
+        <p id='language-links-header'>{{ t.home.language_guidance_header }}:</p>
+        <nav role="navigation" aria-labelledby="language-links-header">
           <ul class="font-xsmall">
             <li>{{ components.link(text='Cymraeg', url='?clang=cy') if clang != 'cy' else components.link(text='English', url='?clang=en') }}</li>
             <li>{{ components.link(text='Deutsch', url='?clang=de') if clang != 'de' else components.link(text='English', url='?clang=en') }}</li>

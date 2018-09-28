@@ -46,6 +46,7 @@
     "court_deposit": "Blaendaliadau'r llys",
     "info_text": "Os nad ydych yn talu dirwy ar amser, gellir parhau i atal eich cerbyd rhag symud, efallai y bydd yn rhaid i chi dalu mwy, neu efallai y byddwch chi'n cael eich cymryd i'r llys.",
     "language_guidance": "Mae'r dudalen hon hefyd ar gael yn Ffrangeg (<a href='?clang=fr'>Français</a>), Almaeneg (<a href='?clang=de'>Deutsch</a>), Pwyleg (<a href='?clang=pl'>Polski</a>), Sbaeneg (<a href='?clang=es'>Español</a>) a Saesneg (<a href='?clang=en'>English</a>)",
+    "language_guidance_header": "Mae'r dudalen hon hefyd ar gael yn",
     "start_button": "Dechrau nawr",
     "before_start": "Cyn i chi ddechrau",
     "before_start_text": "Bydd arnoch angen:",
@@ -144,9 +145,23 @@
     "send_receipt_info_text": "Byddwn yn defnyddio hyn er mwyn anfon gwybodaeth i chi am sut i gael derbyneb yn unig",
     "send_receipt_button": "Anfon"
   },
+  "multi_receipt_page": {
+    "feedback_prompt": {
+      "easy_to_use": "A oedd y gwasanaeth yn hawdd ei ddefnyddio?",
+      "tell_us": "Dywedwch wrthym eich barn chi",
+      "improve_service": "felly gallwn ei wella.",
+      "link": "https://www.smartsurvey.co.uk/s/roadsidepaymentswelsh/"
+    }
+  },
   "failed_payment_page": {
     "title": "Gwrthodwyd eich taliad",
     "info": "Cysylltwch â'ch banc i gael mwy o fanylion.",
     "start_again_button": "Dechrau eto"
+  },
+  "phase_banner": {
+    "feedback_link": "https://www.smartsurvey.co.uk/s/roadsidepaymentswelsh/",
+    "new_service": "Gwasanaeth newydd yw hwn - eich",
+    "feedback": "adborth",
+    "help_improve": "yn ein helpu i wella."
   }
 }
