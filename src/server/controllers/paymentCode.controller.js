@@ -5,7 +5,7 @@ import PenaltyGroupService from '../services/penaltyGroup.service';
 import config from '../config';
 import logger from './../utils/logger';
 
-const penaltyService = new PenaltyService(config.penaltyServiceUrl);
+const penaltyService = new PenaltyService(config.value('PENALTY_SERVICE_URL'));
 const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl);
 
 // Index Route

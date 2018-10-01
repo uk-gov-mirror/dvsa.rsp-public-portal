@@ -26,10 +26,15 @@ const binaryMimeTypes = [
   'text/xml',
 ];
 
-const server = awsServerlessExpress.createServer(app, null, binaryMimeTypes);
+let lambdaExpressServer;
 const isProd = typeof process.env.NODE_ENV !== 'undefined' && process.env.NODE_ENV === 'production';
 
-export default (event, context) => {
+export default async (event, context) => {
+  if (!lambdaExpressServer) {
+    console.log('Creating new express server');
+    const expressApp = await app();
+    lambdaExpressServer = awsServerlessExpress.createServer(expressApp, null, binaryMimeTypes);
+  }
   console.log('NODE_ENV');
   console.log(process.env.NODE_ENV);
   console.log('event.path');
@@ -39,5 +44,5 @@ export default (event, context) => {
   }
   console.log('path modified');
   console.log(event.path);
-  return awsServerlessExpress.proxy(server, event, context);
+  return awsServerlessExpress.proxy(lambdaExpressServer, event, context);
 };
