@@ -15,7 +15,7 @@ const metadata = [
   { id: 'publicAssets',      key: 'PUBLIC_ASSETS' },
   { id: 'redirectUrl',       key: 'REDIRECT_URL' },
   { id: 'region',            key: 'REGION' },
-  { id: 'urlRoot',           key: 'URL-ROOT' },
+  { id: 'urlRoot',           key: 'URL_ROOT' },
 ];
 
 let configuration = {};
@@ -36,9 +36,11 @@ async function bootstrap() {
       });
     } else {
       console.log('Using envvars for config');
-      metadata
+      configuration = metadata
         .map(c => c.key)
-        .reduce((key, config) => ({ [key]: process.env[key], ...config }), configuration);
+        .reduce((config, key) => ({ [key]: process.env[key], ...config }), configuration);
+      console.log('Finished getting envvars');
+      resolve(configuration);
     }
   });
 }
