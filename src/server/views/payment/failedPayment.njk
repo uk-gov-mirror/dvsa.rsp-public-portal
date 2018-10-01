@@ -14,7 +14,7 @@
     {% call components.columnTwoThirds() %}
         {{ components.heading(text=t.failed_payment_page.title, tag='h1', size='xlarge') }}
         <p>{{ t.failed_payment_page.info }}</p>
-        {{ components.button(text=t.failed_payment_page.start_again_button, url='/payment-code') }}
+        {{ components.button(text=t.failed_payment_page.start_again_button, url='/payment-code/' + paymentCode) }}
     {%- endcall %}
   {%- endcall %}
 {% endblock %}
