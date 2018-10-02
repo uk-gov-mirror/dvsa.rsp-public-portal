@@ -17,6 +17,7 @@ const configMetadata = {
   redirectUrl: 'REDIRECT_URL',
   region: 'REGION',
   urlRoot: 'URL_ROOT',
+  views: 'VIEWS',
 };
 
 let configuration = {};
@@ -61,9 +62,6 @@ function ensureRelativeUrl(url) {
   return url;
 }
 
-const views = process.env.VIEWS || path.resolve(__dirname, 'views');
-const clientId = process.env.CLIENT_ID || 'client';
-const clientSecret = process.env.CLIENT_SECRET || 'secret';
 const region = process.env.REGION;
 const paymentServiceUrl = process.env.PAYMENT_SERVICE_URL;
 const cpmsServiceUrl = process.env.CPMS_SERVICE_URL;
@@ -71,6 +69,14 @@ const redirectUrl = process.env.REDIRECT_URL;
 
 function assets() {
   return configuration[configMetadata.publicAssets] ||  path.resolve(__dirname, '..', 'public');
+}
+
+function clientId() {
+  return configuration[configMetadata.clientId] || 'client';
+}
+
+function clientSecret() {
+  return configuration[configMetadata.clientSecret] || 'secret';
 }
 
 function env() {
@@ -88,6 +94,10 @@ function port() {
 
 function urlRoot() {
   return ensureRelativeUrl(configuration[configMetadata.urlRoot]);
+}
+
+function views() {
+  return configuration[configMetadata.views] || path.resolve(__dirname, 'views');
 }
 
 const config = {

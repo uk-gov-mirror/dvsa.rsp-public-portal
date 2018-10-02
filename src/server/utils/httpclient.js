@@ -11,8 +11,8 @@ export default class SignedHttpClient {
     this.baseUrlOb = new URL(baseURL);
     this.headers = headers;
     this.credentials = {
-      clientId: config.clientId,
-      clientSecret: config.clientSecret,
+      clientId: config.clientId(),
+      clientSecret: config.clientSecret(),
     };
     this.signingOptions = {
       host: this.baseUrlOb.host,

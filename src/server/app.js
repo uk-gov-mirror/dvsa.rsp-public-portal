@@ -21,7 +21,7 @@ export default async () => {
   await config.bootstrap();
 
   // Create nunjucks fileloader instance for the views folder
-  const nunjucksFileLoader = new nunjucks.FileSystemLoader(config.views, {
+  const nunjucksFileLoader = new nunjucks.FileSystemLoader(config.views(), {
     noCache: true,
   });
 
@@ -32,7 +32,7 @@ export default async () => {
     },
   });
 
-  const marcosPath = path.resolve(config.views, 'macros');
+  const marcosPath = path.resolve(config.views(), 'macros');
 
   // Gets absolute path of each macro file
   const macros = walkSync(marcosPath, { directories: false })
