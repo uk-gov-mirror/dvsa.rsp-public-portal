@@ -6,10 +6,10 @@ import config from './../config';
 import logger from './../utils/logger';
 import PenaltyGroupService from '../services/penaltyGroup.service';
 
-const paymentService = new PaymentService(config.paymentServiceUrl);
+const paymentService = new PaymentService(config.paymentServiceUrl());
 const penaltyService = new PenaltyService(config.penaltyServiceUrl());
 const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl());
-const cpmsService = new CpmsService(config.cpmsServiceUrl);
+const cpmsService = new CpmsService(config.cpmsServiceUrl());
 
 const getPenaltyOrGroupDetails = (req) => {
   const paymentCode = req.params.payment_code;
@@ -73,10 +73,11 @@ export const redirectToPaymentPage = async (req, res) => {
 
     if (entityForCode.isPenaltyGroup) {
       const penaltyGroupType = req.params.type;
-      return redirectForPenaltyGroup(req, res, entityForCode, penaltyGroupType, config.redirectUrl);
+      const redirectUrl = config.redirectUrl();
+      return redirectForPenaltyGroup(req, res, entityForCode, penaltyGroupType, redirectUrl);
     }
 
-    return redirectForSinglePenalty(req, res, entityForCode, config.redirectUrl);
+    return redirectForSinglePenalty(req, res, entityForCode, config.redirectUrl());
   } catch (error) {
     logger.error(error);
     return res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);

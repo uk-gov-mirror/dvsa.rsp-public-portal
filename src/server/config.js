@@ -46,10 +46,6 @@ async function bootstrap() {
   });
 }
 
-function penaltyServiceUrl() {
-  return configuration[configMetadata.penaltyServiceUrl];
-}
-
 function ensureRelativeUrl(url) {
   if (!url) {
     return '';
@@ -61,11 +57,6 @@ function ensureRelativeUrl(url) {
 
   return url;
 }
-
-const region = process.env.REGION;
-const paymentServiceUrl = process.env.PAYMENT_SERVICE_URL;
-const cpmsServiceUrl = process.env.CPMS_SERVICE_URL;
-const redirectUrl = process.env.REDIRECT_URL;
 
 function assets() {
   return configuration[configMetadata.publicAssets] ||  path.resolve(__dirname, '..', 'public');
@@ -79,6 +70,10 @@ function clientSecret() {
   return configuration[configMetadata.clientSecret] || 'secret';
 }
 
+function cpmsServiceUrl() {
+  return configuration[configMetadata.cpmsServiceUrl];
+}
+
 function env() {
   return configuration[configMetadata.nodeEnv] || 'development';
 }
@@ -87,9 +82,25 @@ function isDevelopment() {
   return env() === 'development';
 }
 
+function paymentServiceUrl() {
+  return configuration[configMetadata.paymentServiceUrl];
+}
+
+function penaltyServiceUrl() {
+  return configuration[configMetadata.penaltyServiceUrl];
+}
+
 function port() {
   const portVar = configuration[configMetadata.port];
   return portVar ? Number(portVar) : 3000;
+}
+
+function redirectUrl() {
+  return configuration[configMetadata.redirectUrl];
+}
+
+function region() {
+  return configuration[configMetadata.region];
 }
 
 function urlRoot() {

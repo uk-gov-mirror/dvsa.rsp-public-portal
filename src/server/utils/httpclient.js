@@ -16,7 +16,7 @@ export default class SignedHttpClient {
     };
     this.signingOptions = {
       host: this.baseUrlOb.host,
-      region: config.region,
+      region: config.region(),
     };
     axiosRetry(axios);
   }
