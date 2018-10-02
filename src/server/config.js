@@ -12,6 +12,7 @@ const configMetadata = {
   nodeEnv: 'NODE_ENV',
   paymentServiceUrl: 'PAYMENT_SERVICE_URL',
   penaltyServiceUrl: 'PENALTY_SERVICE_URL',
+  port: 'PORT',
   publicAssets: 'PUBLIC_ASSETS',
   redirectUrl: 'REDIRECT_URL',
   region: 'REGION',
@@ -60,10 +61,6 @@ function ensureRelativeUrl(url) {
   return url;
 }
 
-const env = process.env.NODE_ENV || 'development';
-const port = process.env.PORT ? Number(process.env.PORT) : 3000;
-const isDevelopment = env === 'development';
-const urlRoot = ensureRelativeUrl(process.env.URL_ROOT);
 const assets = process.env.PUBLIC_ASSETS || path.resolve(__dirname, '..', 'public');
 const views = process.env.VIEWS || path.resolve(__dirname, 'views');
 const clientId = process.env.CLIENT_ID || 'client';
@@ -73,8 +70,24 @@ const paymentServiceUrl = process.env.PAYMENT_SERVICE_URL;
 const cpmsServiceUrl = process.env.CPMS_SERVICE_URL;
 const redirectUrl = process.env.REDIRECT_URL;
 
+function env() {
+  return configuration[configMetadata.nodeEnv] || 'development';
+}
+
+function isDevelopment() {
+  return env() === 'development';
+}
+
+function port() {
+  const portVar = configuration[configMetadata.port];
+  return portVar ? Number(portVar) : 3000;
+}
+
+function urlRoot() {
+  return ensureRelativeUrl(configuration[configMetadata.urlRoot]);
+}
+
 const config = {
-  env,
   port,
   isDevelopment,
   assets,
