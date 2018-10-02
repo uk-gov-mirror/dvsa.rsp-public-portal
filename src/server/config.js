@@ -5,18 +5,18 @@ import AWS from 'aws-sdk';
 
 dotenv.config();
 
-const metadata = [
-  { id: 'clientId',          key: 'CLIENT_ID' },
-  { id: 'clientSecret',      key: 'CLIENT_SECRET' },
-  { id: 'cpmsServiceUrl',    key: 'CPMS_SERVICE_URL' },
-  { id: 'nodeEnv',           key: 'NODE_ENV' },
-  { id: 'paymentServiceUrl', key: 'PAYMENT_SERVICE_URL' },
-  { id: 'penaltyServiceUrl', key: 'PENALTY_SERVICE_URL' },
-  { id: 'publicAssets',      key: 'PUBLIC_ASSETS' },
-  { id: 'redirectUrl',       key: 'REDIRECT_URL' },
-  { id: 'region',            key: 'REGION' },
-  { id: 'urlRoot',           key: 'URL_ROOT' },
-];
+const configMetadata = {
+  clientId: 'CLIENT_ID',
+  clientSecret: 'CLIENT_SECRET',
+  cpmsServiceUrl: 'CPMS_SERVICE_URL',
+  nodeEnv: 'NODE_ENV',
+  paymentServiceUrl: 'PAYMENT_SERVICE_URL',
+  penaltyServiceUrl: 'PENALTY_SERVICE_URL',
+  publicAssets: 'PUBLIC_ASSETS',
+  redirectUrl: 'REDIRECT_URL',
+  region: 'REGION',
+  urlRoot: 'URL_ROOT',
+};
 
 let configuration = {};
 async function bootstrap() {
@@ -31,22 +31,21 @@ async function bootstrap() {
           reject(err);
         }
         configuration = JSON.parse(secretsManagerResponse.SecretString);
-        console.log('Finished fetching config from secrets manager');
+        console.log(`Cached ${Object.keys(configuration).length} config items from secrets manager`);
         resolve(configuration);
       });
     } else {
       console.log('Using envvars for config');
-      configuration = metadata
-        .map(c => c.key)
-        .reduce((config, key) => ({ [key]: process.env[key], ...config }), configuration);
+      configuration = Object.values(configMetadata)
+        .reduce((config, envkey) => ({ [envkey]: process.env[envkey], ...config }), configuration);
       console.log('Finished getting envvars');
       resolve(configuration);
     }
   });
 }
 
-function value(id) {
-  return configuration[id];
+function penaltyServiceUrl() {
+  return configuration[configMetadata.penaltyServiceUrl];
 }
 
 function ensureRelativeUrl(url) {
@@ -70,7 +69,6 @@ const views = process.env.VIEWS || path.resolve(__dirname, 'views');
 const clientId = process.env.CLIENT_ID || 'client';
 const clientSecret = process.env.CLIENT_SECRET || 'secret';
 const region = process.env.REGION;
-const penaltyServiceUrl = process.env.PENALTY_SERVICE_URL;
 const paymentServiceUrl = process.env.PAYMENT_SERVICE_URL;
 const cpmsServiceUrl = process.env.CPMS_SERVICE_URL;
 const redirectUrl = process.env.REDIRECT_URL;
@@ -90,7 +88,6 @@ const config = {
   region,
   redirectUrl,
   bootstrap,
-  value,
 };
 
 export default config;

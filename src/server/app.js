@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+import 'babel-polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -13,7 +15,6 @@ import validator from 'express-validator';
 import helmet from 'helmet';
 import i18n from 'i18n-express';
 import cookieParser from 'cookie-parser';
-import routes from './routes';
 import config from './config';
 
 export default async () => {
@@ -97,7 +98,8 @@ export default async () => {
     next();
   });
   app.use(awsServerlessExpressMiddleware.eventContext());
-  app.use('/', routes);
+  // Load routes module dynamically to allow config to initialise
+  app.use('/', require('./routes'));
 
   app.use(errorhandler());
   return app;

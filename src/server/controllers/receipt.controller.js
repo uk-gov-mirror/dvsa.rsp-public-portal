@@ -6,7 +6,7 @@ import config from '../config';
 import PenaltyGroupService from '../services/penaltyGroup.service';
 import PaymentService from '../services/payment.service';
 
-const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl);
+const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl());
 const paymentService = new PaymentService(config.paymentServiceUrl);
 
 export default async (req, res) => {
