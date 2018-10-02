@@ -61,7 +61,6 @@ function ensureRelativeUrl(url) {
   return url;
 }
 
-const assets = process.env.PUBLIC_ASSETS || path.resolve(__dirname, '..', 'public');
 const views = process.env.VIEWS || path.resolve(__dirname, 'views');
 const clientId = process.env.CLIENT_ID || 'client';
 const clientSecret = process.env.CLIENT_SECRET || 'secret';
@@ -69,6 +68,10 @@ const region = process.env.REGION;
 const paymentServiceUrl = process.env.PAYMENT_SERVICE_URL;
 const cpmsServiceUrl = process.env.CPMS_SERVICE_URL;
 const redirectUrl = process.env.REDIRECT_URL;
+
+function assets() {
+  return configuration[configMetadata.publicAssets] ||  path.resolve(__dirname, '..', 'public');
+}
 
 function env() {
   return configuration[configMetadata.nodeEnv] || 'development';
