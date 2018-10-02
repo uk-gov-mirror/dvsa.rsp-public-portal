@@ -1,6 +1,7 @@
 import { describe, it, after, afterEach, before } from 'mocha';
 import sinon from 'sinon';
 
+import config from '../../src/server/config';
 import * as PaymentController from '../../src/server/controllers/payment.controller';
 import PenaltyService from '../../src/server/services/penalty.service';
 import PenaltyGroupService from '../../src/server/services/penaltyGroup.service';
@@ -21,6 +22,8 @@ function requestForPaymentCode(paymentCode) {
     },
   };
 }
+
+sinon.stub(config, 'redirectUrl').returns('https://localhost');
 
 describe('Payment Controller', () => {
   describe('redirects to payment page for penalty groups', () => {
