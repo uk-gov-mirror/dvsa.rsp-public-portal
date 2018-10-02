@@ -112,19 +112,20 @@ function views() {
 }
 
 const config = {
-  port,
-  isDevelopment,
   assets,
-  views,
+  bootstrap,
   clientId,
   clientSecret,
-  urlRoot,
-  penaltyServiceUrl,
-  paymentServiceUrl,
   cpmsServiceUrl,
-  region,
+  env,
+  isDevelopment,
+  paymentServiceUrl,
+  penaltyServiceUrl,
+  port,
   redirectUrl,
-  bootstrap,
+  region,
+  urlRoot,
+  views,
 };
 
 export default config;
