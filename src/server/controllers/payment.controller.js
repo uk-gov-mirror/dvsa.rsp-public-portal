@@ -27,7 +27,7 @@ const redirectForSinglePenalty = (req, res, penaltyDetails, redirectHost) => {
   return cpmsService.createCardPaymentTransaction(
     paymentCode,
     penaltyDetails.vehicleReg,
-    penaltyDetails.reference,
+    penaltyDetails.formattedReference,
     penaltyDetails.type,
     penaltyDetails.amount,
     redirectUrl,
