@@ -1,5 +1,6 @@
 export default [
   {
+    paymentCode: '47hsqs103i0',
     isPenaltyGroup: true,
     enabled: true,
     penaltyGroupDetails: {
@@ -20,7 +21,6 @@ export default [
         },
       ],
     },
-    paymentCode: '47hsqs103i0',
     penaltyDetails: [
       {
         type: 'IM',

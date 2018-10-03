@@ -29,7 +29,7 @@ export default class PaymentService {
 
   static sanitisePenaltyForCpmsGroupCall(penalty) {
     return {
-      PenaltyReference: penalty.reference,
+      PenaltyReference: penalty.formattedReference,
       PenaltyAmount: penalty.amount,
       VehicleRegistration: penalty.vehicleReg,
     };
