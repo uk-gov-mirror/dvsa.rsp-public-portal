@@ -6,8 +6,8 @@ import config from '../config';
 import PenaltyGroupService from '../services/penaltyGroup.service';
 import PaymentService from '../services/payment.service';
 
-const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl);
-const paymentService = new PaymentService(config.paymentServiceUrl);
+const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl());
+const paymentService = new PaymentService(config.paymentServiceUrl());
 
 export default async (req, res) => {
   console.log('receipt page');
@@ -16,7 +16,7 @@ export default async (req, res) => {
     const { type } = req.params;
 
     if (!isValidPaymentPaymentType(type)) {
-      return res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
+      return res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);
     }
 
     const penaltyGroup = await penaltyGroupService.getByPenaltyGroupPaymentCode(paymentCode);
@@ -30,7 +30,7 @@ export default async (req, res) => {
     };
     return res.render('payment/multiPaymentReceipt', resp);
   } catch (error) {
-    return res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
+    return res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);
   }
 };
 
