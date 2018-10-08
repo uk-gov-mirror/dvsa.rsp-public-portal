@@ -9,6 +9,7 @@ const configMetadata = {
   clientId: 'CLIENT_ID',
   clientSecret: 'CLIENT_SECRET',
   cpmsServiceUrl: 'CPMS_SERVICE_URL',
+  doSignedRequests: 'DO_SIGNED_REQUESTS',
   nodeEnv: 'NODE_ENV',
   paymentServiceUrl: 'PAYMENT_SERVICE_URL',
   penaltyServiceUrl: 'PENALTY_SERVICE_URL',
@@ -74,6 +75,10 @@ function cpmsServiceUrl() {
   return configuration[configMetadata.cpmsServiceUrl];
 }
 
+function doSignedRequests() {
+  return configuration[configMetadata.doSignedRequests] === 'true';
+}
+
 function env() {
   return configuration[configMetadata.nodeEnv] || 'development';
 }
@@ -117,6 +122,7 @@ const config = {
   clientId,
   clientSecret,
   cpmsServiceUrl,
+  doSignedRequests,
   env,
   isDevelopment,
   paymentServiceUrl,

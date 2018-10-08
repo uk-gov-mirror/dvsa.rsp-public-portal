@@ -24,12 +24,14 @@ export default class SignedHttpClient {
   get(path) {
     const options = {
       path: `${this.baseUrlOb.pathname}${path}`,
-      ...this.signingOptions,
+      ...(config.doSignedRequests() ? this.signingOptions : {}),
     };
-    aws4.sign(options, {
-      accessKeyId: this.credentials.clientId,
-      secretAccessKey: this.credentials.clientSecret,
-    });
+    if (config.doSignedRequests()) {
+      aws4.sign(options, {
+        accessKeyId: this.credentials.clientId,
+        secretAccessKey: this.credentials.clientSecret,
+      });
+    }
     return axios.get(`${this.baseUrlOb.href}${path}`, options);
   }
 
@@ -40,12 +42,14 @@ export default class SignedHttpClient {
       headers: {
         'Content-Type': 'application/json',
       },
-      ...this.signingOptions,
+      ...(config.doSignedRequests() ? this.signingOptions : {}),
     };
-    aws4.sign(options, {
-      accessKeyId: this.credentials.clientId,
-      secretAccessKey: this.credentials.clientSecret,
-    });
+    if (config.doSignedRequests()) {
+      aws4.sign(options, {
+        accessKeyId: this.credentials.clientId,
+        secretAccessKey: this.credentials.clientSecret,
+      });
+    }
 
     if (isNumber(retryAttempts)) {
       options['axios-retry'] = {
