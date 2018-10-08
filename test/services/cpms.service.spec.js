@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { after, afterEach, beforeEach, describe, it } from 'mocha';
 import sinon from 'sinon';
 import CpmsService from '../../src/server/services/cpms.service';
 import SignedHttpClient from '../../src/server/utils/httpclient';
+import parsedMultiPenalties from '../data/parsedMultiPenalties';
 
 describe('Payment Service', () => {
   describe('groupCardPaymentTransaction', () => {
@@ -15,10 +15,6 @@ describe('Payment Service', () => {
     });
 
     afterEach(() => {
-      mockHttpClient.resetHistory();
-    });
-
-    after(() => {
       SignedHttpClient.prototype.post.restore();
     });
 
@@ -27,53 +23,55 @@ describe('Payment Service', () => {
       mockHttpClient
         .returns(httpPromise);
 
-      const penaltyOverviews = [
-        {
-          complete: true,
-          reference: '820500000901',
-          paymentCode: '1111111111111111',
-          issueDate: '11/10/2016',
-          vehicleReg: '11ABC',
-          formattedReference: '820500000901',
-          location: 'BLACKWALL TUNNEL A, PAVILLION WAY, METROPOLITAN',
-          amount: 100,
-          status: 'UNPAID',
-          type: 'FPN',
-          typeDescription: 'Fixed Penalty Notice',
-        },
-        {
-          complete: true,
-          reference: '820500000902',
-          paymentCode: '2222222222222222',
-          issueDate: '11/10/2016',
-          vehicleReg: '22XYZ',
-          formattedReference: '820500000902',
-          location: 'BLACKWALL TUNNEL A, PAVILLION WAY, METROPOLITAN',
-          amount: 50,
-          status: 'UNPAID',
-          type: 'FPN',
-          typeDescription: 'Fixed Penalty Notice',
-        },
-      ];
-
-      const returned = cpmsService.createGroupCardPaymentTransaction('11111111111', 150, '11ABC, 22XYZ', 'FPN', penaltyOverviews, 'http://redirect');
+      const expectedPenalties = parsedMultiPenalties
+        .find(p => p.paymentCode === '47hsqs103i0')
+        .penaltyDetails[1]
+        .penalties;
+      const returned = cpmsService.createGroupCardPaymentTransaction('47hsqs103i0', 190, '17FFA,17FFB,17FFC', 'FPN', expectedPenalties, 'http://redirect');
 
       sinon.assert.calledWith(mockHttpClient, 'groupPayment/', {
-        PenaltyGroupId: '11111111111',
-        TotalAmount: 150,
-        VehicleRegistration: '11ABC, 22XYZ',
+        PenaltyGroupId: '47hsqs103i0',
+        TotalAmount: 190,
+        VehicleRegistration: '17FFA,17FFB,17FFC',
         PenaltyType: 'FPN',
         RedirectUrl: 'http://redirect',
         Penalties: [
           {
-            PenaltyReference: '820500000901',
+            PenaltyReference: '3254849651302',
             PenaltyAmount: 100,
-            VehicleRegistration: '11ABC',
+            VehicleRegistration: '17FFB',
           },
           {
-            PenaltyReference: '820500000902',
-            PenaltyAmount: 50,
-            VehicleRegistration: '22XYZ',
+            PenaltyReference: '320158795420',
+            PenaltyAmount: 190,
+            VehicleRegistration: '17FFC',
+          },
+        ],
+      });
+      expect(returned).to.be.equal(httpPromise);
+    });
+
+    it('sends the correct penalty reference to CPMS', () => {
+      const httpPromise = Promise.resolve('resp');
+      mockHttpClient.returns(httpPromise);
+
+      const expectedPenalties = parsedMultiPenalties
+        .find(p => p.paymentCode === '47hsqs103i0')
+        .penaltyDetails[0]
+        .penalties;
+      const returned = cpmsService.createGroupCardPaymentTransaction('47hsqs103i0', 190, '17FFA,17FFB,17FFC', 'IM', expectedPenalties, 'http://redirect');
+
+      sinon.assert.calledWith(mockHttpClient, 'groupPayment/', {
+        PenaltyGroupId: '47hsqs103i0',
+        TotalAmount: 190,
+        VehicleRegistration: '17FFA,17FFB,17FFC',
+        PenaltyType: 'IM',
+        RedirectUrl: 'http://redirect',
+        Penalties: [
+          {
+            PenaltyReference: '24685-0-551-IM',
+            PenaltyAmount: 80,
+            VehicleRegistration: '17FFA',
           },
         ],
       });

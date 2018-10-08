@@ -6,10 +6,10 @@ import config from './../config';
 import logger from './../utils/logger';
 import PenaltyGroupService from '../services/penaltyGroup.service';
 
-const paymentService = new PaymentService(config.paymentServiceUrl);
-const penaltyService = new PenaltyService(config.penaltyServiceUrl);
-const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl);
-const cpmsService = new CpmsService(config.cpmsServiceUrl);
+const paymentService = new PaymentService(config.paymentServiceUrl());
+const penaltyService = new PenaltyService(config.penaltyServiceUrl());
+const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl());
+const cpmsService = new CpmsService(config.cpmsServiceUrl());
 
 const getPenaltyOrGroupDetails = (req) => {
   const paymentCode = req.params.payment_code;
@@ -27,7 +27,7 @@ const redirectForSinglePenalty = (req, res, penaltyDetails, redirectHost) => {
   return cpmsService.createCardPaymentTransaction(
     paymentCode,
     penaltyDetails.vehicleReg,
-    penaltyDetails.reference,
+    penaltyDetails.formattedReference,
     penaltyDetails.type,
     penaltyDetails.amount,
     redirectUrl,
@@ -36,7 +36,7 @@ const redirectForSinglePenalty = (req, res, penaltyDetails, redirectHost) => {
     res.redirect(response.data.gateway_url);
   }).catch((error) => {
     logger.error(error);
-    res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
+    res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}`);
   });
 };
 
@@ -56,7 +56,7 @@ const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType, red
   ).then(response => res.redirect(response.data.gateway_url))
     .catch((error) => {
       logger.error(error);
-      res.redirect(`${config.urlRoot}/payment-code/${penaltyGroupDetails.paymentCode}`);
+      res.redirect(`${config.urlRoot()}/payment-code/${penaltyGroupDetails.paymentCode}`);
     });
 };
 
@@ -67,19 +67,20 @@ export const redirectToPaymentPage = async (req, res) => {
     entityForCode = await getPenaltyOrGroupDetails(req);
 
     if (entityForCode.status === 'PAID' || entityForCode.paymentStatus === 'PAID') {
-      const url = `${config.urlRoot}/payment-code/${entityForCode.paymentCode}`;
+      const url = `${config.urlRoot()}/payment-code/${entityForCode.paymentCode}`;
       return res.redirect(url);
     }
 
     if (entityForCode.isPenaltyGroup) {
       const penaltyGroupType = req.params.type;
-      return redirectForPenaltyGroup(req, res, entityForCode, penaltyGroupType, config.redirectUrl);
+      const redirectUrl = config.redirectUrl();
+      return redirectForPenaltyGroup(req, res, entityForCode, penaltyGroupType, redirectUrl);
     }
 
-    return redirectForSinglePenalty(req, res, entityForCode, config.redirectUrl);
+    return redirectForSinglePenalty(req, res, entityForCode, config.redirectUrl());
   } catch (error) {
     logger.error(error);
-    return res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
+    return res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);
   }
 };
 
@@ -108,10 +109,10 @@ export const confirmPayment = async (req, res) => {
           },
         };
         paymentService.makePayment(details)
-          .then(() => res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`))
+          .then(() => res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}`))
           .catch((error) => {
             logger.error(error);
-            res.redirect(`${config.urlRoot}/payment-code/${penaltyDetails.paymentCode}`);
+            res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}`);
           });
       } else {
         logger.warn(response.data);
@@ -123,7 +124,7 @@ export const confirmPayment = async (req, res) => {
     });
   } catch (error) {
     logger.error(error);
-    res.redirect(`${config.urlRoot}/?invalidPaymentCode`);
+    res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);
   }
 };
 
@@ -148,9 +149,9 @@ export const confirmGroupPayment = async (req, res) => {
         confirmResp,
       );
       await paymentService.recordGroupPayment(payload);
-      res.redirect(`${config.urlRoot}/payment-code/${paymentCode}/${type}/receipt`);
+      res.redirect(`${config.urlRoot()}/payment-code/${paymentCode}/${type}/receipt`);
     } else if (cpmsCode === 807) {
-      res.redirect(`${config.urlRoot}/payment-code/${paymentCode}`);
+      res.redirect(`${config.urlRoot()}/payment-code/${paymentCode}`);
     } else {
       res.render('payment/failedPayment', { paymentCode });
     }
