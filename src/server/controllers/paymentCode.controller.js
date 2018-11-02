@@ -63,7 +63,8 @@ export const getPaymentDetails = [
         template: 'multiPaymentInfo',
       };
       service[getMethod](paymentCode).then((entityData) => {
-        if (entityData.enabled) {
+        const { enabled } = entityData;
+        if (enabled || typeof enabled === 'undefined') {
           res.render(`payment/${template}`, entityData);
         } else {
           res.redirect('../payment-code?invalidPaymentCode');
