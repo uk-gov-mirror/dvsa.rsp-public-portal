@@ -9,7 +9,8 @@
     "court_deposit": "Court deposit",
     "immobilisation_fee": "Immobilisation fee",
     "fixed_penalty": "Fixed penalties",
-    "receipt": "Receipt"
+    "receipt": "Receipt",
+    "penalty_details": "Penalty details"
   },
   "languages": {
     "english": "English",
