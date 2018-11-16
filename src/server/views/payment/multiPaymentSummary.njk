@@ -4,7 +4,8 @@
 {% set pageBreadcrumbItems = [
     { text: t.breadcrumbs.home, url: '/' },
     { text: t.breadcrumbs.payment_code, url: '/payment-code' },
-    { text: t.breadcrumbs.penalty_details }
+    { text: t.breadcrumbs.penalty_details, url: '/payment-code/'+paymentCode },
+    { text: t.breadcrumbs.payment }
   ] 
 %}
 

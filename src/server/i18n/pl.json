@@ -4,12 +4,14 @@
   "breadcrumbs": {
     "home": "Strona główna",
     "pay_dvsa_fine": "Zapłać DVSA karę",
-    "payment_code": "Kod płatatności",
-    "fines_summary": "Podsumowanie kar ",
+    "payment_code": "Kod płatności",
+    "fines_summary": "Podsumowanie kar",
     "court_deposit": "Depozyt sądowy",
     "immobilisation_fee": "Opłaty tytułem unieruchomienia pojazdu ",
     "fixed_penalty": "Mandat",
-    "receipt": "Pokwitowanie"
+    "receipt": "Pokwitowanie",
+    "penalty_details": "Podsumowanie kar",
+    "payment": "Płatności"
   },
   "languages": {
     "english": "Angielski",

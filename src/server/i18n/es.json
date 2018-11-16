@@ -9,7 +9,9 @@
     "court_deposit": "Depósito judicial",
     "immobilisation_fee": "Multas de inmovilización ",
     "fixed_penalty": "Multas fijas",
-    "receipt": "Recibo"
+    "receipt": "Recibo",
+    "penalty_details": "Resumen de multas",
+    "payment": "Pago"
   },
   "languages": {
     "english": "Inglés",

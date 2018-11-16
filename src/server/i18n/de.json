@@ -9,7 +9,9 @@
     "court_deposit": "Gerichtskaution",
     "immobilisation_fee": "Einer Fahrzeugstilllegungs-Gebühr",
     "fixed_penalty": "Festgelegtes Bußgeld",
-    "receipt": "Quittung"
+    "receipt": "Quittung",
+    "penalty_details": "Bußgelder Zusammenfassung",
+    "payment": "Zahlung"
   },
   "languages": {
     "english": "Englisch",
