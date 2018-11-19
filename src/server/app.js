@@ -1,3 +1,4 @@
+// @ts-check
 /* eslint-disable global-require */
 import 'babel-polyfill';
 import express from 'express';
@@ -5,56 +6,26 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import compression from 'compression';
 import awsServerlessExpressMiddleware from 'aws-serverless-express/middleware';
-import nunjucks from 'nunjucks';
 import path from 'path';
-import _ from 'lodash';
 import errorhandler from 'errorhandler';
-import walkSync from 'walk-sync';
-import resolvePath from 'resolve-path';
 import validator from 'express-validator';
 import helmet from 'helmet';
 import i18n from 'i18n-express';
 import cookieParser from 'cookie-parser';
-import config from './config';
+import setupNunjucksEnv from './nunjucksEnv';
 
 export default async () => {
-  await config.bootstrap();
-
-  // Create nunjucks fileloader instance for the views folder
-  const nunjucksFileLoader = new nunjucks.FileSystemLoader(config.views(), {
-    noCache: true,
-  });
-
-  const env = new nunjucks.Environment(nunjucksFileLoader, {
-    autoescape: false,
-    web: {
-      useCache: false,
-    },
-  });
-
-  const marcosPath = path.resolve(config.views(), 'macros');
-
-  // Gets absolute path of each macro file
-  const macros = walkSync(marcosPath, { directories: false })
-    .map(file => resolvePath(marcosPath, file));
-
-  env.addGlobal('macroFilePaths', macros);
-  env.addGlobal('assets', config.isDevelopment() ? '' : config.assets());
-  env.addGlobal('urlroot', config.urlRoot());
-
-  // Add lodash as a global for view templates
-  env.addGlobal('_', _);
-
   const app = express();
+  const nunjucksEnv = await setupNunjucksEnv();
 
   app.use(helmet());
 
   // Add express to the nunjucks enviroment instance
-  env.express(app);
+  nunjucksEnv.express(app);
   app.use(cookieParser());
 
   // Create a view engine from nunjucks enviroment variable
-  app.engine('njk', env.render);
+  app.engine('njk', nunjucksEnv.render);
 
   // Set the express view engine to the above created view engine
   app.set('view engine', 'njk');
@@ -87,7 +58,8 @@ export default async () => {
       req.query.clang = req.cookies.locale;
     }
 
-    env.addGlobal('clang', language);
+    nunjucksEnv.addGlobal('clang', language);
+    console.log('################## language callback hit. ##################');
     next();
   });
   // Always sanitizes the body
