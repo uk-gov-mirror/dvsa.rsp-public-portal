@@ -24,8 +24,8 @@
     "check-security": "git secrets --scan",
     "check-security-log": "git log -p | scanrepo",
     "e2e:open": "cypress open",
-    "e2e:ui": "node_modules/.bin/cypress run --headed --no-exit",
-    "e2e:headless": "node_modules/.bin/cypress run" 
+    "e2e:headed": "cypress run --headed",
+    "e2e:headless": "cypress run"
   },
   "author": "BJSS",
   "license": "ISC",
