@@ -20,6 +20,9 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
 
   return {
-    baseUrl: process.env.E2E_URL
+    baseUrl: process.env.E2E_URL,
+    env: {
+      paymentCode: process.env.E2E_PAYMENT_CODE
+    }
   }
 };
