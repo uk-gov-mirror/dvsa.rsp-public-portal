@@ -46,7 +46,7 @@ export const validatePaymentCode = [
 export const getPaymentDetails = [
   paymentCodeValidation,
   (req, res) => {
-    console.log(process.env.CLIENT_ID);
+    console.log(`config.clientId(): ${config.clientId()}`);
     console.log('getting payment details');
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
