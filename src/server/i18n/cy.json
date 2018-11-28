@@ -9,7 +9,9 @@
     "court_deposit": "Blaendal llys",
     "immobilisation_fee": "Cosb atal cerbydau rhag symud",
     "fixed_penalty": "Cosb benodedig",
-    "receipt": "Derbynneb"
+    "receipt": "Derbynneb",
+    "penalty_details": "Manylion cosb",
+    "payment": "Talu"
   },
   "languages": {
     "english": "Saesneg",

@@ -1,6 +1,12 @@
 {% extends 'layouts/default.layout.njk' %}
 
 {% set pageTitle = t.site_title %}
+{% set pageBreadcrumbItems = [
+    { text: t.breadcrumbs.home, url: '/' },
+    { text: t.breadcrumbs.payment_code, url: '/payment-code' },
+    { text: t.breadcrumbs.penalty_details }
+  ] 
+%}
 
 {% set paid = true if paymentStatus == 'PAID' else false %}
 
