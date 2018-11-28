@@ -4,12 +4,14 @@
 	"breadcrumbs": {
 		"home": "Accueil",
 		"pay_dvsa_fine": "Payer pénalité DVSA",
-		"payment_code": "Code de paiement ",
-		"fines_summary": "Résumé des pénalités ",
+		"payment_code": "Code de paiement",
+		"fines_summary": "Résumé des pénalités",
 		"court_deposit": "Dépôt auprès du tribunal",
 		"immobilisation_fee": "Pénalité d'immobilisation",
 		"fixed_penalty": "Pénalité forfaitaire",
-		"receipt": "Reçu"
+		"receipt": "Reçu",
+		"penalty_details": "Détails de la pénalité",
+		"payment": "Paiement"
 	},
 	"languages": {
 		"english": "Anglais",
