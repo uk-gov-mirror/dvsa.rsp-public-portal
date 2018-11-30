@@ -23,6 +23,7 @@ module.exports = (on, config) => {
     baseUrl: process.env.E2E_URL,
     env: {
       paymentCode: process.env.E2E_PAYMENT_CODE,
+      paidPenaltyGroup: process.env.E2E_PAID_PENALTY_GROUP,
       unpaidPenaltyGroup: process.env.E2E_UNPAID_PENALTY_GROUP
     }
   }

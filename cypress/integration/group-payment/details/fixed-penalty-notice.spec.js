@@ -1,4 +1,4 @@
-import testGroupPaymentPage from './';
+import testGroupPaymentPage from '.';
 
 const unpaidPenaltyGroupId = Cypress.env('unpaidPenaltyGroup');
 
