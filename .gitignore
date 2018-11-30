@@ -64,3 +64,5 @@ dist/
 build/
 .serverless/
 .vscode/
+
+cypress/videos

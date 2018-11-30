@@ -45,7 +45,8 @@ describe('Penalty Group Service', () => {
       const invalidPaymentCode = 'abc12345678';
 
       mockedHttpClient = sinon.stub(httpClient, 'get').callsFake(code => mockedBackendAPI.getPenaltyByPaymentCode(code));
-      penaltyGroupService = new PenaltyGroupService(mockedHttpClient.rootObj);
+      penaltyGroupService = new PenaltyGroupService();
+      penaltyGroupService.httpClient = mockedHttpClient.rootObj;
 
       // Act
       const result = penaltyGroupService.getByPenaltyGroupPaymentCode(invalidPaymentCode);
