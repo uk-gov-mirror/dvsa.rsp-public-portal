@@ -32,19 +32,19 @@
           <tbody>
             <tr>
               <td>{{ t.penalty_details.payment_code }}</td>
-              <td colspan=2>{{ paymentCode }}</td> 
+              <td colspan=4>{{ paymentCode }}</td> 
             </tr>
             <tr>
               <td>{{ t.penalty_details.vehicle_reg }}</td>
-              <td colspan=2>{{ vehicleReg if complete else t.penalty_details.not_available }}</td> 
+              <td colspan=4>{{ vehicleReg if complete else t.penalty_details.not_available }}</td> 
             </tr>
             <tr>
               <td>{{ t.penalty_details.penalty_date }}</td>
-              <td colspan=2>{{ issueDate if complete else 'Not available' }}</td>
+              <td colspan=4>{{ issueDate if complete else 'Not available' }}</td>
             </tr>
             <tr>
               <td>{{ t.penalty_details.location }}</td>
-              <td colspan=2>{{ location if complete else 'Not available' }}</td> 
+              <td colspan=4>{{ location if complete else 'Not available' }}</td> 
             </tr>
             <tr>
               {% if type == 'FPN' %}
@@ -66,21 +66,26 @@
                   {% endif %}
                 </strong>
               </td>
+              <td>
+                {% if paid %}
+                  <a href="{{paymentCode}}/receipt">{{ t.penalty_details.receipt_link }}</a>
+                {% endif %}
+              </td>
             </tr>
             <tr>
               <td>{{ t.penalty_details.reference}}</td>
-              <td colspan=2>{{ formattedReference }}</td>
+              <td colspan=4>{{ formattedReference }}</td>
             </tr>
             {% if paymentAuthCode %}
               <tr>
                 <td>{{t.payment_details.authorisation_code}}</td> 
-                <td colspan=2>{{ paymentAuthCode }}</td> 
+                <td colspan=4>{{ paymentAuthCode }}</td> 
               </tr>
             {% endif %}
             {% if paid %}
               <tr>
                 <td>{{t.payment_details.paid_on}}</td> 
-                <td colspan=2>{{ paymentDate }}</td>
+                <td colspan=4>{{ paymentDate }}</td>
               </tr>
             {% endif %}
           </tbody>
