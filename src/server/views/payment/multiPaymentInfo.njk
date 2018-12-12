@@ -115,7 +115,7 @@
             {% endfor %}
             {% if showPaymentButton %}
               <tr>
-                <td colspan=4>
+                <td class="payment-button-cell" colspan=4>
                   {% set detailsUrl = '/payment-code/' + paymentCode + '/' + amount.type + '/details' %}
                   {{ components.button(text=t.penalty_details_page.continue_to_payment_button, url=detailsUrl) }}
                 </td>
