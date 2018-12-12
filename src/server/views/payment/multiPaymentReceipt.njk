@@ -79,44 +79,35 @@
       </table>
 
       <table id='receipt-breakdown'>
-        <thead>
-          <tr>
-            <td>{{ t.penalty_details.reference }}</td>
-            <td>{{ t.penalty_details.amount }}</td>
-            <td>{{ t.penalty_details.status }}</td>
-          </tr>
-        </thead>
-        <tbody>
-          {% for payment in penaltyDetails %}
-            {% if payment.type == paymentType %}
-              {% for penalty in payment.penalties %}
-                {% set statusClass = 'confirmed' if penalty.status == 'PAID' else 'unconfirmed' %}
-                <tr>
-                  <td><strong>{{ penalty.formattedReference }}</strong></td>
-                  <td><strong>&pound;{{ penalty.amount }}</strong></td>
-                  <td>
-                    <strong>
-                      <span class='{{ statusClass }}'>
-                        {% if penalty.status == 'PAID' %}
-                          {{ t.penalty_details.status_paid }}
-                          &nbsp;&nbsp;
-                          <img src="{{ assets }}/images/icon-check.png" alt="" />
-                        {% else %}
-                          {{ t.penalty_details.status_unpaid }}
-                        {% endif %}
-                      </span>
-                    </strong>
-                  </td>
-                </tr>
-              {% endfor %}
-            {% endif %}
-          {% endfor %}
-        </tbody>
+        {% for payment in penaltyDetails %}
+          {% if payment.type == paymentType %}
+            {% for penalty in payment.penalties %}
+              {% set statusClass = 'confirmed' if penalty.status == 'PAID' else 'unconfirmed' %}
+              <tr>
+                <td>Reference</td>
+                <td><strong>{{ penalty.formattedReference }}</strong></td>
+                <td><strong>&pound;{{ penalty.amount }}</strong></td>
+                <td>
+                  <strong>
+                    <span class='{{ statusClass }}'>
+                      {% if penalty.status == 'PAID' %}
+                        {{ t.penalty_details.status_paid }}
+                        &nbsp;&nbsp;
+                        <img src="{{ assets }}/images/icon-check.png" alt="" />
+                      {% else %}
+                        {{ t.penalty_details.status_unpaid }}
+                      {% endif %}
+                    </span>
+                  </strong>
+                </td>
+              </tr>
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
       </table>
       <table id='receipt-penalty-details'>
         <tr>
           <td>{{ t.penalty_details.vehicle_reg }}</td>
-          <td><strong>{{ penaltyGroupDetails.registrationNumber }}</strong></td>
           <td><strong>{{ penaltyGroupDetails.registrationNumber.replace(',', ', ') }}</strong></td>
         </tr>
         <tr>
