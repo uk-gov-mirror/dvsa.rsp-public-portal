@@ -144,5 +144,6 @@ div#send-receipt-button-container {
   }
 }
 
-
-
+details summary {
+  display: list-item;
+}

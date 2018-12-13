@@ -92,7 +92,11 @@ export const confirmPayment = async (req, res) => {
 
   try {
     penaltyDetails = await getPenaltyOrGroupDetails(req);
-    cpmsService.confirmPayment(receiptReference, penaltyDetails.type).then((response) => {
+
+    await cpmsService.confirmPayment(
+      receiptReference,
+      penaltyDetails.type,
+    ).then(async (response) => {
       if (response.data.code === 801) {
         // Payment successful
         const details = {
@@ -108,8 +112,8 @@ export const confirmPayment = async (req, res) => {
             PaymentDate: Math.round((new Date()).getTime() / 1000),
           },
         };
-        paymentService.makePayment(details)
-          .then(() => res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}`))
+        await paymentService.makePayment(details)
+          .then(() => res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}/receipt`))
           .catch((error) => {
             logger.error(error);
             res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}`);
