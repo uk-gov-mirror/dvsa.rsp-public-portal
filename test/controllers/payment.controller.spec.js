@@ -79,6 +79,55 @@ describe('Payment Controller', () => {
 
         sinon.assert.calledWith(redirectSpy, 'http://cpms.gateway');
       });
+
+      context('when CPMS confirms single payment', () => {
+        const req = {
+          params: {
+            payment_code: '5ef305b89435c670',
+          },
+          query: {
+            receipt_reference: 'ref',
+          },
+        };
+        const expectedPaymentPayload = {
+          PaymentCode: '5ef305b89435c670',
+          PaymentDetail: {
+            AuthCode: '111',
+            PaymentAmount: 145,
+            PaymentDate: sinon.match.number,
+            PaymentMethod: 'CARD',
+            PaymentRef: 'ref',
+          },
+          PenaltyReference: '0122451124578',
+          PenaltyStatus: 'PAID',
+          PenaltyType: 'IM',
+        };
+        let resp;
+        let mockPaymentSvc;
+        let mockCpmsConfirm;
+        before(() => {
+          resp = { redirect: redirectSpy };
+          // Other mocks are formed in parent beforeEaches
+          mockPaymentSvc = sinon.stub(PaymentService.prototype, 'makePayment');
+          mockPaymentSvc.resolves();
+          mockCpmsConfirm = sinon.stub(CpmsService.prototype, 'confirmPayment');
+          mockCpmsConfirm
+            .withArgs('ref', 'IM')
+            .resolves({ data: { code: 801, auth_code: '111', receipt_reference: 'ref' } });
+        });
+
+        after(() => {
+          PaymentService.prototype.makePayment.restore();
+          CpmsService.prototype.confirmPayment.restore();
+        });
+
+        it('should redirect to the receipt page', async () => {
+          await PaymentController.confirmPayment(req, resp);
+          // sinon.assert.calledWith(mockCpmsSvcSingle, 'ref');
+          sinon.assert.calledWith(mockPaymentSvc, expectedPaymentPayload);
+          sinon.assert.calledWith(redirectSpy, '/payment-code/5ef305b89435c670/receipt');
+        });
+      });
     });
 
     describe('for multiple penalty payment codes', () => {

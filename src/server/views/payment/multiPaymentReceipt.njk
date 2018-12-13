@@ -113,18 +113,21 @@
           {% endfor %}
         </tbody>
       </table>
+
+      <br />
+
       <table id='receipt-penalty-details'>
         <tr>
           <td>{{ t.penalty_details.vehicle_reg }}</td>
-          <td><strong>{{ penaltyGroupDetails.registrationNumber }}</strong></td>
+          <td><strong>{{ registrationNumber }}</strong></td>
         </tr>
         <tr>
           <td>{{ t.penalty_details.penalty_date }}</td>
-          <td><strong>{{ penaltyGroupDetails.date }}</strong></td>
+          <td><strong>{{ date }}</strong></td>
         </tr>
         <tr>
           <td>{{ t.penalty_details.location }}</td>
-          <td><strong>{{ penaltyGroupDetails.location }}</strong></td>
+          <td><strong>{{ location }}</strong></td>
         </tr>
       </table>
       <h3 class="heading-medium">{{ t.payment_details.payment_receipt_print_header  }}</h3>
