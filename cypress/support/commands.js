@@ -1,25 +1,37 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This is will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+/* eslint-disable */
+Cypress.Commands.add('injectAxe', () => {
+  cy.window({ log: false }).then(window => {
+    const axe = require('axe-core')
+    window.eval(axe.source)
+  })
+});
+
+Cypress.Commands.add('checkA11y', () => {
+  cy.window({ log: false })
+    .then(win => {
+      return win.axe.run(win.document)
+    })
+    .then(({ violations }) => {
+      if (violations.length) {
+        cy.wrap(violations, { log: false }).each(v => {
+          Cypress.log({
+            name: 'a11y error!',
+            consoleProps: () => v,
+            message: `${v.id} on ${v.nodes.length} Node${
+              v.nodes.length === 1 ? '' : 's'
+            }`
+          })
+        })
+      }
+      return cy.wrap(violations, { log: false })
+    })
+    .then(violations => {
+      assert.equal(
+        violations.length,
+        0,
+        `${violations.length} accessibility violation${
+          violations.length === 1 ? '' : 's'
+        } ${violations.length === 1 ? 'was' : 'were'} detected`
+      )
+    })
+})

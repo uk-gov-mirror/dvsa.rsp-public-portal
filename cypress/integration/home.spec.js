@@ -3,6 +3,11 @@ context('Home page', () => {
     cy.visit('');
   });
 
+  it('is accessible', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('displays the payment title', () => {
     cy.contains('Pay a DVSA roadside fine');
   });

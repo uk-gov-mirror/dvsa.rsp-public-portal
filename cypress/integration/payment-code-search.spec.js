@@ -14,6 +14,12 @@ context('enter payment code page', () => {
     cy.visit('payment-code');
   });
 
+
+  it('is accessible', () => {
+    cy.injectAxe();
+    cy.checkA11y();
+  });
+
   it('display the title', () => {
     cy.contains('Enter payment code');
   });
