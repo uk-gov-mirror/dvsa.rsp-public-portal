@@ -200,12 +200,26 @@ describe('singlePaymentReceipt', () => {
   });
 
   describe('when PenaltyService rejects on fetching by payment code', () => {
-    it('should redirect to this invalid payment code page', async () => {});
+    beforeEach(() => {
+      penaltySvc
+        .withArgs('9e956edae3c4b5fe')
+        .rejects();
+    });
+    it('should redirect to the invalid payment code page', async () => {
+      await singlePaymentReceipt(request, response);
+      sinon.assert.calledWith(redirectSpy, '/?invalidPaymentCode');
+    });
   });
 
   describe('when PaymentService rejects on fetching by payment reference', () => {
+    beforeEach(() => {
+      paymentSvc
+        .withArgs('122116376455_FPN')
+        .rejects();
+    });
     it('should redirect to the invalid payment code page', async () => {
-
+      await singlePaymentReceipt(request, response);
+      sinon.assert.calledWith(redirectSpy, '/?invalidPaymentCode');
     });
   });
 });
