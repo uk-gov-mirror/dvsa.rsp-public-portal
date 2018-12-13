@@ -10,7 +10,7 @@ export default class PaymentService {
   }
 
   async getPayment(paymentCode) {
-    return this.httpClient.get(`payments/${paymentCode}`)
+    return this.httpClient.get(`payments/${paymentCode}`);
   }
 
   async recordGroupPayment(details) {

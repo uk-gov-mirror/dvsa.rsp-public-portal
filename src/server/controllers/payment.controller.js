@@ -93,7 +93,10 @@ export const confirmPayment = async (req, res) => {
   try {
     penaltyDetails = await getPenaltyOrGroupDetails(req);
 
-    await cpmsService.confirmPayment(receiptReference, penaltyDetails.type).then(async (response) => {
+    await cpmsService.confirmPayment(
+      receiptReference,
+      penaltyDetails.type,
+    ).then(async (response) => {
       if (response.data.code === 801) {
         // Payment successful
         const details = {
