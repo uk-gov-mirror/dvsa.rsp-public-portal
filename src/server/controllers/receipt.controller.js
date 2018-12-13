@@ -12,7 +12,7 @@ const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl());
 const penaltyService = new PenaltyService(config.penaltyServiceUrl());
 const paymentService = new PaymentService(config.paymentServiceUrl());
 
-function addFormattedPamentDateTime(payment) {
+function addFormattedPaymentDateTime(payment) {
   const timestamp = payment.PaymentDate * 1000;
   const dateTime = moment.tz(timestamp, TIMEZONE_ID);
   return {
@@ -29,7 +29,7 @@ function paymentDetailsFromPenalty(penalty, payment) {
     ...payment.PaymentDetail,
   };
 
-  paymentDetail = addFormattedPamentDateTime(paymentDetail);
+  paymentDetail = addFormattedPaymentDateTime(paymentDetail);
 
   return {
     Payments: { [penalty.type]: paymentDetail },
@@ -43,7 +43,7 @@ function isValidPaymentPaymentType(type) {
 function addFormattedPaymentDateTimes(paymentDetails) {
   const newPaymentDetails = { ...paymentDetails };
   newPaymentDetails.Payments = Object.keys(newPaymentDetails.Payments).reduce((acc, type) => {
-    acc[type] = addFormattedPamentDateTime(newPaymentDetails.Payments[type]);
+    acc[type] = addFormattedPaymentDateTime(newPaymentDetails.Payments[type]);
     return acc;
   }, {});
   return newPaymentDetails;
