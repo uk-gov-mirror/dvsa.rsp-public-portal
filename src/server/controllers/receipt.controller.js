@@ -53,7 +53,7 @@ export const singlePaymentReceipt = async (req, res) => {
   const paymentCode = req.params.payment_code;
   try {
     const penalty = await penaltyService.getByPaymentCode(paymentCode);
-    const paymentId = `${penalty.formattedReference}_${penalty.type}`;
+    const paymentId = `${penalty.reference}_${penalty.type}`;
     const { payment } = (await paymentService.getPayment(paymentId)).data;
     const paymentDetails = paymentDetailsFromPenalty(penalty, payment);
 
