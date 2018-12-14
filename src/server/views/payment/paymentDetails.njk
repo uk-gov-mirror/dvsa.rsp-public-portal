@@ -147,7 +147,7 @@
     {%- endcall %}
     {% call components.columnOneThird() %}
       <aside class="govuk-related-items" role="complementary">
-        {{ components.heading(text=t.home.language_guidance_header + ':', tag='h3', size='medium', id='language-links-header' )}}
+        {{ components.heading(text=t.home.language_guidance_header + ':', tag='h3', size='small', id='language-links-header' )}}
         <nav role="navigation" aria-labelledby="language-links-header">
           <ul class="font-xsmall">
             <li>{{ components.link(text='Cymraeg', url='?clang=cy') if clang != 'cy' else components.link(text='English', url='?clang=en') }}</li>
