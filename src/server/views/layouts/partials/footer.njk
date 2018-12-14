@@ -9,6 +9,7 @@
           <li><a href="https://www.gov.uk/help/terms-conditions">{{ t.footer.terms_conditions }}</a></li>
           <li>{{ t.footer.built_by }} <a href="https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency">Driver &amp; Vehicle Standards Agency</a></li>
         </ul>
+        <h5 class="visuallyhidden">Languages</h5>
         <ul>
           <li>{{ components.link(text='French', url='?clang=fr') if clang != 'fr' else components.link(text='English', url='?clang=en') }}</li>
           <li>{{ components.link(text='German', url='?clang=de') if clang != 'de' else components.link(text='English', url='?clang=en') }}</li>
