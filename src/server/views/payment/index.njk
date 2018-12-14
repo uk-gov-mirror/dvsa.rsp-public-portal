@@ -18,7 +18,13 @@
             <h2 class="heading-medium error-summary-heading" id="error-summary-payment-code">
               {{ t.payment_code_page.error.title }}
             </h2>
-             {{ t.payment_code_page.error.description }}
+            <ul class="error-summary-list">
+              <li>
+                <a href="#payment_code">
+                  {{ t.payment_code_page.error.description }}
+                </a>
+              </li>
+            </ul>
           </div>
         {% endif %}
 
