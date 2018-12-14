@@ -6,9 +6,9 @@
 {# end #}
 
 <!DOCTYPE html>
-<!--[if lte IE 8 ]><html class="lte-ie8" lang="en"><![endif]-->
-<!--[if IE 9 ]><html class="ie9" lang="en"><![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--><html class="" lang="en"><!--<![endif]-->
+<!--[if lte IE 8 ]><html class="lte-ie8" lang={{ clang|default('en') }}><![endif]-->
+<!--[if IE 9 ]><html class="ie9" lang={{ clang|default('en') }}><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html class="" lang={{ clang|default('en') }}><!--<![endif]-->
   <head>
     
     {% include './partials/head.njk' %}
