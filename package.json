@@ -30,7 +30,6 @@
   "author": "BJSS",
   "license": "ISC",
   "devDependencies": {
-    "axe-core": "^3.1.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
