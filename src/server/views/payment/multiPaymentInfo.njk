@@ -115,7 +115,7 @@
             {% endfor %}
             {% if showPaymentButton %}
               <tr>
-                <td colspan=4>
+                <td class="payment-button-cell" colspan=4>
                   {% set detailsUrl = '/payment-code/' + paymentCode + '/' + amount.type + '/details' %}
                   {{ components.button(text=t.penalty_details_page.continue_to_payment_button, url=detailsUrl) }}
                 </td>
@@ -143,10 +143,10 @@
                   {{ t.penalty_details_page.call_dvsa }}
                   <br />
                   {{ components.link(text=t.penalty_details_page.call_charges_link, url='https://www.gov.uk/call-charges') }}
-                  <br />
-                  {{ t.penalty_details_page.info_needed }}
                 </li>
               </ul>
+              <br />
+              {{ t.penalty_details_page.info_needed }}
             </div>
           </details>
         </p>
@@ -169,7 +169,7 @@
     {%- endcall %}
     {% call components.columnOneThird() %}
     <aside class="govuk-related-items" role="complementary">
-        <p id='language-links-header'>{{ t.home.language_guidance_header }}:</p>
+        {{ components.heading(text=t.home.language_guidance_header + ':', tag='h3', size='small', id='language-links-header' )}}
         <nav role="navigation" aria-labelledby="language-links-header">
           <ul class="font-xsmall">
             <li>{{ components.link(text='Cymraeg', url='?clang=cy') if clang != 'cy' else components.link(text='English', url='?clang=en') }}</li>

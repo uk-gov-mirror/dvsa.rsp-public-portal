@@ -1,7 +1,7 @@
 {% extends './base.layout.njk' %}
 
 {% block bodyContentWrapper %}
-<main id="content" {{ 'class="' + mainContainerClass + '"' if mainContainerClass }}>
+<main id="content" {{ 'class="' + mainContainerClass + '"' if mainContainerClass }} role="main">
   {% include './partials/phase-banner.njk' %}
   {% include './partials/breadcrumbs.njk' %}
   {% block content %}{% endblock %}

@@ -18,9 +18,9 @@
           {% call components.form(action='/payment-code/'+paymentCode+'/payment', method='POST')  %}
       {{ components.heading(text=t.penalty_details_page.penalty_details_title, tag='h1', size='xlarge') }}
       {% if paid == false %}
-        {{ components.heading(text=t.penalty_details_page.intro_part_paid, tag='h3', size='medium') }}
+        {{ components.heading(text=t.penalty_details_page.intro_part_paid, tag='h2', size='medium') }}
       {% else %}
-        {{ components.heading(text=t.penalty_details_page.intro_paid, tag='h3', size='medium') }}
+        {{ components.heading(text=t.penalty_details_page.intro_paid, tag='h2', size='medium') }}
         <p>
           {{ t.feedback_prompt.easy_to_use }}
           <a href="{{ t.feedback_prompt.link }}" target="_blank">
@@ -32,19 +32,19 @@
           <tbody>
             <tr>
               <td>{{ t.penalty_details.payment_code }}</td>
-              <td colspan=2>{{ paymentCode }}</td> 
+              <td colspan=4>{{ paymentCode }}</td> 
             </tr>
             <tr>
               <td>{{ t.penalty_details.vehicle_reg }}</td>
-              <td colspan=2>{{ vehicleReg if complete else t.penalty_details.not_available }}</td> 
+              <td colspan=4>{{ vehicleReg if complete else t.penalty_details.not_available }}</td> 
             </tr>
             <tr>
               <td>{{ t.penalty_details.penalty_date }}</td>
-              <td colspan=2>{{ issueDate if complete else 'Not available' }}</td>
+              <td colspan=4>{{ issueDate if complete else 'Not available' }}</td>
             </tr>
             <tr>
               <td>{{ t.penalty_details.location }}</td>
-              <td colspan=2>{{ location if complete else 'Not available' }}</td> 
+              <td colspan=4>{{ location if complete else 'Not available' }}</td> 
             </tr>
             <tr>
               {% if type == 'FPN' %}
@@ -55,7 +55,7 @@
                 <td>{{ t.penalty_details.type_immobilisation }}</td>
               {% endif %}
               <td>&pound;{{ amount }}</td>
-              <td id="status" class="{{ statusClass }}">
+              <td class="{{ statusClass }}">
                 <strong>
                   {% if paid %}
                     {{ t.penalty_details.status_paid }}
@@ -66,21 +66,26 @@
                   {% endif %}
                 </strong>
               </td>
+              <td>
+                {% if paid %}
+                  <a href="{{paymentCode}}/receipt">{{ t.penalty_details.receipt_link }}</a>
+                {% endif %}
+              </td>
             </tr>
             <tr>
               <td>{{ t.penalty_details.reference}}</td>
-              <td colspan=2>{{ formattedReference }}</td>
+              <td colspan=4>{{ formattedReference }}</td>
             </tr>
             {% if paymentAuthCode %}
               <tr>
                 <td>{{t.payment_details.authorisation_code}}</td> 
-                <td colspan=2>{{ paymentAuthCode }}</td> 
+                <td colspan=4>{{ paymentAuthCode }}</td> 
               </tr>
             {% endif %}
             {% if paid %}
               <tr>
                 <td>{{t.payment_details.paid_on}}</td> 
-                <td colspan=2>{{ paymentDate }}</td>
+                <td colspan=4>{{ paymentDate }}</td>
               </tr>
             {% endif %}
           </tbody>
@@ -117,8 +122,8 @@
               </div>
             </details>
           </p>
-          {{ components.heading(text=t.home.other_ways, tag='h3', size='medium') }}
-          {{ components.heading(text=t.home.phone_heading, tag='h4', size='small') }}
+          {{ components.heading(text=t.home.other_ways, tag='h2', size='medium') }}
+          {{ components.heading(text=t.home.phone_heading, tag='h3', size='small') }}
           <p>{{ t.home.phone_contact_details }}</p>
           {{ components.link(text=t.home.phone_charges_link, url='https://www.gov.uk/call-charges') }}
           <p>{{ t.home.phone_info_needed }}</p>
@@ -127,9 +132,9 @@
             <li>{{ t.home.phone_bullet2 }}</li>
             <li>{{ t.home.phone_bullet3 }}</li>
           </ul>
-          {{ components.heading(text=t.home.post_heading, tag='h4', size='small') }}
+          {{ components.heading(text=t.home.post_heading, tag='h3', size='small') }}
           <p>{{ t.home.post_text }}</p>
-          {{ components.heading(text=t.home.cash_heading, tag='h4', size='small') }}
+          {{ components.heading(text=t.home.cash_heading, tag='h3', size='small') }}
           <p>{{ t.home.cash_text }}</p>
         {% else %}
           <h3 class="heading-medium">{{ t.payment_details.payment_receipt_print_header  }}</h3>
@@ -142,7 +147,7 @@
     {%- endcall %}
     {% call components.columnOneThird() %}
       <aside class="govuk-related-items" role="complementary">
-        <p id='language-links-header'>{{ t.home.language_guidance_header }}:</p>
+        {{ components.heading(text=t.home.language_guidance_header + ':', tag='h3', size='small', id='language-links-header' )}}
         <nav role="navigation" aria-labelledby="language-links-header">
           <ul class="font-xsmall">
             <li>{{ components.link(text='Cymraeg', url='?clang=cy') if clang != 'cy' else components.link(text='English', url='?clang=en') }}</li>
