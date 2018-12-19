@@ -42,6 +42,11 @@ describe('multiPaymentReceipt', () => {
   let response;
   const penaltyGroupSvcResp = {
     isPenaltyGroup: true,
+    penaltyDetails: [{
+      penalties: [{
+        location: 'Mobile site name',
+      }],
+    }],
   };
 
   const groupPaymentResp = {
@@ -96,6 +101,7 @@ describe('multiPaymentReceipt', () => {
           },
         },
         ...penaltyGroupSvcResp,
+        location: 'Mobile site name',
       });
     });
   });
