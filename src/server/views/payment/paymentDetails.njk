@@ -18,9 +18,9 @@
           {% call components.form(action='/payment-code/'+paymentCode+'/payment', method='POST')  %}
       {{ components.heading(text=t.penalty_details_page.penalty_details_title, tag='h1', size='xlarge') }}
       {% if paid == false %}
-        {{ components.heading(text=t.penalty_details_page.intro_part_paid, tag='h3', size='medium') }}
+        {{ components.heading(text=t.penalty_details_page.intro_part_paid, tag='h2', size='medium') }}
       {% else %}
-        {{ components.heading(text=t.penalty_details_page.intro_paid, tag='h3', size='medium') }}
+        {{ components.heading(text=t.penalty_details_page.intro_paid, tag='h2', size='medium') }}
         <p>
           {{ t.feedback_prompt.easy_to_use }}
           <a href="{{ t.feedback_prompt.link }}" target="_blank">
@@ -122,8 +122,8 @@
               </div>
             </details>
           </p>
-          {{ components.heading(text=t.home.other_ways, tag='h3', size='medium') }}
-          {{ components.heading(text=t.home.phone_heading, tag='h4', size='small') }}
+          {{ components.heading(text=t.home.other_ways, tag='h2', size='medium') }}
+          {{ components.heading(text=t.home.phone_heading, tag='h3', size='small') }}
           <p>{{ t.home.phone_contact_details }}</p>
           {{ components.link(text=t.home.phone_charges_link, url='https://www.gov.uk/call-charges') }}
           <p>{{ t.home.phone_info_needed }}</p>
@@ -132,9 +132,9 @@
             <li>{{ t.home.phone_bullet2 }}</li>
             <li>{{ t.home.phone_bullet3 }}</li>
           </ul>
-          {{ components.heading(text=t.home.post_heading, tag='h4', size='small') }}
+          {{ components.heading(text=t.home.post_heading, tag='h3', size='small') }}
           <p>{{ t.home.post_text }}</p>
-          {{ components.heading(text=t.home.cash_heading, tag='h4', size='small') }}
+          {{ components.heading(text=t.home.cash_heading, tag='h3', size='small') }}
           <p>{{ t.home.cash_text }}</p>
         {% else %}
           <h3 class="heading-medium">{{ t.payment_details.payment_receipt_print_header  }}</h3>
@@ -147,7 +147,7 @@
     {%- endcall %}
     {% call components.columnOneThird() %}
       <aside class="govuk-related-items" role="complementary">
-        <p id='language-links-header'>{{ t.home.language_guidance_header }}:</p>
+        {{ components.heading(text=t.home.language_guidance_header + ':', tag='h3', size='small', id='language-links-header' )}}
         <nav role="navigation" aria-labelledby="language-links-header">
           <ul class="font-xsmall">
             <li>{{ components.link(text='Cymraeg', url='?clang=cy') if clang != 'cy' else components.link(text='English', url='?clang=en') }}</li>
