@@ -18,4 +18,9 @@ domReady(() => {
 
   // Modules
   initModules();
+
+  const errorSummary = document.getElementById('error-summary');
+  if (errorSummary !== null) {
+    errorSummary.focus();
+  }
 });

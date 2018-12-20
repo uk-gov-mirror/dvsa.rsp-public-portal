@@ -1,6 +1,6 @@
 {% extends 'layouts/default.layout.njk' %}
 
-{% set pageTitle = t.payment_code_page.title %}
+{% set pageTitle = 'Error - ' + t.payment_code_page.title if invalidPaymentCode else t.payment_code_page.title %}
 {% set pageBreadcrumbItems = [
     { text: t.breadcrumbs.home, url: '/' },
     { text: t.breadcrumbs.payment_code }
@@ -14,7 +14,7 @@
 
       {% call components.form(action='/payment-code', method='post') %}
         {% if invalidPaymentCode %}
-          <div class="error-summary" role="alert" aria-labelledby="error-summary-payment-code" tabindex="1">
+          <div class="error-summary" id="error-summary" role="alert" aria-labelledby="error-summary-payment-code" tabindex="-1">
             <h2 class="heading-medium error-summary-heading" id="error-summary-payment-code">
               {{ t.payment_code_page.error.title }}
             </h2>
