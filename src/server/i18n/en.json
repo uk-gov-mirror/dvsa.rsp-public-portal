@@ -13,6 +13,7 @@
     "penalty_details": "Penalty details",
     "payment": "Payment"
   },
+  "error_title": "Error",
   "languages": {
     "english": "English",
     "french": "French",

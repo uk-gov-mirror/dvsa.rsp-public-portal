@@ -1,6 +1,6 @@
 {% extends 'layouts/default.layout.njk' %}
 
-{% set pageTitle = 'Error - ' + t.payment_code_page.title if invalidPaymentCode else t.payment_code_page.title %}
+{% set pageTitle = t.error_title + ' - ' + t.payment_code_page.title if invalidPaymentCode else t.payment_code_page.title %}
 {% set pageBreadcrumbItems = [
     { text: t.breadcrumbs.home, url: '/' },
     { text: t.breadcrumbs.payment_code }
