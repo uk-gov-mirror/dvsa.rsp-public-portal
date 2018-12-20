@@ -1,14 +1,5 @@
 {% extends 'layouts/default.layout.njk' %}
 
-{% set pageTitle = t.site_title %}
-{% set pageBreadcrumbItems = [
-    { text: t.breadcrumbs.home, url: '/' },
-    { text: t.breadcrumbs.payment_code, url: '/payment-code' },
-    { text: t.breadcrumbs.penalty_details, url: '/payment-code/' + paymentCode },
-    { text: t.breadcrumbs.payment }
-  ] 
-%}
-
 {% if penaltyType == 'FPN' %}
   {% set titleAndContinueButtonText = t.penalty_details_page.pay_fixed_penalties_text %}
 {% elif penaltyType == 'CDN' %}
@@ -16,6 +7,15 @@
 {% elif penaltyType == 'IM' %}
   {% set titleAndContinueButtonText = t.penalty_details_page.pay_immobilisation_fee_text %}
 {% endif %}
+
+{% set pageTitle = titleAndContinueButtonText %}
+{% set pageBreadcrumbItems = [
+    { text: t.breadcrumbs.home, url: '/' },
+    { text: t.breadcrumbs.payment_code, url: '/payment-code' },
+    { text: t.breadcrumbs.penalty_details, url: '/payment-code/' + paymentCode },
+    { text: t.breadcrumbs.payment }
+  ] 
+%}
 
 {% block content %}
   {% call components.gridRow() %}

@@ -1,10 +1,10 @@
 {% extends 'layouts/default.layout.njk' %}
 
-{% set pageTitle = t.site_title %}
-{% set pageBreadcrumbItems = [ 
-    { text: t.breadcrumbs.home } 
-  ]   
-%} 
+{% set pageTitle = t.home.title %}
+{% set pageBreadcrumbItems = [
+    { text: t.breadcrumbs.home }
+  ]
+%}
 {% block content %}
   {% call components.gridRow() %}
 

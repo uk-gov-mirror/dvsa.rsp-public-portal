@@ -1,7 +1,5 @@
 {% extends 'layouts/default.layout.njk' %}
 
-{% set pageTitle = t.site_title %}
-
 {% if paymentType == 'FPN' %}
   {% set paymentBannerTitle = t.penalty_details.type_fixed_penalty %}
 {% elif paymentType == 'CDN' %}
@@ -9,6 +7,8 @@
 {% elif paymentType == 'IM' %}
   {% set paymentBannerTitle = t.penalty_details.type_immobilisation %}
 {% endif %}
+
+{% set pageTitle = t.payment_details.transaction_receipt %}
 
 {% if nextPayment %}
   {% if nextPayment.PaymentCategory == 'FPN' %}
