@@ -48,7 +48,7 @@
         {{ components.button(text=nextPaymentButtonText, type="submit", url=nextUrl) }}
       {% endif %}
 
-      <h3 class="heading-medium">{{ t.payment_details.transaction_receipt }}</h3>
+      <h2 class="heading-medium">{{ t.payment_details.transaction_receipt }}</h2>
       <table class='receipt-details'>
         <tbody>
           <tr>
@@ -137,7 +137,7 @@
           <td><strong>{{ location }}</strong></td>
         </tr>
       </table>
-      <h3 class="heading-medium">{{ t.payment_details.payment_receipt_print_header  }}</h3>
+      <h2 class="heading-medium">{{ t.payment_details.payment_receipt_print_header  }}</h2>
       <div class="panel panel-border-wide">
         {{ t.payment_details.payment_receipt_print_info }}
       </div>
