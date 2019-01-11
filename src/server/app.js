@@ -49,6 +49,14 @@ export default async () => {
 
   app.use(helmet());
 
+  app.use(helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'", `${config.assets()}/`],
+      scriptSrc: ['https://www.googletagmanager.com/', 'https://www.google-analytics.com/', `${config.assets()}/`],
+      fontSrc: ['data:'],
+    },
+  }));
+
   // Add express to the nunjucks enviroment instance
   env.express(app);
   app.use(cookieParser());
