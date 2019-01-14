@@ -49,14 +49,20 @@ export default async () => {
 
   app.use(helmet());
 
-  const assetsUrl = config.isDevelopment() ? 'http://localhost:3000/' : config.assets();
+  const assetsUrl = config.isDevelopment() ? 'http://localhost:3000/' : `${config.assets()}/`;
 
   app.use(helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ['https://www.googletagmanager.com/', 'https://www.google-analytics.com/', assetsUrl],
+      defaultSrc: ["'self'", assetsUrl],
+      scriptSrc: [assetsUrl, 'https://www.googletagmanager.com/', 'https://www.google-analytics.com/'],
       fontSrc: ['data:'],
-      imgSrc: ['https://www.google-analytics.com/', assetsUrl],
+      imgSrc: [
+        assetsUrl,
+        'https://www.google-analytics.com/',
+        'https://stats.g.doubleclick.net/',
+        'https://www.google.co.uk/ads/',
+        'https://www.google.com/ads/',
+      ],
     },
   }));
 
