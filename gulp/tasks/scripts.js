@@ -4,7 +4,7 @@ const path = require('path');
 const CONFIG = require('./../constants').CONFIG;
 
 function copyScripts() {
-  return gulp.src(path.join(CONFIG.sourcePaths.js, 'google-tag-manager.js'))
+  return gulp.src(path.join(CONFIG.sourcePaths.js, '*.js'))
     // Outputs file to the distribution folder
     .pipe(gulp.dest(CONFIG.distPaths.js));
 }
