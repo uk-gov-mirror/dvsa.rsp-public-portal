@@ -53,7 +53,8 @@ export const getPaymentDetails = [
       res.redirect('../payment-code?invalidPaymentCode');
     } else {
       const paymentCode = req.params.payment_code;
-      const { service, getMethod, template } = paymentCode.length === 16 ? {
+      const isSinglePenalty = paymentCode.length === 16;
+      const { service, getMethod, template } = isSinglePenalty ? {
         service: penaltyService,
         getMethod: 'getByPaymentCode',
         template: 'paymentDetails',
@@ -63,9 +64,15 @@ export const getPaymentDetails = [
         template: 'multiPaymentInfo',
       };
       service[getMethod](paymentCode).then((entityData) => {
-        const { enabled } = entityData;
+        const { enabled, location } = entityData;
         if (enabled || typeof enabled === 'undefined') {
-          res.render(`payment/${template}`, entityData);
+          // Detailed location stored in single penalty for multi-penalties
+          const locationText = isSinglePenalty ?
+            location : entityData.penaltyDetails[0].penalties[0].location;
+          res.render(`payment/${template}`, {
+            ...entityData,
+            location: locationText,
+          });
         } else {
           res.redirect('../payment-code?invalidPaymentCode');
         }

@@ -2,7 +2,6 @@
 import 'babel-polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
-import cors from 'cors';
 import compression from 'compression';
 import awsServerlessExpressMiddleware from 'aws-serverless-express/middleware';
 import nunjucks from 'nunjucks';
@@ -16,6 +15,8 @@ import helmet from 'helmet';
 import i18n from 'i18n-express';
 import cookieParser from 'cookie-parser';
 import config from './config';
+
+const SIXTY_DAYS_IN_SECONDS = 5184000;
 
 export default async () => {
   await config.bootstrap();
@@ -49,6 +50,26 @@ export default async () => {
 
   app.use(helmet());
 
+  const assetsUrl = config.isDevelopment() ? 'http://localhost:3000/' : `${config.assets()}/`;
+
+  app.use(helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'", assetsUrl],
+      scriptSrc: [assetsUrl, 'https://www.googletagmanager.com/', 'https://www.google-analytics.com/'],
+      fontSrc: ['data:'],
+      imgSrc: [
+        assetsUrl,
+        'https://www.google-analytics.com/',
+        'https://stats.g.doubleclick.net/',
+        'https://www.google.co.uk/ads/',
+        'https://www.google.com/ads/',
+      ],
+    },
+  }));
+  app.use(helmet.hsts({
+    maxAge: SIXTY_DAYS_IN_SECONDS,
+  }));
+
   // Add express to the nunjucks enviroment instance
   env.express(app);
   app.use(cookieParser());
@@ -64,7 +85,6 @@ export default async () => {
   app.set('x-powered-by', false);
 
   app.use(compression());
-  app.use(cors());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
   app.use(validator());

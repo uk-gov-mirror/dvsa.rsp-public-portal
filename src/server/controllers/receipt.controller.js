@@ -83,8 +83,10 @@ export const multiPaymentReceipt = async (req, res) => {
     }
 
     const penaltyGroup = await penaltyGroupService.getByPenaltyGroupPaymentCode(paymentCode);
+    const { location } = penaltyGroup.penaltyDetails[0].penalties[0];
     const paymentDetails = (await paymentService.getGroupPayment(paymentCode)).data;
     const enrichedPaymentDetails = addFormattedPaymentDateTimes(paymentDetails);
+
 
     const { penaltyGroupDetails, ...penaltyGroupData } = penaltyGroup;
 
@@ -93,6 +95,7 @@ export const multiPaymentReceipt = async (req, res) => {
       paymentDetails: enrichedPaymentDetails,
       ...penaltyGroupData,
       ...penaltyGroupDetails,
+      location,
     };
 
     return res.render('payment/multiPaymentReceipt', resp);
