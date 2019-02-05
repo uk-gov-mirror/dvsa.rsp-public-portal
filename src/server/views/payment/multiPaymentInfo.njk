@@ -42,7 +42,7 @@
           </tr>
           <tr>
             <td>{{ t.penalty_details.location }}</td>
-            <td colspan=4>{{ location }}</td>
+            <td colspan=4>{{ location | escape }}</td>
           </tr>
           {% for amount in penaltyGroupDetails.splitAmounts|sort(attribute='type', reverse=true) %}
             {% set amountPaid = true if amount.status == 'PAID' else false %}

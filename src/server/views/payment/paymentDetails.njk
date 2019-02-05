@@ -44,7 +44,7 @@
             </tr>
             <tr>
               <td>{{ t.penalty_details.location }}</td>
-              <td colspan=4>{{ location if complete else 'Not available' }}</td> 
+              <td colspan=4>{{ location | escape if complete else 'Not available' }}</td>
             </tr>
             <tr>
               {% if type == 'FPN' %}
