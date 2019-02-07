@@ -5,10 +5,13 @@ export default class PaymentService {
     this.httpClient = new SignedHttpClient(serviceUrl);
   }
 
-  createCardPaymentTransaction(paymentCode, reg, penaltyRef, penaltyType, amount, redirectUrl) {
+  createCardPaymentTransaction(paymentCode, reg, penaltyRef, penaltyType, amount, redirectUrl,
+    penaltyId,
+  ) {
     return this.httpClient.post('cardPayment/', {
       payment_code: paymentCode,
       penalty_reference: penaltyRef,
+      penalty_id: penaltyId,
       penalty_type: penaltyType,
       penalty_amount: amount,
       redirect_url: redirectUrl,

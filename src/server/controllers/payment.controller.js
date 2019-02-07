@@ -31,6 +31,7 @@ const redirectForSinglePenalty = (req, res, penaltyDetails, redirectHost) => {
     penaltyDetails.type,
     penaltyDetails.amount,
     redirectUrl,
+    penaltyDetails.reference,
   ).then((response) => {
     logger.error(JSON.stringify(response.data));
     res.redirect(response.data.gateway_url);
