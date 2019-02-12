@@ -72,7 +72,7 @@ describe('Payment Controller', () => {
 
       it('should redirect to the CPMS gateway URL returned when CPMS Service creates a transaction', async () => {
         mockCpmsSvcSingle
-          .withArgs('5e7a4c97c260e699', 'GHIYIN', '425782-0-253535-IM', 'IM', 50, 'https://localhost/payment-code/5e7a4c97c260e699/confirmPayment')
+          .withArgs('5e7a4c97c260e699', 'GHIYIN', '425782-0-253535-IM', 'IM', 50, 'https://localhost/payment-code/5e7a4c97c260e699/confirmPayment', '4257820253535')
           .resolves({ data: { gateway_url: 'http://cpms.gateway' } });
 
         await PaymentController.redirectToPaymentPage(requestForPaymentCode('5e7a4c97c260e699'), responseHandle);
