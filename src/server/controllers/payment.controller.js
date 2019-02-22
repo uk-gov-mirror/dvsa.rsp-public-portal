@@ -21,7 +21,7 @@ const getPenaltyOrGroupDetails = (req) => {
   return penaltyService.getById(req.params.penalty_id);
 };
 
-const redirectForSinglePenalty = (req, res, penaltyDetails, redirectHost) => {
+const redirectForSinglePenalty = async (req, res, penaltyDetails, redirectHost) => {
   const { paymentCode } = penaltyDetails;
   const redirectUrl = `${redirectHost}/payment-code/${paymentCode}/confirmPayment`;
   return cpmsService.createCardPaymentTransaction(
@@ -32,8 +32,10 @@ const redirectForSinglePenalty = (req, res, penaltyDetails, redirectHost) => {
     penaltyDetails.amount,
     redirectUrl,
     penaltyDetails.reference,
-  ).then((response) => {
+  ).then(async (response) => {
     logger.error(JSON.stringify(response.data));
+    const receiptReference = response.receipt_reference;
+    await penaltyService.storeCpmsReceiptCode(penaltyDetails.reference, receiptReference);
     res.redirect(response.data.gateway_url);
   }).catch((error) => {
     logger.error(error);
@@ -54,7 +56,11 @@ const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType, red
     penaltyType,
     penaltyOverviewsForType,
     redirectUrl,
-  ).then(response => res.redirect(response.data.gateway_url))
+  ).then((response) => {
+    console.log(response);
+    // This is where we should invoke a function on either the documents service or the payments service to store the pending receipt reference.
+    return res.redirect(response.data.gateway_url);
+  })
     .catch((error) => {
       logger.error(error);
       res.redirect(`${config.urlRoot()}/payment-code/${penaltyGroupDetails.paymentCode}`);

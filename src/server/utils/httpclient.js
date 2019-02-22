@@ -60,4 +60,6 @@ export default class SignedHttpClient {
 
     return axios.post(`${this.baseUrlOb.href}${path}`, data, options);
   }
+
+  put(path, )
 }

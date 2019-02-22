@@ -58,4 +58,23 @@ export default class PenaltyService {
     });
     return promise;
   }
+
+  /**
+   * Invoke storeCpmsReceiptReference
+   * @param {string} penaltyReference The ID of the penalty document
+   * @param {string} receiptReference The receipt reference for a payment
+   */
+  storeCpmsReceiptCode(penaltyReference, receiptReference) {
+    const body = JSON.stringify({
+      penaltyReference,
+      receiptReference,
+    });
+    return new Promise((resolve, reject) => {
+      this.httpClient.put(`documents/`, body).then((response) => {
+        
+      }).catch((error) => {
+        reject(new Error(error));
+      });
+    });
+  }
 }
