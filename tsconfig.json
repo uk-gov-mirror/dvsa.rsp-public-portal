@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "target": "esnext",
+      "module": "commonjs",
+      "resolveJsonModule": true,
+      "checkJs": true,
+      "allowJs": true,
+      "noEmit": true
+    },
+    "exclude": [
+      "node_modules",
+      "test",
+      "**/*.unit.js",
+      "dist",
+      "build",
+      "src/public",
+      "cypress",
+      "dvsa-frontend-webpack"
+    ]
+  }
+  
