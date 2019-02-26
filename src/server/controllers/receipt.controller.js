@@ -1,5 +1,4 @@
-// @ts-check
-import moment from 'moment-timezone';
+import momentTimezone from 'moment-timezone';
 
 import config from '../config';
 import PenaltyGroupService from '../services/penaltyGroup.service';
@@ -14,7 +13,7 @@ const paymentService = new PaymentService(config.paymentServiceUrl());
 
 function addFormattedPaymentDateTime(payment) {
   const timestamp = payment.PaymentDate * 1000;
-  const dateTime = moment.tz(timestamp, TIMEZONE_ID);
+  const dateTime = momentTimezone.tz(timestamp, TIMEZONE_ID);
   return {
     FormattedDate: dateTime.format('DD/MM/YYYY'),
     FormattedTime: dateTime.format('h:mma'),
