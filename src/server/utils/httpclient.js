@@ -1,9 +1,8 @@
 import { isNumber } from 'lodash';
 import axios from 'axios';
-import axiosRetry from 'axios-retry';
+import axiosRetry, { isRetryableError } from 'axios-retry';
 import aws4 from 'aws4';
 import URL from 'url-parse';
-
 import config from '../config';
 
 export default class SignedHttpClient {
@@ -22,6 +21,7 @@ export default class SignedHttpClient {
   }
 
   get(path) {
+    /** @type any */
     const options = {
       path: `${this.baseUrlOb.pathname}${path}`,
       ...(config.doSignedRequests() ? this.signingOptions : {}),
@@ -36,6 +36,18 @@ export default class SignedHttpClient {
   }
 
   post(path, data, retryAttempts) {
+    const options = this.mutationOptions(path, data, retryAttempts);
+
+    return axios.post(`${this.baseUrlOb.href}${path}`, data, options);
+  }
+
+  put(path, data, retryAttempts) {
+    const options = this.mutationOptions(path, data, retryAttempts);
+
+    return axios.put(`${this.baseUrlOb.href}${path}`, data, options);
+  }
+
+  mutationOptions(path, data, retryAttempts) {
     const options = {
       body: JSON.stringify(data),
       path: `${this.baseUrlOb.pathname}${path}`,
@@ -54,12 +66,10 @@ export default class SignedHttpClient {
     if (isNumber(retryAttempts)) {
       options['axios-retry'] = {
         retries: retryAttempts,
-        retryCondition: axiosRetry.isRetryableError,
+        retryCondition: isRetryableError,
       };
     }
 
-    return axios.post(`${this.baseUrlOb.href}${path}`, data, options);
+    return options;
   }
-
-  put(path, )
 }

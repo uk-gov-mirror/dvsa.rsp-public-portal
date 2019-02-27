@@ -1,5 +1,5 @@
 import { isEmpty, has } from 'lodash';
-import moment from 'moment';
+import * as moment from 'moment';
 import SignedHttpClient from './../utils/httpclient';
 
 export default class PenaltyService {
@@ -14,7 +14,7 @@ export default class PenaltyService {
       case 'FPN':
         return 'Fixed Penalty Notice';
       case 'IM':
-        return 'immobilisation';
+        return 'Immobilisation';
       default:
         return 'Unknown';
     }
@@ -64,14 +64,30 @@ export default class PenaltyService {
    * @param {string} penaltyReference The ID of the penalty document
    * @param {string} receiptReference The receipt reference for a payment
    */
-  storeCpmsReceiptCode(penaltyReference, receiptReference) {
+  updateWithReceipt(penaltyReference, receiptReference) {
     const body = JSON.stringify({
       penaltyReference,
       receiptReference,
     });
     return new Promise((resolve, reject) => {
-      this.httpClient.put(`documents/`, body).then((response) => {
-        
+      this.httpClient.put('documents/updateWithReceipt', body).then((response) => {
+        resolve(response);
+      }).catch((error) => {
+        reject(new Error(error));
+      });
+    });
+  }
+
+  updatePenaltyGroupWithReceipt(penaltyId, receiptReference, penaltyType) {
+    const body = JSON.stringify({
+      penaltyId,
+      receiptReference,
+      penaltyType,
+    });
+
+    return new Promise((resolve, reject) => {
+      this.httpClient.put('documents/updatePenaltyGroupWithReceipt', body).then((response) => {
+        resolve(response);
       }).catch((error) => {
         reject(new Error(error));
       });

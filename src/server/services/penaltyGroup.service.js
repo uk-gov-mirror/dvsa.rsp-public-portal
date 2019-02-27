@@ -1,5 +1,5 @@
 import { find, isEmpty, uniq } from 'lodash';
-import moment from 'moment';
+import * as moment from 'moment';
 import SignedHttpClient from '../utils/httpclient';
 import PenaltyService from './penalty.service';
 
