@@ -65,32 +65,20 @@ export default class PenaltyService {
    * @param {string} receiptReference The receipt reference for a payment
    */
   updateWithReceipt(penaltyReference, receiptReference) {
-    const body = JSON.stringify({
+    const body = {
       penaltyReference,
       receiptReference,
-    });
-    return new Promise((resolve, reject) => {
-      this.httpClient.put('documents/updateWithReceipt', body).then((response) => {
-        resolve(response);
-      }).catch((error) => {
-        reject(new Error(error));
-      });
-    });
+    };
+    return this.httpClient.put('documents/updateWithReceipt/', body, 3);
   }
 
   updatePenaltyGroupWithReceipt(penaltyId, receiptReference, penaltyType) {
-    const body = JSON.stringify({
+    const body = {
       penaltyId,
       receiptReference,
       penaltyType,
-    });
+    };
 
-    return new Promise((resolve, reject) => {
-      this.httpClient.put('documents/updatePenaltyGroupWithReceipt', body).then((response) => {
-        resolve(response);
-      }).catch((error) => {
-        reject(new Error(error));
-      });
-    });
+    return this.httpClient.put('documents/updatePenaltyGroupWithReceipt/', body, 3);
   }
 }

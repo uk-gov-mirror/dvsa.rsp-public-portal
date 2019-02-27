@@ -36,21 +36,20 @@ export default class SignedHttpClient {
   }
 
   post(path, data, retryAttempts) {
-    const options = this.mutationOptions(path, data, retryAttempts);
-
+    const options = this.mutationOptions(path, data, retryAttempts, 'POST');
     return axios.post(`${this.baseUrlOb.href}${path}`, data, options);
   }
 
   put(path, data, retryAttempts) {
-    const options = this.mutationOptions(path, data, retryAttempts);
-
+    const options = this.mutationOptions(path, data, retryAttempts, 'PUT');
     return axios.put(`${this.baseUrlOb.href}${path}`, data, options);
   }
 
-  mutationOptions(path, data, retryAttempts) {
+  mutationOptions(path, data, retryAttempts, method) {
     const options = {
       body: JSON.stringify(data),
       path: `${this.baseUrlOb.pathname}${path}`,
+      method,
       headers: {
         'Content-Type': 'application/json',
       },

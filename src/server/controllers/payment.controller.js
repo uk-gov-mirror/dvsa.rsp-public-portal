@@ -37,7 +37,12 @@ const redirectForSinglePenalty = async (req, res, penaltyDetails, redirectHost) 
     await penaltyService.updateWithReceipt(penaltyDetails.reference, receiptReference);
     return res.redirect(response.data.gateway_url);
   } catch (err) {
-    logger.error(err);
+    const errorLog = {
+      message: 'Error in redirectForSinglePenalty',
+      responseData: err.response.data,
+      status: err.response.status,
+    };
+    logger.error(errorLog);
     return res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}`);
   }
 };
@@ -70,7 +75,12 @@ const redirectForPenaltyGroup = async (
     );
     return res.redirect(response.data.gateway_url);
   } catch (error) {
-    logger.error(error);
+    const errorLog = {
+      message: 'Error in redirectForPenaltyGroup',
+      responseData: error.response.data,
+      status: error.response.status,
+    };
+    logger.error(errorLog);
     return res.redirect(`${config.urlRoot()}/payment-code/${penaltyGroupDetails.paymentCode}`);
   }
 };
