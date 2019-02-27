@@ -34,7 +34,7 @@ const redirectForSinglePenalty = async (req, res, penaltyDetails, redirectHost) 
     );
     logger.error(JSON.stringify(response.data));
     const receiptReference = response.data.receipt_reference;
-    await penaltyService.updateWithReceipt(penaltyDetails.reference, receiptReference);
+    await penaltyService.updateWithReceipt(`${penaltyDetails.reference}_${penaltyDetails.type}`, receiptReference);
     return res.redirect(response.data.gateway_url);
   } catch (err) {
     const errorLog = {
