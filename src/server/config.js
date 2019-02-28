@@ -1,6 +1,6 @@
 /* eslint-disable no-multi-spaces */
 import dotenv from 'dotenv';
-import path from 'path';
+import * as path from 'path';
 import { SecretsManager } from 'aws-sdk';
 
 dotenv.config();
@@ -109,7 +109,7 @@ function region() {
 }
 
 function urlRoot() {
-  return ensureRelativeUrl(configuration[configMetadata.urlRoot]);
+  return ensureRelativeUrl('');
 }
 
 function views() {
