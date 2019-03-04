@@ -46,6 +46,13 @@ export default class PaymentService {
     }, 3);
   }
 
+  confirmPendingTransactions(customerReference, receiptReferences) {
+    return this.httpClient.post('confirmPendingTransactions', {
+      customerReference,
+      receiptReferences,
+    }, 3);
+  }
+
   makePayment(details) {
     return this.httpClient.post('payments/', details);
   }

@@ -65,6 +65,15 @@ export default class PenaltyGroupService {
     });
   }
 
+  removedCancelledTransactionsFromGroup(paymentCode, receiptReferences) {
+    const body = {
+      paymentCode,
+      receiptReferences,
+    };
+
+    return this.httpClient.put('documents/removeCancelledTransactionsFromGroup', body, 3);
+  }
+
   static getNextPayment(unpaidPayments) {
     const FPNPayment = find(unpaidPayments, ['PaymentCategory', 'FPN']);
     const CDNPayment = find(unpaidPayments, ['PaymentCategory', 'CDN']);

@@ -81,4 +81,13 @@ export default class PenaltyService {
 
     return this.httpClient.put('documents/updatePenaltyGroupWithReceipt/', body, 3);
   }
+
+  removedCancelledTransactions(penaltyId, receiptReferences) {
+    const body = {
+      penaltyId,
+      receiptReferences,
+    };
+
+    return this.httpClient.put('documents/removeCancelledTransactions', body, 3);
+  }
 }
