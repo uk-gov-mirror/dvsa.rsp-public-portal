@@ -41,6 +41,7 @@ export default class PenaltyService {
       paymentDate: rawPenalty.paymentDate ? moment.unix(rawPenalty.paymentDate).format('DD/MM/YYYY') : undefined,
       paymentAuthCode: rawPenalty.paymentAuthCode,
       paymentRef: rawPenalty.paymentRef,
+      PendingTransactions: data.PendingTransactions,
     };
     return penaltyDetails;
   }

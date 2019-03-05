@@ -106,7 +106,7 @@ export const redirectToPaymentPage = async (req, res) => {
     try {
       const pendingTransaction = await confirmPendingTransactions(
         entityForCode,
-        paymentCode,
+        entityForCode.type,
         entityForCode.PendingTransactions,
       );
       if (pendingTransaction) {
@@ -127,37 +127,44 @@ export const redirectToPaymentPage = async (req, res) => {
 
 /**
  * Check if any pending transactions are complete. If they are, add payment record.
- * @param {string} customerReference
+ * @param {*} penalty
+ * @param {string} penaltyType
  * @param {string[]} receiptReferences
  * @returns {Promise<boolean>} The payment status
  */
-const confirmPendingTransactions = async (penalty, customerReference, receiptReferences) => {
+const confirmPendingTransactions = async (penalty, penaltyType, receiptReferences) => {
   if (receiptReferences === undefined || receiptReferences.length === 0) {
     return false;
   }
 
-  const transactions = (await cpmsService.confirmPendingTransactions(
-    customerReference,
-    receiptReferences,
-  )).data;
+  try {
+    const transactions = (await cpmsService.confirmPendingTransactions(
+      penaltyType,
+      receiptReferences,
+    )).data;
 
-  transactions.paid.forEach(async (transaction) => {
-    const paymentPayload = buildPaymentPayload(
-      penalty,
-      transaction.receiptRef,
-      transaction.authCode,
-    );
-    console.log('Making payment with payload', paymentPayload);
-    await paymentService.makePayment(paymentPayload);
-  });
+    console.log(transactions);
 
-  const cancelledReceipts = transactions.cancelled.map(transaction => transaction.receiptRef);
-  if (cancelledReceipts.length !== 0) {
-    console.log(`Removing ${cancelledReceipts.length} receipts`);
-    await penaltyService.removedCancelledTransactions(cancelledReceipts);
+    transactions.paid.forEach(async (transaction) => {
+      const paymentPayload = buildPaymentPayload(
+        penalty,
+        transaction.receiptRef,
+        transaction.authCode,
+      );
+      await paymentService.makePayment(paymentPayload);
+    });
+
+    const cancelledReceipts = transactions.cancelled.map(transaction => transaction.receiptRef);
+    if (cancelledReceipts.length !== 0) {
+      console.log(`Removing ${cancelledReceipts.length} receipts`);
+      await penaltyService.removedCancelledTransactions(cancelledReceipts);
+    }
+
+    return transactions.paid.length !== 0;
+  } catch (err) {
+    console.error(err);
+    return false;
   }
-
-  return transactions.paid.length !== 0;
 };
 
 export const confirmPayment = async (req, res) => {
