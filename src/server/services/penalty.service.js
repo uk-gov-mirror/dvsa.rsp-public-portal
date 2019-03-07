@@ -65,10 +65,11 @@ export default class PenaltyService {
    * @param {string} penaltyReference The ID of the penalty document
    * @param {string} receiptReference The receipt reference for a payment
    */
-  updateWithReceipt(penaltyReference, receiptReference) {
+  updateWithReceipt(penaltyReference, receiptReference, pendingTransactions) {
     const body = {
       penaltyReference,
       receiptReference,
+      pendingTransactions,
     };
     return this.httpClient.put('documents/updateWithReceipt/', body, 3);
   }
@@ -85,10 +86,9 @@ export default class PenaltyService {
 
   removedCancelledTransactions(penaltyId, receiptReferences) {
     const body = {
-      penaltyId,
       receiptReferences,
     };
 
-    return this.httpClient.put('documents/removeCancelledTransactions', body, 3);
+    return this.httpClient.put(`documents/${penaltyId}/removeCancelledReceipts`, body, 3);
   }
 }

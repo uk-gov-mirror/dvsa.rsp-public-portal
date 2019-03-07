@@ -34,7 +34,10 @@ const redirectForSinglePenalty = async (req, res, penaltyDetails, redirectHost) 
     );
     logger.error(JSON.stringify(response.data));
     const receiptReference = response.data.receipt_reference;
-    await penaltyService.updateWithReceipt(`${penaltyDetails.reference}_${penaltyDetails.type}`, receiptReference);
+    await penaltyService.updateWithReceipt(
+      `${penaltyDetails.reference}_${penaltyDetails.type}`,
+      receiptReference, penaltyDetails.PendingTransactions,
+    );
     return res.redirect(response.data.gateway_url);
   } catch (err) {
     const errorLog = {
@@ -50,28 +53,44 @@ const redirectForSinglePenalty = async (req, res, penaltyDetails, redirectHost) 
 const redirectForPenaltyGroup = async (
   req,
   res,
-  penaltyGroupDetails,
+  groupResponse,
   penaltyType,
   redirectHost,
 ) => {
-  const redirectUrl = `${redirectHost}/payment-code/${penaltyGroupDetails.paymentCode}/${penaltyType}/confirmGroupPayment`;
-  const penaltyOverviewsForType = penaltyGroupDetails.penaltyDetails
+  const errRedirect = `${config.urlRoot()}/payment-code/${groupResponse.paymentCode}`;
+  try {
+    const confirmedPayment = await confirmPendingTransactions(
+      groupResponse,
+      penaltyType,
+      groupResponse.PendingTransactions,
+    );
+    if (confirmedPayment) {
+      return res.redirect(errRedirect);
+    }
+  } catch (error) {
+    return res.redirect(errRedirect);
+  }
+
+  const redirectUrl = `${redirectHost}/payment-code/${groupResponse.paymentCode}/${penaltyType}/confirmGroupPayment`;
+  const penaltyOverviewsForType = groupResponse.penaltyDetails
     .find(grouping => grouping.type === penaltyType).penalties;
   const amountForType = penaltyOverviewsForType.reduce((total, pen) => total + pen.amount, 0);
 
   try {
     const response = await cpmsService.createGroupCardPaymentTransaction(
-      penaltyGroupDetails.paymentCode,
+      groupResponse.paymentCode,
       amountForType,
-      penaltyGroupDetails.penaltyGroupDetails.registrationNumber,
+      groupResponse.penaltyGroupDetails.registrationNumber,
       penaltyType,
       penaltyOverviewsForType,
       redirectUrl,
     );
     const receiptReference = response.data.receipt_reference;
+
     await penaltyService.updatePenaltyGroupWithReceipt(
-      penaltyGroupDetails.reference,
+      groupResponse.paymentCode,
       receiptReference,
+      groupResponse.PendingTransactions,
     );
     return res.redirect(response.data.gateway_url);
   } catch (error) {
@@ -81,7 +100,7 @@ const redirectForPenaltyGroup = async (
       status: error.response.status,
     };
     logger.error(errorLog);
-    return res.redirect(`${config.urlRoot()}/payment-code/${penaltyGroupDetails.paymentCode}`);
+    return res.redirect(errRedirect);
   }
 };
 
@@ -104,12 +123,12 @@ export const redirectToPaymentPage = async (req, res) => {
     }
 
     try {
-      const pendingTransaction = await confirmPendingTransactions(
+      const confirmedPayment = await confirmPendingTransactions(
         entityForCode,
         entityForCode.type,
         entityForCode.PendingTransactions,
       );
-      if (pendingTransaction) {
+      if (confirmedPayment) {
         const url = `${config.urlRoot()}/payment-code/${paymentCode}`;
         return res.redirect(url);
       }
@@ -133,7 +152,7 @@ export const redirectToPaymentPage = async (req, res) => {
  * @returns {Promise<boolean>} The payment status
  */
 const confirmPendingTransactions = async (penalty, penaltyType, receiptReferences) => {
-  if (receiptReferences === undefined || receiptReferences.length === 0) {
+  if (!receiptReferences) {
     return false;
   }
 
@@ -145,14 +164,11 @@ const confirmPendingTransactions = async (penalty, penaltyType, receiptReference
 
     console.log(transactions);
 
-    transactions.paid.forEach(async (transaction) => {
-      const paymentPayload = buildPaymentPayload(
-        penalty,
-        transaction.receiptRef,
-        transaction.authCode,
-      );
-      await paymentService.makePayment(paymentPayload);
-    });
+    const paymentRequests = transactions.paid.map(transaction => (
+      recordPayment(penalty, transaction, penaltyType)
+    ));
+
+    await Promise.all(paymentRequests);
 
     const cancelledReceipts = transactions.cancelled.map(transaction => transaction.receiptRef);
     if (cancelledReceipts.length !== 0) {
@@ -164,6 +180,26 @@ const confirmPendingTransactions = async (penalty, penaltyType, receiptReference
   } catch (err) {
     console.error(err);
     return false;
+  }
+};
+
+const recordPayment = async (penalty, transaction, penaltyType) => {
+  if (penalty.isPenaltyGroup) {
+    const groupPaymentPayload = buildGroupPaymentPayload(
+      penalty.paymentCode,
+      transaction.receiptRef,
+      penaltyType,
+      penalty,
+      transaction.authCode,
+    );
+    await paymentService.recordGroupPayment(groupPaymentPayload);
+  } else {
+    const paymentPayload = buildPaymentPayload(
+      penalty,
+      transaction.receiptRef,
+      transaction.authCode,
+    );
+    await paymentService.makePayment(paymentPayload);
   }
 };
 
@@ -225,7 +261,7 @@ export const confirmGroupPayment = async (req, res) => {
         receiptReference,
         type,
         groupDetails,
-        confirmResp,
+        confirmResp.data.auth_code,
       );
       await paymentService.recordGroupPayment(payload);
       res.redirect(`${config.urlRoot()}/payment-code/${paymentCode}/${type}/receipt`);
@@ -254,7 +290,7 @@ const buildPaymentPayload = (penaltyDetails, receiptReference, authCode) => ({
   },
 });
 
-function buildGroupPaymentPayload(paymentCode, receiptReference, type, penaltyGroup, confirmResp) {
+function buildGroupPaymentPayload(paymentCode, receiptReference, type, penaltyGroup, authCode) {
   const amountForType = penaltyGroup.penaltyGroupDetails.splitAmounts
     .find(a => a.type === type).amount;
   return {
@@ -263,7 +299,7 @@ function buildGroupPaymentPayload(paymentCode, receiptReference, type, penaltyGr
     PaymentDetail: {
       PaymentMethod: 'CARD',
       PaymentRef: receiptReference,
-      AuthCode: confirmResp.data.auth_code,
+      AuthCode: authCode,
       PaymentAmount: amountForType,
       PaymentDate: Math.floor(Date.now() / 1000),
     },
