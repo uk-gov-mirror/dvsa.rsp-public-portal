@@ -71,17 +71,16 @@ export default class PenaltyService {
       receiptReference,
       pendingTransactions,
     };
-    return this.httpClient.put('documents/updateWithReceipt/', body, 3);
+    return this.httpClient.put(`documents/${penaltyReference}/updateWithReceipt/`, body, 3);
   }
 
-  updatePenaltyGroupWithReceipt(penaltyId, receiptReference, penaltyType) {
+  updatePenaltyGroupWithReceipt(penaltyGroupId, receiptReference, penaltyType) {
     const body = {
-      penaltyId,
       receiptReference,
       penaltyType,
     };
 
-    return this.httpClient.put('documents/updatePenaltyGroupWithReceipt/', body, 3);
+    return this.httpClient.put(`penaltyGroup/${penaltyGroupId}/updateWithReceipt/`, body, 3);
   }
 
   removedCancelledTransactions(penaltyId, receiptReferences) {
@@ -89,6 +88,14 @@ export default class PenaltyService {
       receiptReferences,
     };
 
-    return this.httpClient.put(`documents/${penaltyId}/removeCancelledReceipts`, body, 3);
+    return this.httpClient.put(`documents/${penaltyId}/removeReceipts`, body, 3);
+  }
+
+  removeGroupCancelledTransactions(penaltyGroupId, receiptReferences) {
+    const body = {
+      receiptReferences,
+    };
+
+    return this.httpClient.put(`penaltyGroup/${penaltyGroupId}/removeReceipts`, body, 3);
   }
 }

@@ -173,7 +173,11 @@ const confirmPendingTransactions = async (penalty, penaltyType, receiptReference
     const cancelledReceipts = transactions.cancelled.map(transaction => transaction.receiptRef);
     if (cancelledReceipts.length !== 0) {
       console.log(`Removing ${cancelledReceipts.length} receipts`);
-      await penaltyService.removedCancelledTransactions(cancelledReceipts);
+      if (penalty.isPenaltyGroup()) {
+        await penaltyService.removeGroupCancelledTransactions(cancelledReceipts);
+      } else {
+        await penaltyService.removedCancelledTransactions(cancelledReceipts);
+      }
     }
 
     return transactions.paid.length !== 0;
