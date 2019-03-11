@@ -109,7 +109,7 @@ function region() {
 }
 
 function urlRoot() {
-  return ensureRelativeUrl('');
+  return ensureRelativeUrl(configuration[configMetadata.urlRoot]);
 }
 
 function views() {
