@@ -134,7 +134,7 @@
         </tr>
         <tr>
           <td>{{ t.penalty_details.location }}</td>
-          <td><strong>{{ location }}</strong></td>
+          <td><strong>{{ location | escape }}</strong></td>
         </tr>
       </table>
       <h3 class="heading-medium">{{ t.payment_details.payment_receipt_print_header  }}</h3>
