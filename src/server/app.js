@@ -70,6 +70,8 @@ export default async () => {
     maxAge: SIXTY_DAYS_IN_SECONDS,
   }));
 
+  app.use(helmet.xssFilter());
+
   // Add express to the nunjucks enviroment instance
   env.express(app);
   app.use(cookieParser());
