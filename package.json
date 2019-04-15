@@ -5,7 +5,7 @@
   "engines": {
     "node": "8.10"
   },
-  "main": "build/handler.js",
+  "main": "handler.js",
   "scripts": {
     "bundle": "npm run clean && npm run build-prod && webpack",
     "build": "npm run build-server && npm run build-frontend",
