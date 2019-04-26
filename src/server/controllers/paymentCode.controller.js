@@ -3,7 +3,7 @@ import paymentCodeValidation from './../validation/paymentCode';
 import PenaltyService from '../services/penalty.service';
 import PenaltyGroupService from '../services/penaltyGroup.service';
 import config from '../config';
-import logger from './../utils/logger';
+import { logError } from './../utils/logger';
 
 const penaltyService = new PenaltyService(config.penaltyServiceUrl());
 const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl());
@@ -31,7 +31,7 @@ export const validatePaymentCode = [
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      logger.error(errors.mapped());
+      logError('ValidatePaymentCodeError', errors.mapped());
 
       const viewData = {
         invalidPaymentCode: true,
@@ -49,7 +49,7 @@ export const getPaymentDetails = [
     console.log('getting payment details');
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      logger.error(errors.mapped());
+      logError('ValidatePaymentCodeError', errors.mapped());
       res.redirect('../payment-code?invalidPaymentCode');
     } else {
       const paymentCode = req.params.payment_code;
@@ -76,8 +76,7 @@ export const getPaymentDetails = [
         } else {
           res.redirect('../payment-code?invalidPaymentCode');
         }
-      }).catch((error) => {
-        logger.error(error);
+      }).catch(() => {
         res.redirect('../payment-code?invalidPaymentCode');
       });
     }
@@ -86,14 +85,12 @@ export const getPaymentDetails = [
 
 export const getMultiPenaltyPaymentSummary = [
   (req, res) => {
-    console.log('getting multi penalty details and sending to payment/multiPaymentSummary');
     const paymentCode = req.params.payment_code;
     const { type } = req.params;
     penaltyGroupService.getPaymentsByCodeAndType(paymentCode, type).then((penaltiesForType) => {
       const paymentStatus = penaltiesForType.penaltyDetails.every(p => p.status === 'PAID') ? 'PAID' : 'UNPAID';
       res.render('payment/multiPaymentSummary', { paymentCode, paymentStatus, ...penaltiesForType });
-    }).catch((error) => {
-      logger.error(error);
+    }).catch(() => {
       res.redirect('../payment-code?invalidPaymentCode');
     });
   },

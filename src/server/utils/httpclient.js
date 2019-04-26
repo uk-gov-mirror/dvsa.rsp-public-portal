@@ -5,11 +5,13 @@ import aws4 from 'aws4';
 import URL from 'url-parse';
 
 import config from '../config';
+import { logAxiosError } from './logger';
 
 export default class SignedHttpClient {
-  constructor(baseURL, headers) {
+  constructor(baseURL, headers, serviceName) {
     this.baseUrlOb = new URL(baseURL);
     this.headers = headers;
+    this.serviceName = serviceName;
     this.credentials = {
       clientId: config.clientId(),
       clientSecret: config.clientSecret(),
@@ -21,7 +23,7 @@ export default class SignedHttpClient {
     axiosRetry(axios);
   }
 
-  get(path) {
+  get(path, logName) {
     const options = {
       path: `${this.baseUrlOb.pathname}${path}`,
       ...(config.doSignedRequests() ? this.signingOptions : {}),
@@ -32,10 +34,13 @@ export default class SignedHttpClient {
         secretAccessKey: this.credentials.clientSecret,
       });
     }
-    return axios.get(`${this.baseUrlOb.href}${path}`, options);
+    return axios.get(`${this.baseUrlOb.href}${path}`, options).catch((err) => {
+      logAxiosError(logName, this.serviceName, err);
+      throw err;
+    });
   }
 
-  post(path, data, retryAttempts) {
+  post(path, data, retryAttempts, logName) {
     const options = {
       body: JSON.stringify(data),
       path: `${this.baseUrlOb.pathname}${path}`,
@@ -51,13 +56,16 @@ export default class SignedHttpClient {
       });
     }
 
-    if (isNumber(retryAttempts)) {
+    if (isNumber(retryAttempts) && retryAttempts !== 0) {
       options['axios-retry'] = {
         retries: retryAttempts,
         retryCondition: axiosRetry.isRetryableError,
       };
     }
 
-    return axios.post(`${this.baseUrlOb.href}${path}`, data, options);
+    return axios.post(`${this.baseUrlOb.href}${path}`, data, options).catch((err) => {
+      logAxiosError(logName, this.serviceName, err, data);
+      throw err;
+    });
   }
 }

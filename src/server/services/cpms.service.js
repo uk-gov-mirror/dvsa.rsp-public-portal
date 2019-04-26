@@ -1,8 +1,9 @@
 import SignedHttpClient from './../utils/httpclient';
+import { ServiceName } from '../utils/logger';
 
 export default class PaymentService {
   constructor(serviceUrl) {
-    this.httpClient = new SignedHttpClient(serviceUrl);
+    this.httpClient = new SignedHttpClient(serviceUrl, {}, ServiceName.CPMS);
   }
 
   createCardPaymentTransaction(
@@ -17,7 +18,7 @@ export default class PaymentService {
       penalty_amount: amount,
       redirect_url: redirectUrl,
       vehicle_reg: reg,
-    }, 3);
+    }, 3, 'CardPayment');
   }
 
   createGroupCardPaymentTransaction(penGrpId, amount, vehicleReg, type, penOverviews, redirectUrl) {
@@ -28,7 +29,7 @@ export default class PaymentService {
       PenaltyType: type,
       RedirectUrl: redirectUrl,
       Penalties: penOverviews.map(PaymentService.sanitisePenaltyForCpmsGroupCall),
-    }, 3);
+    }, 3, 'GroupCardPayment');
   }
 
   static sanitisePenaltyForCpmsGroupCall(penalty) {
@@ -43,10 +44,10 @@ export default class PaymentService {
     return this.httpClient.post('confirm/', {
       receipt_reference: receiptReference,
       penalty_type: penaltyType,
-    }, 3);
+    }, 3, 'ConfirmPayment');
   }
 
   makePayment(details) {
-    return this.httpClient.post('payments/', details);
+    return this.httpClient.post('payments/', details, 0, 'MakePayment');
   }
 }

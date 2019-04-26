@@ -3,7 +3,7 @@ import PaymentService from './../services/payment.service';
 import PenaltyService from './../services/penalty.service';
 import CpmsService from './../services/cpms.service';
 import config from './../config';
-import logger from './../utils/logger';
+import { logInfo, logError } from './../utils/logger';
 import PenaltyGroupService from '../services/penaltyGroup.service';
 
 const paymentService = new PaymentService(config.paymentServiceUrl());
@@ -33,10 +33,9 @@ const redirectForSinglePenalty = (req, res, penaltyDetails, redirectHost) => {
     redirectUrl,
     penaltyDetails.reference,
   ).then((response) => {
-    logger.error(JSON.stringify(response.data));
+    logInfo('RedirectFromSinglePenaltyResponse', response.data);
     res.redirect(response.data.gateway_url);
-  }).catch((error) => {
-    logger.error(error);
+  }).catch(() => {
     res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}`);
   });
 };
@@ -55,8 +54,7 @@ const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType, red
     penaltyOverviewsForType,
     redirectUrl,
   ).then(response => res.redirect(response.data.gateway_url))
-    .catch((error) => {
-      logger.error(error);
+    .catch(() => {
       res.redirect(`${config.urlRoot()}/payment-code/${penaltyGroupDetails.paymentCode}`);
     });
 };
@@ -79,8 +77,7 @@ export const redirectToPaymentPage = async (req, res) => {
     }
 
     return redirectForSinglePenalty(req, res, entityForCode, config.redirectUrl());
-  } catch (error) {
-    logger.error(error);
+  } catch (err) {
     return res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);
   }
 };
@@ -115,26 +112,30 @@ export const confirmPayment = async (req, res) => {
         };
         await paymentService.makePayment(details)
           .then(() => res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}/receipt`))
-          .catch((error) => {
-            logger.error(error);
+          .catch(() => {
             res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}`);
           });
       } else {
-        logger.warn(response.data);
+        if (response.data.code === 807) {
+          logInfo('UserCancelledPayment', {
+            statusCode: 807,
+            receiptReference,
+            paymentCode,
+          });
+        } else {
+          logError('ConfirmPaymentNon801', response.data);
+        }
         res.render('payment/failedPayment', { paymentCode });
       }
-    }).catch((error) => {
-      logger.error(error);
+    }).catch(() => {
       res.render('payment/failedPayment', { paymentCode });
     });
   } catch (error) {
-    logger.error(error);
     res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);
   }
 };
 
 export const confirmGroupPayment = async (req, res) => {
-  console.log('confirming group payment');
   const paymentCode = req.params.payment_code;
   try {
     const receiptReference = req.query.receipt_reference;
@@ -156,12 +157,17 @@ export const confirmGroupPayment = async (req, res) => {
       await paymentService.recordGroupPayment(payload);
       res.redirect(`${config.urlRoot()}/payment-code/${paymentCode}/${type}/receipt`);
     } else if (cpmsCode === 807) {
+      logInfo('UserCancelledPayment', {
+        statusCode: 807,
+        receiptReference,
+        paymentCode,
+      });
       res.redirect(`${config.urlRoot()}/payment-code/${paymentCode}`);
     } else {
+      logError('ConfirmPaymentNon801Or807', confirmResp.data);
       res.render('payment/failedPayment', { paymentCode });
     }
   } catch (error) {
-    logger.error(error);
     res.render('payment/failedPayment', { paymentCode });
   }
 };
