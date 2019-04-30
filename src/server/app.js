@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import 'babel-polyfill';
+import '@babel/polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
 import compression from 'compression';
@@ -121,7 +121,7 @@ export default async () => {
   });
   app.use(awsServerlessExpressMiddleware.eventContext());
   // Load routes module dynamically to allow config to initialise
-  app.use('/', require('./routes'));
+  app.use('/', require('./routes').default);
 
   app.use(errorhandler());
   return app;
