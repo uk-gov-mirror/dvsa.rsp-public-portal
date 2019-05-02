@@ -59,6 +59,28 @@ const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType, red
     });
 };
 
+// Mock payment status
+const lastPaymentAttemptTime = new Date();
+
+export const redirectToPaymentPageUnlessPending = async (req, res) => {
+  try {
+    const entityForCode = await getPenaltyOrGroupDetails(req);
+    if (entityForCode.status !== 'PAID' && isPaymentPending(new Date())) {
+      return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}/pending`);
+    }
+    return redirectToPaymentPage(req, res);
+  } catch (err) {
+    return res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);
+  }
+};
+
+/** 30 minutes */
+const PAYMENT_PENDING_TIMEOUT = 1000 * 60 * 30;
+
+function isPaymentPending(paymentTime) {
+  return (paymentTime - lastPaymentAttemptTime) < PAYMENT_PENDING_TIMEOUT;
+}
+
 export const redirectToPaymentPage = async (req, res) => {
   console.log('redirecting to payment page');
   let entityForCode;

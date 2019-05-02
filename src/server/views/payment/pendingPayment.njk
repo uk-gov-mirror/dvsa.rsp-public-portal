@@ -1,0 +1,47 @@
+{% extends 'layouts/default.layout.njk' %}
+
+{% set pageTitle = t.site_title %}
+{% set pageBreadcrumbItems = [
+    { text: t.breadcrumbs.home, url: '/' },
+    { text: t.breadcrumbs.payment_code, url: '/payment-code' },
+    { text: t.breadcrumbs.penalty_details, url: '/payment-code/' + paymentCode },
+    { text: "Confirm pending" }
+  ] 
+%}
+
+{% set paid = true if status == 'PAID' else false %}
+{% set statusClass = 'confirmed' if paid else 'unconfirmed' %}
+
+{% block content %}
+  
+  {% call components.gridRow() %}
+    {% call components.columnTwoThirds() %}
+      {% call components.form(action='/payment-code/'+paymentCode+'/payment/confirmed', method='POST')  %}
+        {{ components.heading(text="Possible pending payment", tag='h1', size='xlarge') }}
+        {# {{ components.heading(text=t.penalty_details_page.intro_part_paid, tag='h2', size='medium') }} #}
+        <div class="pending-payment-info-container">
+          {{ components.notice(text="Another payment session is active. Please wait up to 30 minutes for a payment to be processed or you may be charged twice.") }}
+        </div>
+        <div class="pending-payment-button-container">
+          {{ components.button(text="Continue to payment", type="submit", type="alert") }}
+          {{ components.button(text="Go back", type="submit", start='true', type="info") }}
+        </div>
+      {%- endcall %}
+    {%- endcall %}
+    {% call components.columnOneThird() %}
+      <aside class="govuk-related-items" role="complementary">
+        {{ components.heading(text=t.home.language_guidance_header + ':', tag='h3', size='small', id='language-links-header' )}}
+        <nav role="navigation" aria-labelledby="language-links-header">
+          <ul class="font-xsmall">
+            <li>{{ components.link(text='Cymraeg', url='?clang=cy') if clang != 'cy' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='Deutsch', url='?clang=de') if clang != 'de' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='Español', url='?clang=es') if clang != 'es' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='Français', url='?clang=fr') if clang != 'fr' else components.link(text='English', url='?clang=en') }}</li>
+            <li>{{ components.link(text='Polski', url='?clang=pl') if clang != 'pl' else components.link(text='English', url='?clang=en') }}</li>
+          </ul>
+        </nav>
+      </aside>
+    {%- endcall %}
+  {%- endcall %}
+  
+{% endblock %}
