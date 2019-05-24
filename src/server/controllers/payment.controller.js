@@ -83,10 +83,10 @@ export const redirectToPaymentPage = async (req, res) => {
 };
 
 export const confirmPayment = async (req, res) => {
-  console.log('confirming payment');
   const receiptReference = req.query.receipt_reference;
   const paymentCode = req.params.payment_code;
   let penaltyDetails;
+  const logMessage = { receiptReference, paymentCode };
 
   try {
     penaltyDetails = await getPenaltyOrGroupDetails(req);
@@ -96,6 +96,7 @@ export const confirmPayment = async (req, res) => {
       penaltyDetails.type,
     ).then(async (response) => {
       if (response.data.code === 801) {
+        logInfo('PaymentConfirmed', logMessage);
         // Payment successful
         const details = {
           PaymentCode: penaltyDetails.paymentCode,
@@ -118,19 +119,29 @@ export const confirmPayment = async (req, res) => {
       } else {
         if (response.data.code === 807) {
           logInfo('UserCancelledPayment', {
+            ...logMessage,
             statusCode: 807,
-            receiptReference,
-            paymentCode,
           });
         } else {
-          logError('ConfirmPaymentNon801', response.data);
+          logError('ConfirmPaymentNon801', {
+            ...logMessage,
+            responseData: response.data,
+          });
         }
         res.render('payment/failedPayment', { paymentCode });
       }
-    }).catch(() => {
+    }).catch((error) => {
+      logError('CPMSConfirmPaymentError', {
+        ...logMessage,
+        error: error.message,
+      });
       res.render('payment/failedPayment', { paymentCode });
     });
   } catch (error) {
+    logError('ConfirmPaymentPageError', {
+      ...logMessage,
+      error: error.message,
+    });
     res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);
   }
 };
