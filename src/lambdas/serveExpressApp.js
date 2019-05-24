@@ -36,7 +36,7 @@ function isProd() {
 let lambdaExpressServer;
 export default async (event, context) => {
   if (!lambdaExpressServer) {
-    logInfo('ServerInit', 'Creating new express server')
+    logInfo('ServerInit', 'Creating new express server');
     const expressApp = await app();
     lambdaExpressServer = awsServerlessExpress.createServer(expressApp, null, binaryMimeTypes);
   }

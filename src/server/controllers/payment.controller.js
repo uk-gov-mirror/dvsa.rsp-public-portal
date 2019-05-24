@@ -112,8 +112,12 @@ export const confirmPayment = async (req, res) => {
           },
         };
         await paymentService.makePayment(details)
-          .then(() => res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}/receipt`))
-          .catch(() => {
+          .then(() => {
+            logInfo('RecordPaymentSuccess', logMessage);
+            res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}/receipt`);
+          })
+          .catch((error) => {
+            logError('RecordPaymentError', { ...logMessage, error: error.message });
             res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}`);
           });
       } else {
@@ -148,8 +152,9 @@ export const confirmPayment = async (req, res) => {
 
 export const confirmGroupPayment = async (req, res) => {
   const paymentCode = req.params.payment_code;
+  const receiptReference = req.query.receipt_reference;
+  const logMessage = { paymentCode, receiptReference };
   try {
-    const receiptReference = req.query.receipt_reference;
     const { type } = req.params;
     const confirmPromise = cpmsService.confirmPayment(receiptReference, type);
     const groupDetailsPromise = getPenaltyOrGroupDetails(req);
@@ -158,6 +163,7 @@ export const confirmGroupPayment = async (req, res) => {
     const cpmsCode = confirmResp.data.code;
 
     if (cpmsCode === 801) {
+      logInfo('CPMSConfirmSuccess', logMessage);
       const payload = buildGroupPaymentPayload(
         paymentCode,
         receiptReference,
@@ -166,6 +172,7 @@ export const confirmGroupPayment = async (req, res) => {
         confirmResp,
       );
       await paymentService.recordGroupPayment(payload);
+      logInfo('RecordGroupPaymentSuccess', logMessage);
       res.redirect(`${config.urlRoot()}/payment-code/${paymentCode}/${type}/receipt`);
     } else if (cpmsCode === 807) {
       logInfo('UserCancelledPayment', {
@@ -175,10 +182,14 @@ export const confirmGroupPayment = async (req, res) => {
       });
       res.redirect(`${config.urlRoot()}/payment-code/${paymentCode}`);
     } else {
-      logError('ConfirmPaymentNon801Or807', confirmResp.data);
+      logError('ConfirmGroupPaymentUnhandlerCode', confirmResp.data);
       res.render('payment/failedPayment', { paymentCode });
     }
   } catch (error) {
+    logError('ConfirmGroupPaymentPageError', {
+      ...logMessage,
+      error: error.message,
+    });
     res.render('payment/failedPayment', { paymentCode });
   }
 };
