@@ -33,7 +33,10 @@ const redirectForSinglePenalty = (req, res, penaltyDetails, redirectHost) => {
     redirectUrl,
     penaltyDetails.reference,
   ).then((response) => {
-    logInfo('RedirectFromSinglePenaltyResponse', response.data);
+    logInfo('RedirectPaymentPage', {
+      paymentCode,
+      redirectUrl: response.data.gateway_url,
+    });
     res.redirect(response.data.gateway_url);
   }).catch(() => {
     res.redirect(`${config.urlRoot()}/payment-code/${penaltyDetails.paymentCode}`);
@@ -53,31 +56,50 @@ const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType, red
     penaltyType,
     penaltyOverviewsForType,
     redirectUrl,
-  ).then(response => res.redirect(response.data.gateway_url))
+  ).then((response) => {
+    logInfo('RedirectPaymentPage', {
+      paymentCode: penaltyGroupDetails.paymentCode,
+      penaltyType,
+      redirectUrl: response.data.gateway_url,
+    });
+    return res.redirect(response.data.gateway_url);
+  })
     .catch(() => {
+      logError('RedirectPaymentPageError', {
+        paymentCode: penaltyGroupDetails.paymentCode,
+        penaltyType,
+      });
       res.redirect(`${config.urlRoot()}/payment-code/${penaltyGroupDetails.paymentCode}`);
     });
 };
 
 export const redirectToPaymentPage = async (req, res) => {
-  console.log('redirecting to payment page');
   let entityForCode;
   try {
     entityForCode = await getPenaltyOrGroupDetails(req);
 
     if (entityForCode.status === 'PAID' || entityForCode.paymentStatus === 'PAID') {
-      const url = `${config.urlRoot()}/payment-code/${entityForCode.paymentCode}`;
-      return res.redirect(url);
+      const redirectUrl = `${config.urlRoot()}/payment-code/${entityForCode.paymentCode}`;
+      logInfo('RedirectAlreadyPaid', {
+        paymentCode: entityForCode.paymentCode,
+      });
+      return res.redirect(redirectUrl);
     }
+
+    const redirectUrl = config.redirectUrl();
 
     if (entityForCode.isPenaltyGroup) {
       const penaltyGroupType = req.params.type;
-      const redirectUrl = config.redirectUrl();
       return redirectForPenaltyGroup(req, res, entityForCode, penaltyGroupType, redirectUrl);
     }
 
-    return redirectForSinglePenalty(req, res, entityForCode, config.redirectUrl());
+    return redirectForSinglePenalty(req, res, entityForCode, redirectUrl);
   } catch (err) {
+    logError('RedirectPaymentPageError', {
+      paymentCode: req.params.payment_code,
+      penaltyDocumentId: req.params.penalty_id,
+      error: err.message,
+    });
     return res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);
   }
 };
