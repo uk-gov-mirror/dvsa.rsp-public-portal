@@ -11,7 +11,8 @@
     "fixed_penalty": "Cosb benodedig",
     "receipt": "Derbynneb",
     "penalty_details": "Manylion cosb",
-    "payment": "Talu"
+    "payment": "Talu",
+    "active_session": "Rhybudd"
   },
   "languages": {
     "english": "Saesneg",
@@ -163,5 +164,11 @@
     "new_service": "Gwasanaeth newydd yw hwn - eich",
     "feedback": "adborth",
     "help_improve": "yn ein helpu i wella."
+  },
+  "payment_pending_page": {
+    "title": "Rhybudd",
+    "pending_notice": "Mae sesiwn dalu arall yn weithredol ar gyfer y cod talu hwn. Arhoswch hyd at 30 munud i daliad gael ei brosesu neu efallai y codir tâl arnoch ddwywaith.",
+    "pay_button": "Parhau",
+    "cancel_button": "Canslo"
   }
 }

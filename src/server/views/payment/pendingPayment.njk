@@ -5,7 +5,7 @@
     { text: t.breadcrumbs.home, url: '/' },
     { text: t.breadcrumbs.payment_code, url: '/payment-code' },
     { text: t.breadcrumbs.penalty_details, url: '/payment-code/' + paymentCode },
-    { text: "Confirm pending" }
+    { text: t.breadcrumbs.active_session }
   ] 
 %}
 
@@ -17,14 +17,14 @@
   {% call components.gridRow() %}
     {% call components.columnTwoThirds() %}
       {% call components.form(action='/payment-code/'+paymentCode+'/payment/confirmed', method='POST')  %}
-        {{ components.heading(text="Active payment session", tag='h1', size='xlarge') }}
+        {{ components.heading(text=t.payment_pending_page.title, tag='h1', size='xlarge') }}
         {# {{ components.heading(text=t.penalty_details_page.intro_part_paid, tag='h2', size='medium') }} #}
         <div class="pending-payment-info-container">
-          {{ components.notice(text="Another payment session is active. Please wait up to 30 minutes for a payment to be processed or you may be charged twice.") }}
+          {{ components.notice(text=t.payment_pending_page.pending_notice) }}
         </div>
         <div class="pending-payment-button-container">
-          {{ components.button(text="Continue to payment", type="submit", type="alert") }}
-          {{ components.button(text="Go back", type="submit", start='true', type="info") }}
+          {{ components.button(text=t.payment_pending_page.pay_button, type="submit", type="alert") }}
+          {{ components.button(text=t.payment_pending_page.cancel_button, type="submit", start='true', type="info") }}
         </div>
       {%- endcall %}
     {%- endcall %}
