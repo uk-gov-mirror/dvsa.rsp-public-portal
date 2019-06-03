@@ -59,14 +59,18 @@ const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType, red
     });
 };
 
-// Mock payment status
-const lastPaymentAttemptTime = new Date();
-
 export const redirectToPaymentPageUnlessPending = async (req, res) => {
   try {
     const entityForCode = await getPenaltyOrGroupDetails(req);
-    if (entityForCode.status !== 'PAID' && isPaymentPending(new Date())) {
-      return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}/pending`);
+    if (entityForCode.status !== 'PAID' && isPaymentPending(entityForCode.Value.paymentStartTime)) {
+      if (req.params.type) {
+        // penaltyGroup
+        if (isGroupPaymentPending(entityForCode)) {
+          return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}/${type}/pending`);
+        }
+      } else if (isPaymentPending(entityForCode.Value.paymentStartTime)) {
+          return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}/pending`);
+        }
     }
     return redirectToPaymentPage(req, res);
   } catch (err) {
@@ -74,11 +78,23 @@ export const redirectToPaymentPageUnlessPending = async (req, res) => {
   }
 };
 
-/** 30 minutes */
-const PAYMENT_PENDING_TIMEOUT = 1000 * 60 * 30;
+/** 60 minutes */
+const PAYMENT_PENDING_TIMEOUT = 1000 * 60 * 60;
 
-function isPaymentPending(paymentTime) {
-  return (paymentTime - lastPaymentAttemptTime) < PAYMENT_PENDING_TIMEOUT;
+function isPaymentPending(lastPaymentAttemptTime) {
+  if (!lastPaymentAttemptTime) {
+    return false;
+  }
+  return (new Date() - lastPaymentAttemptTime * 1000) < PAYMENT_PENDING_TIMEOUT;
+}
+
+function isGroupPaymentPending(penaltyGroup) {
+  const paymentStartTimeField = {
+		FPN: 'fpnPaymentStartTime',
+		IM: 'imPaymentStartTime',
+		CDN: 'cdnPaymentStartTime',
+  }
+  return isPaymentPending(penaltyGroup[paymentStartTimeField]);
 }
 
 export const redirectToPaymentPage = async (req, res) => {
