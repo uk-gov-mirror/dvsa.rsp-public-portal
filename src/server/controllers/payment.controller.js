@@ -60,20 +60,27 @@ const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType, red
 };
 
 export const redirectToPaymentPageUnlessPending = async (req, res) => {
+  logInfo('redirectToPaymentPageUnlessPending', { params: req.params });
   try {
     const entityForCode = await getPenaltyOrGroupDetails(req);
-    if (entityForCode.status !== 'PAID' && isPaymentPending(entityForCode.Value.paymentStartTime)) {
+    logInfo('EntityForCode', entityForCode);
+    if (entityForCode.status !== 'PAID' && isPaymentPending(entityForCode.paymentStartTime)) {
       if (req.params.type) {
         // penaltyGroup
         if (isGroupPaymentPending(entityForCode)) {
           return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}/${type}/pending`);
         }
-      } else if (isPaymentPending(entityForCode.Value.paymentStartTime)) {
-          return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}/pending`);
-        }
+      } else if (isPaymentPending(entityForCode.paymentStartTime)) {
+        logInfo('PaymentPending');
+        return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}/pending`);
+      }
     }
     return redirectToPaymentPage(req, res);
   } catch (err) {
+    logError('RedirectToPaymentPageUnlessPendingError', {
+      err: err.message,
+      params: req.params,
+    });
     return res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);
   }
 };
@@ -98,7 +105,6 @@ function isGroupPaymentPending(penaltyGroup) {
 }
 
 export const redirectToPaymentPage = async (req, res) => {
-  console.log('redirecting to payment page');
   let entityForCode;
   try {
     entityForCode = await getPenaltyOrGroupDetails(req);
@@ -114,6 +120,14 @@ export const redirectToPaymentPage = async (req, res) => {
       return redirectForPenaltyGroup(req, res, entityForCode, penaltyGroupType, redirectUrl);
     }
 
+    try {
+      await penaltyService.updateWithPaymentStartTime(entityForCode.penaltyId);
+    } catch (err) {
+      logError('UpdateWithPaymentStartTime', {
+        err: err.message,
+        id: entityForCode.penaltyId
+      })
+    }
     return redirectForSinglePenalty(req, res, entityForCode, config.redirectUrl());
   } catch (err) {
     return res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);

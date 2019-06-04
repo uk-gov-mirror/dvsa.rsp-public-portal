@@ -86,6 +86,9 @@ export const getPaymentDetails = [
 export const warnPendingPayment = [
   paymentCodeValidation,
   async (req, res) => {
+    if (req.type !== undefined) {
+      throw new Error('Not yet implemented')
+    }
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       logError('ValidatePaymentCodeError', errors.mapped());

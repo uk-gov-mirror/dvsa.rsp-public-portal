@@ -28,6 +28,7 @@ export default class PenaltyService {
     const complete = has(rawPenalty, 'vehicleDetails') && !isEmpty(rawPenalty);
     const penaltyDetails = {
       complete,
+      penaltyId,
       reference,
       enabled: data.Enabled,
       paymentCode: rawPenalty.paymentToken,
@@ -42,6 +43,7 @@ export default class PenaltyService {
       paymentDate: rawPenalty.paymentDate ? moment.unix(rawPenalty.paymentDate).format('DD/MM/YYYY') : undefined,
       paymentAuthCode: rawPenalty.paymentAuthCode,
       paymentRef: rawPenalty.paymentRef,
+      paymentStartTime: rawPenalty.paymentStartTime,
     };
     return penaltyDetails;
   }
@@ -53,5 +55,9 @@ export default class PenaltyService {
       throw new Error('Payment code not found');
     }
     return Promise.resolve(PenaltyService.parsePenalty(response.data));
+  }
+
+  updateWithPaymentStartTime(penaltyId) {
+    return this.httpClient.put('documents/updateWithPaymentStartTime/', { penaltyId }, 3, 'UpdateWithStartTime');
   }
 }
