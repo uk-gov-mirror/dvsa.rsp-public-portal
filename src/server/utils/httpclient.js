@@ -77,7 +77,7 @@ export default class SignedHttpClient {
         'Content-Type': 'application/json',
       },
       ...(config.doSignedRequests() ? this.signingOptions : {}),
-    }
+    };
 
     if (config.doSignedRequests()) {
       aws4.sign(options, {
