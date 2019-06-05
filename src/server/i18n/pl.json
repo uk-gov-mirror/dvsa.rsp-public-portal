@@ -11,7 +11,8 @@
     "fixed_penalty": "Mandat",
     "receipt": "Pokwitowanie",
     "penalty_details": "Podsumowanie kar",
-    "payment": "Płatności"
+    "payment": "Płatności",
+    "active_session": "Ostrzeżenie"
   },
   "languages": {
     "english": "Angielski",
@@ -163,5 +164,11 @@
     "new_service": "To jest nowa usługa - Twoja",
     "feedback": "informacje zwrotne",
     "help_improve": "pomoże nam to ulepszyć."
-	}
+  },
+  "payment_pending_page": {
+    "title": "Ostrzeżenie",
+    "pending_notice": "Inna sesja płatności jest aktywna dla tego kodu płatności. Prosimy odczekać do 30 minut na realizację płatności; w przeciwnym razie płatność może zostać pobrana dwukrotnie.",
+    "pay_button": "Dalej",
+    "cancel_button": "Anuluj"
+  }
 }

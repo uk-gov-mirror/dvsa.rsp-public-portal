@@ -11,7 +11,8 @@
     "fixed_penalty": "Festgelegtes Bußgeld",
     "receipt": "Quittung",
     "penalty_details": "Bußgelder Zusammenfassung",
-    "payment": "Zahlung"
+    "payment": "Zahlung",
+    "active_session": "Warnung"
   },
   "languages": {
     "english": "Englisch",
@@ -163,5 +164,11 @@
     "new_service": "Dies ist ein neuer Service - Ihr",
     "feedback": "feedback",
     "help_improve": "wird uns helfen, es zu verbessern."
+  },
+  "payment_pending_page": {
+    "title": "Warnung",
+    "pending_notice": "Unter diesem Zahlungscode ist bereits ein anderes Zahlungsverfahren aktiv. Bitte warten Sie bis zu 30 Minuten, bis eine Zahlung ausgeführt worden ist, ansonsten könnte Ihre Zahlung zwei Mal erfolgen.",
+    "pay_button": "Fortsetzen",
+    "cancel_button": "Stornieren"
   }
 }

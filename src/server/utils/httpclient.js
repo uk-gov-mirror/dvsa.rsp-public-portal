@@ -68,4 +68,35 @@ export default class SignedHttpClient {
       throw err;
     });
   }
+
+  put(path, data, retryAttempts, logName) {
+    const options = {
+      body: JSON.stringify(data),
+      method: 'PUT',
+      path: `${this.baseUrlOb.pathname}${path}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      ...(config.doSignedRequests() ? this.signingOptions : {}),
+    };
+
+    if (config.doSignedRequests()) {
+      aws4.sign(options, {
+        accessKeyId: this.credentials.clientId,
+        secretAccessKey: this.credentials.clientSecret,
+      });
+    }
+
+    if (isNumber(retryAttempts) && retryAttempts !== 0) {
+      options['axios-retry'] = {
+        retries: retryAttempts,
+        retryCondition: axiosRetry.isRetryableError,
+      };
+    }
+
+    return axios.put(`${this.baseUrlOb.href}${path}`, data, options).catch((err) => {
+      logAxiosError(logName, this.serviceName, err, data);
+      throw err;
+    });
+  }
 }

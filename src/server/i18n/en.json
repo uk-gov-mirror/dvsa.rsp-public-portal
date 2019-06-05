@@ -11,7 +11,8 @@
     "fixed_penalty": "Fixed penalties",
     "receipt": "Receipt",
     "penalty_details": "Penalty details",
-    "payment": "Payment"
+    "payment": "Payment",
+    "active_session": "Active session warning"
   },
   "languages": {
     "english": "English",
@@ -163,5 +164,11 @@
     "new_service": "This is a new service – your",
     "feedback": "feedback",
     "help_improve": "will help us improve it."
+  },
+  "payment_pending_page": {
+    "title": "Active payment session",
+    "pending_notice": "Another payment session is active for this payment code. Please wait up to 30 minutes for a payment to be processed or you may be charged twice.",
+    "pay_button": "Continue to payment",
+    "cancel_button": "Go back"
   }
 }
