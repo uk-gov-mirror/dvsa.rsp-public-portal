@@ -95,6 +95,7 @@ export const warnPendingPayment = [
     const redirectUrl = isSinglePenalty ?
       `/payment-code/${paymentCode}/payment/confirmed` :
       `/payment-code/${paymentCode}/${req.params.type}/payment/confirmed`;
+    const cancelUrl = `/payment-code/${paymentCode}`;
 
     const { service, getMethod, template } = isSinglePenalty ? {
       service: penaltyService,
@@ -117,6 +118,7 @@ export const warnPendingPayment = [
           ...entityData,
           location: locationText,
           redirectUrl,
+          cancelUrl,
         });
       } else {
         res.redirect('../payment-code?invalidPaymentCode');
