@@ -11,7 +11,8 @@
 		"fixed_penalty": "Pénalité forfaitaire",
 		"receipt": "Reçu",
 		"penalty_details": "Détails de la pénalité",
-		"payment": "Paiement"
+		"payment": "Paiement",
+		"active_session": "Attention"
 	},
 	"languages": {
 		"english": "Anglais",
@@ -163,5 +164,11 @@
 		"new_service": "Ceci est un nouveau service - votre",
 		"feedback": "retour d'information",
 		"help_improve": "nous aidera à l'améliorer."
+	},
+	"payment_pending_page": {
+		"title": "Attention",
+		"pending_notice": "Une autre session de paiement est active pour ce code de paiement. Veuillez attendre jusqu'à 30 minutes pour que le paiement soit traité ou vous pourriez être débité deux fois.",
+		"pay_button": "Continuer",
+		"cancel_button": "Annuler"
 	}
 }

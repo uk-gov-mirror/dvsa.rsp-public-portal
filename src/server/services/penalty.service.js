@@ -1,10 +1,11 @@
 import { isEmpty, has } from 'lodash';
 import moment from 'moment';
 import SignedHttpClient from './../utils/httpclient';
+import { ServiceName } from '../utils/logger';
 
 export default class PenaltyService {
   constructor(serviceUrl) {
-    this.httpClient = new SignedHttpClient(serviceUrl);
+    this.httpClient = new SignedHttpClient(serviceUrl, {}, ServiceName.Documents);
   }
 
   static getPenaltyTypeDescription(penaltyType) {
@@ -14,7 +15,7 @@ export default class PenaltyService {
       case 'FPN':
         return 'Fixed Penalty Notice';
       case 'IM':
-        return 'immobilisation';
+        return 'Immobilisation';
       default:
         return 'Unknown';
     }
@@ -27,6 +28,7 @@ export default class PenaltyService {
     const complete = has(rawPenalty, 'vehicleDetails') && !isEmpty(rawPenalty);
     const penaltyDetails = {
       complete,
+      penaltyId,
       reference,
       enabled: data.Enabled,
       paymentCode: rawPenalty.paymentToken,
@@ -41,21 +43,21 @@ export default class PenaltyService {
       paymentDate: rawPenalty.paymentDate ? moment.unix(rawPenalty.paymentDate).format('DD/MM/YYYY') : undefined,
       paymentAuthCode: rawPenalty.paymentAuthCode,
       paymentRef: rawPenalty.paymentRef,
+      paymentStartTime: rawPenalty.paymentStartTime,
     };
     return penaltyDetails;
   }
 
-  getByPaymentCode(paymentCode) {
-    const promise = new Promise((resolve, reject) => {
-      this.httpClient.get(`documents/tokens/${paymentCode}`).then((response) => {
-        if (isEmpty(response.data)) {
-          reject(new Error('Payment code not found'));
-        }
-        resolve(PenaltyService.parsePenalty(response.data));
-      }).catch((error) => {
-        reject(new Error(error));
-      });
-    });
-    return promise;
+  async getByPaymentCode(paymentCode) {
+    const response = await this.httpClient.get(`documents/tokens/${paymentCode}`, 'GetByPaymentCode');
+
+    if (isEmpty(response.data)) {
+      throw new Error('Payment code not found');
+    }
+    return Promise.resolve(PenaltyService.parsePenalty(response.data));
+  }
+
+  updateWithPaymentStartTime(penaltyId) {
+    return this.httpClient.put('documents/updateWithPaymentStartTime/', { id: penaltyId }, 3, 'UpdateWithStartTime');
   }
 }

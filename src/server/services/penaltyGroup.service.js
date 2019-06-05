@@ -2,14 +2,15 @@ import { find, isEmpty, uniq } from 'lodash';
 import moment from 'moment';
 import SignedHttpClient from '../utils/httpclient';
 import PenaltyService from './penalty.service';
+import { ServiceName } from '../utils/logger';
 
 export default class PenaltyGroupService {
   constructor(serviceUrl) {
-    this.httpClient = new SignedHttpClient(serviceUrl);
+    this.httpClient = new SignedHttpClient(serviceUrl, {}, ServiceName.Documents);
   }
 
   getByPenaltyGroupPaymentCode(paymentCode) {
-    return this.httpClient.get(`penaltyGroup/${paymentCode}`).then((response) => {
+    return this.httpClient.get(`penaltyGroup/${paymentCode}`, 'GetByPenaltyGroupPaymentCode').then((response) => {
       if (isEmpty(response.data) || !response.data.ID) {
         throw new Error('Payment code not found');
       }
@@ -22,6 +23,9 @@ export default class PenaltyGroupService {
         Timestamp,
         TotalAmount,
         Enabled,
+        imPaymentStartTime,
+        fpnPaymentStartTime,
+        cdnPaymentStartTime,
       } = response.data;
       const {
         splitAmounts,
@@ -37,19 +41,20 @@ export default class PenaltyGroupService {
           date: moment.unix(Timestamp).format('DD/MM/YYYY'),
           amount: TotalAmount,
           splitAmounts,
+          imPaymentStartTime,
+          fpnPaymentStartTime,
+          cdnPaymentStartTime,
         },
         paymentCode: ID,
         penaltyDetails: parsedPenalties,
         paymentStatus: PaymentStatus,
         nextPayment,
       };
-    }).catch((error) => {
-      throw new Error(error);
     });
   }
 
   getPaymentsByCodeAndType(paymentCode, type) {
-    return this.httpClient.get(`penaltyGroup/${paymentCode}`).then((response) => {
+    return this.httpClient.get(`penaltyGroup/${paymentCode}`, 'GetPaymentsByCodeAndType').then((response) => {
       if (isEmpty(response.data) || !response.data.ID) {
         throw new Error('Payment code not found');
       }
@@ -60,9 +65,11 @@ export default class PenaltyGroupService {
         penaltyType: type,
         totalAmount: pensOfType.reduce((total, pen) => total + pen.Value.penaltyAmount, 0),
       };
-    }).catch((error) => {
-      throw new Error(error);
     });
+  }
+
+  updateWithPaymentStartTime(id, penaltyType) {
+    return this.httpClient.put('penaltyGroup/updateWithPaymentStartTime', { id, penaltyType }, 3, 'UpdateGroupWithPaymentStartTime');
   }
 
   static getNextPayment(unpaidPayments) {

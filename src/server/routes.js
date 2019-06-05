@@ -18,8 +18,14 @@ router.post('/payment-code', paymentCodeController.validatePaymentCode);
 router.get('/payment-code/:payment_code', paymentCodeController.getPaymentDetails);
 router.get('/payment-code/:payment_code/receipt', singlePaymentReceipt);
 router.get('/payment-code/:payment_code/:type/details', paymentCodeController.getMultiPenaltyPaymentSummary);
-router.post('/payment-code/:payment_code/payment', paymentController.redirectToPaymentPage);
-router.post('/payment-code/:payment_code/:type/payment', paymentController.redirectToPaymentPage);
+
+router.get('/payment-code/:payment_code/pending', paymentCodeController.warnPendingPayment);
+router.get('/payment-code/:payment_code/:type/pending', paymentCodeController.warnPendingPayment);
+router.post('/payment-code/:payment_code/payment/confirmed', paymentController.redirectToPaymentPage);
+router.post('/payment-code/:payment_code/:type/payment/confirmed', paymentController.redirectToPaymentPage);
+
+router.post('/payment-code/:payment_code/payment', paymentController.redirectToPaymentPageUnlessPending);
+router.post('/payment-code/:payment_code/:type/payment', paymentController.redirectToPaymentPageUnlessPending);
 router.get('/payment-code/:payment_code/confirmPayment', paymentController.confirmPayment);
 router.get('/payment-code/:payment_code/:type/confirmGroupPayment', paymentController.confirmGroupPayment);
 router.get('/payment-code/:payment_code/:type/receipt', multiPaymentReceipt);
