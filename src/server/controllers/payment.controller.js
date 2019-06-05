@@ -73,6 +73,58 @@ const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType, red
     });
 };
 
+export const redirectToPaymentPageUnlessPending = async (req, res) => {
+  logInfo('redirectToPaymentPageUnlessPending', { params: req.params });
+  try {
+    const entityForCode = await getPenaltyOrGroupDetails(req);
+    logInfo('EntityForCode', entityForCode);
+    if (entityForCode.status !== 'PAID') {
+      if (req.params.type) {
+        // penaltyGroup
+        if (isGroupPaymentPending(entityForCode, req.params.type)) {
+          logInfo('PaymentPending', {
+            paymentCode: entityForCode.paymentCode,
+            penaltyType: req.params.type,
+          });
+          return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}/${req.params.type}/pending`);
+        }
+      } else if (isPaymentPending(entityForCode.paymentStartTime)) {
+        logInfo('PaymentPending', {
+          paymentCode: entityForCode.paymentCode,
+        });
+        return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}/pending`);
+      }
+    }
+    return redirectToPaymentPage(req, res);
+  } catch (err) {
+    logError('RedirectToPaymentPageUnlessPendingError', {
+      err: err.message,
+      params: req.params,
+    });
+    return res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);
+  }
+};
+
+/** 60 minutes */
+const PAYMENT_PENDING_TIMEOUT = 1000 * 60 * 60;
+
+function isPaymentPending(lastPaymentAttemptTime) {
+  if (!lastPaymentAttemptTime) {
+    return false;
+  }
+  return (new Date() - (lastPaymentAttemptTime * 1000)) < PAYMENT_PENDING_TIMEOUT;
+}
+
+const paymentStartTimeField = {
+  FPN: 'fpnPaymentStartTime',
+  IM: 'imPaymentStartTime',
+  CDN: 'cdnPaymentStartTime',
+};
+
+function isGroupPaymentPending(penaltyGroup, penaltyType) {
+  return isPaymentPending(penaltyGroup.penaltyGroupDetails[paymentStartTimeField[penaltyType]]);
+}
+
 export const redirectToPaymentPage = async (req, res) => {
   let entityForCode;
   try {
@@ -86,14 +138,35 @@ export const redirectToPaymentPage = async (req, res) => {
       return res.redirect(redirectUrl);
     }
 
-    const redirectUrl = config.redirectUrl();
-
     if (entityForCode.isPenaltyGroup) {
       const penaltyGroupType = req.params.type;
+      const redirectUrl = config.redirectUrl();
+
+      try {
+        await penaltyGroupService.updateWithPaymentStartTime(
+          entityForCode.paymentCode,
+          req.params.type,
+        );
+      } catch (err) {
+        logError('UpdateWithPaymentStartTime', {
+          err: err.message,
+          id: entityForCode.paymentCode,
+          type: req.params.type,
+        });
+      }
+
       return redirectForPenaltyGroup(req, res, entityForCode, penaltyGroupType, redirectUrl);
     }
 
-    return redirectForSinglePenalty(req, res, entityForCode, redirectUrl);
+    try {
+      await penaltyService.updateWithPaymentStartTime(entityForCode.penaltyId);
+    } catch (err) {
+      logError('UpdateWithPaymentStartTime', {
+        err: err.message,
+        id: entityForCode.penaltyId,
+      });
+    }
+    return redirectForSinglePenalty(req, res, entityForCode, config.redirectUrl());
   } catch (err) {
     logError('RedirectPaymentPageError', {
       paymentCode: req.params.payment_code,

@@ -81,6 +81,53 @@ export const getPaymentDetails = [
   },
 ];
 
+export const warnPendingPayment = [
+  paymentCodeValidation,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      logError('ValidatePaymentCodeError', errors.mapped());
+      res.redirect('../payment-code?invalidPaymentCode');
+      return;
+    }
+    const paymentCode = req.params.payment_code;
+    const isSinglePenalty = paymentCode.length === 16;
+    const redirectUrl = isSinglePenalty ?
+      `/payment-code/${paymentCode}/payment/confirmed` :
+      `/payment-code/${paymentCode}/${req.params.type}/payment/confirmed`;
+
+    const { service, getMethod, template } = isSinglePenalty ? {
+      service: penaltyService,
+      getMethod: 'getByPaymentCode',
+      template: 'pendingPayment',
+    } : {
+      service: penaltyGroupService,
+      getMethod: 'getByPenaltyGroupPaymentCode',
+      template: 'pendingPayment',
+    };
+
+    try {
+      const entityData = await service[getMethod](paymentCode);
+      const { enabled, location } = entityData;
+      console.log(entityData);
+      if (enabled || typeof enabled === 'undefined') {
+        // Detailed location stored in single penalty for multi-penalties
+        const locationText = isSinglePenalty ?
+          location : entityData.penaltyDetails[0].penalties[0].location;
+        res.render(`payment/${template}`, {
+          ...entityData,
+          location: locationText,
+          redirectUrl,
+        });
+      } else {
+        res.redirect('../payment-code?invalidPaymentCode');
+      }
+    } catch (err) {
+      res.redirect('../payment-code?invalidPaymentCode');
+    }
+  },
+];
+
 export const getMultiPenaltyPaymentSummary = [
   (req, res) => {
     const paymentCode = req.params.payment_code;

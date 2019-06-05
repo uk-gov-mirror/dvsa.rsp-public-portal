@@ -23,6 +23,9 @@ export default class PenaltyGroupService {
         Timestamp,
         TotalAmount,
         Enabled,
+        imPaymentStartTime,
+        fpnPaymentStartTime,
+        cdnPaymentStartTime,
       } = response.data;
       const {
         splitAmounts,
@@ -38,6 +41,9 @@ export default class PenaltyGroupService {
           date: moment.unix(Timestamp).format('DD/MM/YYYY'),
           amount: TotalAmount,
           splitAmounts,
+          imPaymentStartTime,
+          fpnPaymentStartTime,
+          cdnPaymentStartTime,
         },
         paymentCode: ID,
         penaltyDetails: parsedPenalties,
@@ -60,6 +66,10 @@ export default class PenaltyGroupService {
         totalAmount: pensOfType.reduce((total, pen) => total + pen.Value.penaltyAmount, 0),
       };
     });
+  }
+
+  updateWithPaymentStartTime(id, penaltyType) {
+    return this.httpClient.put('penaltyGroup/updateWithPaymentStartTime', { id, penaltyType }, 3, 'UpdateGroupWithPaymentStartTime');
   }
 
   static getNextPayment(unpaidPayments) {

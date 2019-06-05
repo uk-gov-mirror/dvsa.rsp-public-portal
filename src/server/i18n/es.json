@@ -11,7 +11,8 @@
     "fixed_penalty": "Multas fijas",
     "receipt": "Recibo",
     "penalty_details": "Resumen de multas",
-    "payment": "Pago"
+    "payment": "Pago",
+    "active_session": "Advertencia"
   },
   "languages": {
     "english": "Inglés",
@@ -163,5 +164,11 @@
     "new_service": "Este es un nuevo servicio: tu",
     "feedback": "realimentación",
     "help_improve": "nos ayudará a mejorarlo."
+  },
+  "payment_pending_page": {
+    "title": "Advertencia",
+    "pending_notice": "Otra sesión de pago se encuentra activa para este código de pago. Por favor espere 30 minutos para que el pago sea procesado o puede que se le cobre dos veces.",
+    "pay_button": "Continuar",
+    "cancel_button": "Cancelar"
   }
 }

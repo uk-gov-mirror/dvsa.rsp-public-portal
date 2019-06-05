@@ -15,11 +15,11 @@
 .button {
     &--alert {
         //background-color: $red;
-        @include button($red);
+        @include button($govuk-red);
     }
     &--info {
-        // background-color: $govuk-blue;
-        @include button($govuk-blue);
+        // background-color: $govuk-secondary;
+        @include button($govuk-secondary);
     }
     &--warn {
         // background-color: $yellow;
