@@ -58,6 +58,6 @@ export default class PenaltyService {
   }
 
   updateWithPaymentStartTime(penaltyId) {
-    return this.httpClient.put('documents/updateWithPaymentStartTime/', { penaltyId }, 3, 'UpdateWithStartTime');
+    return this.httpClient.put('documents/updateWithPaymentStartTime/', { id: penaltyId }, 3, 'UpdateWithStartTime');
   }
 }

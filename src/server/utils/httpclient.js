@@ -72,6 +72,7 @@ export default class SignedHttpClient {
   put(path, data, retryAttempts, logName) {
     const options = {
       body: JSON.stringify(data),
+      method: 'PUT',
       path: `${this.baseUrlOb.pathname}${path}`,
       headers: {
         'Content-Type': 'application/json',

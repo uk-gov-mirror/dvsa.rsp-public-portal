@@ -69,7 +69,7 @@ export default class PenaltyGroupService {
   }
 
   updateWithPaymentStartTime(id, penaltyType) {
-    return this.httpClient.put('penaltyGroup/updateWithPaymentStartTime', { id, penaltyType }, 3, 'UpdateGroupWithPaymentStartTime');
+    return this.httpClient.put('penaltyGroup/updateWithPaymentStartTime', { id, type: penaltyType }, 3, 'UpdateGroupWithPaymentStartTime');
   }
 
   static getNextPayment(unpaidPayments) {
