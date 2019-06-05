@@ -68,10 +68,16 @@ export const redirectToPaymentPageUnlessPending = async (req, res) => {
       if (req.params.type) {
         // penaltyGroup
         if (isGroupPaymentPending(entityForCode)) {
+          logInfo('PaymentPending', {
+            paymentCode: entityForCode.paymentCode,
+            penaltyType: req.params.type,
+          });
           return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}/${req.params.type}/pending`);
         }
       } else if (isPaymentPending(entityForCode.paymentStartTime)) {
-        logInfo('PaymentPending');
+        logInfo('PaymentPending', {
+          paymentCode: entityForCode.paymentCode,
+        });
         return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}/pending`);
       }
     }
