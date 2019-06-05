@@ -22,8 +22,8 @@
           {{ components.notice(text=t.payment_pending_page.pending_notice) }}
         </div>
         <div class="pending-payment-button-container">
-          {{ components.button(text=t.payment_pending_page.pay_button, type="submit", type="alert") }}
-          {{ components.button(text=t.payment_pending_page.cancel_button, type="submit", start='true', type="info") }}
+          {{ components.button(text=t.payment_pending_page.pay_button, type="alert") }}
+          {{ components.button(text=t.payment_pending_page.cancel_button, url=cancelUrl, start='true', type="info") }}
         </div>
       {%- endcall %}
     {%- endcall %}
