@@ -6,5 +6,12 @@ export const robots = (req, res) => {
 
 // Index Route
 export const index = (req, res) => {
-  res.render('main/index');
+  const language = req.i18n_lang;
+  if (language === 'en') {
+    return res.redirect('https://www.gov.uk/pay-dvsa-roadside-fine');
+  }
+  if (language === 'cy') {
+    return res.redirect('https://www.gov.uk/talu-dirwy-ymylffordd-dvsa');
+  }
+  return res.render('main/index');
 };
