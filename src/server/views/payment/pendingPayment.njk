@@ -16,7 +16,7 @@
   
   {% call components.gridRow() %}
     {% call components.columnTwoThirds() %}
-      {% call components.form(action='/payment-code/'+paymentCode+'/payment/confirmed', method='POST')  %}
+      {% call components.form(action=redirectUrl, method='POST')  %}
         {{ components.heading(text=t.payment_pending_page.title, tag='h1', size='xlarge') }}
         {# {{ components.heading(text=t.penalty_details_page.intro_part_paid, tag='h2', size='medium') }} #}
         <div class="pending-payment-info-container">
