@@ -64,10 +64,10 @@ export const redirectToPaymentPageUnlessPending = async (req, res) => {
   try {
     const entityForCode = await getPenaltyOrGroupDetails(req);
     logInfo('EntityForCode', entityForCode);
-    if (entityForCode.status !== 'PAID' && isPaymentPending(entityForCode.paymentStartTime)) {
+    if (entityForCode.status !== 'PAID') {
       if (req.params.type) {
         // penaltyGroup
-        if (isGroupPaymentPending(entityForCode)) {
+        if (isGroupPaymentPending(entityForCode, req.params.type)) {
           logInfo('PaymentPending', {
             paymentCode: entityForCode.paymentCode,
             penaltyType: req.params.type,
@@ -101,13 +101,14 @@ function isPaymentPending(lastPaymentAttemptTime) {
   return (new Date() - (lastPaymentAttemptTime * 1000)) < PAYMENT_PENDING_TIMEOUT;
 }
 
-function isGroupPaymentPending(penaltyGroup) {
-  const paymentStartTimeField = {
-    FPN: 'fpnPaymentStartTime',
-    IM: 'imPaymentStartTime',
-    CDN: 'cdnPaymentStartTime',
-  };
-  return isPaymentPending(penaltyGroup[paymentStartTimeField]);
+const paymentStartTimeField = {
+  FPN: 'fpnPaymentStartTime',
+  IM: 'imPaymentStartTime',
+  CDN: 'cdnPaymentStartTime',
+};
+
+function isGroupPaymentPending(penaltyGroup, penaltyType) {
+  return isPaymentPending(penaltyGroup.penaltyGroupDetails[paymentStartTimeField[penaltyType]]);
 }
 
 export const redirectToPaymentPage = async (req, res) => {
