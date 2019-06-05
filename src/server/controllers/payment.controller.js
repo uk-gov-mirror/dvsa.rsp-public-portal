@@ -123,6 +123,20 @@ export const redirectToPaymentPage = async (req, res) => {
     if (entityForCode.isPenaltyGroup) {
       const penaltyGroupType = req.params.type;
       const redirectUrl = config.redirectUrl();
+
+      try {
+        await penaltyGroupService.updateWithPaymentStartTime(
+          entityForCode.paymentCode,
+          req.params.type,
+        );
+      } catch (err) {
+        logError('UpdateWithPaymentStartTime', {
+          err: err.message,
+          id: entityForCode.paymentCode,
+          type: req.params.type,
+        });
+      }
+
       return redirectForPenaltyGroup(req, res, entityForCode, penaltyGroupType, redirectUrl);
     }
 
