@@ -53,18 +53,6 @@
     {%- endcall %}
 
     {% call components.columnOneThird() %}
-
-    <aside class="govuk-related-items" role="complementary">
-      {{ components.heading(text=t.home.related_content, tag='h3', size='small', id='related-content-header') }}
-        <nav role="navigation" aria-labelledby="related-content-header">
-          <ul class="font-xsmall">
-            <li>{{ components.link(text=t.home.related_content_link_1, url='https://www.gov.uk/roadside-vehicle-checks-for-commercial-drivers') }}</li>
-            <li>{{ components.link(text=t.home.related_content_link_2, url='https://www.gov.uk/drivers-hours') }}</li>
-            <li>{{ components.link(text=t.home.related_content_link_3, url='https://www.gov.uk/roadside-vehicle-checks-for-commercial-drivers/fixed-penalties') }}</li>
-            <li>{{ components.link(text=t.home.related_content_link_4, url='https://www.gov.uk/roadside-vehicle-checks-for-commercial-drivers/what-happens-if-your-vehicle-is-immobilised') }}</li>
-          </ul>
-        </nav>
-      </aside>
     {%- endcall %}
 
   {%- endcall %}
