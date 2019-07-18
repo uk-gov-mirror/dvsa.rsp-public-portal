@@ -1,4 +1,5 @@
 import { validationResult } from 'express-validator/check';
+import moment from 'moment';
 import paymentCodeValidation from './../validation/paymentCode';
 import PenaltyService from '../services/penalty.service';
 import PenaltyGroupService from '../services/penaltyGroup.service';
@@ -63,6 +64,15 @@ export const getPaymentDetails = [
       };
       service[getMethod](paymentCode).then((entityData) => {
         const { enabled, location } = entityData;
+        const issueDate = moment(entityData.dateTime || entityData.penaltyGroupDetails.dateTime);
+        const now = moment(new Date());
+        const ageDays = moment.duration(now.diff(issueDate)).asDays();
+        if (Math.floor(ageDays) > 28) {
+          // Penalties older than 28 days should not be accessible by the public portal
+          res.redirect('../payment-code?invalidPaymentCode');
+          return;
+        }
+
         if (enabled || typeof enabled === 'undefined') {
           // Detailed location stored in single penalty for multi-penalties
           const locationText = isSinglePenalty ?
