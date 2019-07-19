@@ -168,7 +168,6 @@
   "payment_pending_page": {
     "title": "Ostrzeżenie",
     "pending_notice": "Inna sesja płatności jest aktywna dla tego kodu płatności. Prosimy odczekać do 30 minut na realizację płatności; w przeciwnym razie płatność może zostać pobrana dwukrotnie.",
-    "pay_button": "Dalej",
-    "cancel_button": "Anuluj"
+    "go_back": "Wróć"
   }
 }

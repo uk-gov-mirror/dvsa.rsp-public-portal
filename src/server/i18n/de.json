@@ -168,7 +168,6 @@
   "payment_pending_page": {
     "title": "Warnung",
     "pending_notice": "Unter diesem Zahlungscode ist bereits ein anderes Zahlungsverfahren aktiv. Bitte warten Sie bis zu 30 Minuten, bis eine Zahlung ausgeführt worden ist, ansonsten könnte Ihre Zahlung zwei Mal erfolgen.",
-    "pay_button": "Fortsetzen",
-    "cancel_button": "Stornieren"
+    "go_back": "Geh zurück"
   }
 }

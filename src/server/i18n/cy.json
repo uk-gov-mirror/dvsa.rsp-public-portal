@@ -168,7 +168,6 @@
   "payment_pending_page": {
     "title": "Rhybudd",
     "pending_notice": "Mae sesiwn dalu arall yn weithredol ar gyfer y cod talu hwn. Arhoswch hyd at 30 munud i daliad gael ei brosesu neu efallai y codir tâl arnoch ddwywaith.",
-    "pay_button": "Parhau",
-    "cancel_button": "Canslo"
+    "go_back": "Dychwelyd"
   }
 }
