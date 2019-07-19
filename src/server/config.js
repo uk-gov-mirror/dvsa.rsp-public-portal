@@ -96,7 +96,7 @@ function penaltyServiceUrl() {
 }
 
 function pendingPaymentTimeMilliseconds() {
-  return configuration[configMetadata.pendingPaymentTimeMilliseconds];
+  return Number(configuration[configMetadata.pendingPaymentTimeMilliseconds]);
 }
 
 function port() {
