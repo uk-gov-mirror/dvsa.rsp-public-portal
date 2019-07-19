@@ -14,6 +14,7 @@ const configMetadata = {
   nodeEnv: 'NODE_ENV',
   paymentServiceUrl: 'PAYMENT_SERVICE_URL',
   penaltyServiceUrl: 'PENALTY_SERVICE_URL',
+  pendingPaymentTimeMilliseconds: 'PENDING_PAYMENT_TIME_MILLISECONDS',
   port: 'PORT',
   publicAssets: 'PUBLIC_ASSETS',
   redirectUrl: 'REDIRECT_URL',
@@ -94,6 +95,10 @@ function penaltyServiceUrl() {
   return configuration[configMetadata.penaltyServiceUrl];
 }
 
+function pendingPaymentTimeMilliseconds() {
+  return configuration[configMetadata.pendingPaymentTimeMilliseconds];
+}
+
 function port() {
   const portVar = configuration[configMetadata.port];
   return portVar ? Number(portVar) : 3000;
@@ -126,6 +131,7 @@ const config = {
   isDevelopment,
   paymentServiceUrl,
   penaltyServiceUrl,
+  pendingPaymentTimeMilliseconds,
   port,
   redirectUrl,
   region,
