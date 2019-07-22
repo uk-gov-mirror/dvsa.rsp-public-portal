@@ -64,7 +64,8 @@ export const getPaymentDetails = [
       };
       service[getMethod](paymentCode).then((entityData) => {
         const { enabled, location } = entityData;
-        const issueDate = moment(entityData.dateTime || entityData.penaltyGroupDetails.dateTime);
+        const issueDate =
+          moment((entityData.dateTime || entityData.penaltyGroupDetails.dateTime) * 1000);
         const now = moment(new Date());
         const ageDays = moment.duration(now.diff(issueDate)).asDays();
         if (Math.floor(ageDays) > 28) {
