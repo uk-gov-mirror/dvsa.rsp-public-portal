@@ -21,6 +21,7 @@
         {{ components.notice(text=t.payment_pending_page.pending_notice) }}
       </div>
       <div class="pending-payment-button-container">
+        {{ components.button(text=t.payment_pending_page.pay_button, type="alert", disabled="true") }}
         {{ components.button(text=t.payment_pending_page.go_back, url=cancelUrl, start='true', type="info") }}
       </div>
     {%- endcall %}

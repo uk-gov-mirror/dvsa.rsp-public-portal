@@ -168,6 +168,7 @@
 	"payment_pending_page": {
 		"title": "Attention",
 		"pending_notice": "Un paiement est en attente pour ce code de paiement et ce bouton est temporairement indisponible. Veuillez attendre jusqu’à 60 minutes pour que le paiement soit traité ou vous pourriez être facturé deux fois.",
-		"go_back": "Retourner"
+		"go_back": "Retourner",
+		"pay_button": "Continuer"
 	}
 }
