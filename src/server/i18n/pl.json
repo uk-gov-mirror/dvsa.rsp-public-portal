@@ -167,7 +167,7 @@
   },
   "payment_pending_page": {
     "title": "Ostrzeżenie",
-    "pending_notice": "Inna sesja płatności jest aktywna dla tego kodu płatności. Prosimy odczekać do 30 minut na realizację płatności; w przeciwnym razie płatność może zostać pobrana dwukrotnie.",
+    "pending_notice": "Płatność dla tego kodu płatności jest w toku i przycisk jest tymczasowo niedostępny. Należy poczekać do 60 minut na przetworzenie płatności, aby uniknąć podwójnego obciążenia opłatą.",
     "go_back": "Wróć"
   }
 }
