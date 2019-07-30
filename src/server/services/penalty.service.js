@@ -33,6 +33,7 @@ export default class PenaltyService {
       enabled: data.Enabled,
       paymentCode: rawPenalty.paymentToken,
       issueDate: complete && moment.unix(rawPenalty.dateTime).format('DD/MM/YYYY'),
+      dateTime: rawPenalty.dateTime,
       vehicleReg: complete && rawPenalty.vehicleDetails.regNo,
       formattedReference: rawPenalty.referenceNo,
       location: complete && rawPenalty.placeWhereIssued,
