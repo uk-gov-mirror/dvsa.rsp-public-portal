@@ -1,9 +1,10 @@
 import { validationResult } from 'express-validator/check';
+import moment from 'moment';
 import paymentCodeValidation from './../validation/paymentCode';
 import PenaltyService from '../services/penalty.service';
 import PenaltyGroupService from '../services/penaltyGroup.service';
 import config from '../config';
-import { logError } from './../utils/logger';
+import { logError, logInfo } from './../utils/logger';
 
 const penaltyService = new PenaltyService(config.penaltyServiceUrl());
 const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl());
@@ -63,6 +64,22 @@ export const getPaymentDetails = [
       };
       service[getMethod](paymentCode).then((entityData) => {
         const { enabled, location } = entityData;
+        if (entityData.issueDate) {
+          const issueDate =
+            moment((entityData.dateTime || entityData.penaltyGroupDetails.dateTime) * 1000);
+          const now = moment(new Date());
+          const ageDays = moment.duration(now.diff(issueDate)).asDays();
+          if (Math.floor(ageDays) > 28) {
+            // Penalties older than 28 days should not be accessible by the public portal
+            logInfo('OldPenaltyAccessAttempt', {
+              paymentCode,
+              ageDays,
+            });
+            res.redirect('../payment-code?invalidPaymentCode');
+            return;
+          }
+        }
+
         if (enabled || typeof enabled === 'undefined') {
           // Detailed location stored in single penalty for multi-penalties
           const locationText = isSinglePenalty ?
@@ -92,9 +109,6 @@ export const warnPendingPayment = [
     }
     const paymentCode = req.params.payment_code;
     const isSinglePenalty = paymentCode.length === 16;
-    const redirectUrl = isSinglePenalty ?
-      `/payment-code/${paymentCode}/payment/confirmed` :
-      `/payment-code/${paymentCode}/${req.params.type}/payment/confirmed`;
     const cancelUrl = `/payment-code/${paymentCode}`;
 
     const { service, getMethod, template } = isSinglePenalty ? {
@@ -117,7 +131,6 @@ export const warnPendingPayment = [
         res.render(`payment/${template}`, {
           ...entityData,
           location: locationText,
-          redirectUrl,
           cancelUrl,
         });
       } else {

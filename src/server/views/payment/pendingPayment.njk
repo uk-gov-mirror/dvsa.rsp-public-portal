@@ -16,16 +16,14 @@
   
   {% call components.gridRow() %}
     {% call components.columnTwoThirds() %}
-      {% call components.form(action=redirectUrl, method='POST')  %}
-        {{ components.heading(text=t.payment_pending_page.title, tag='h1', size='xlarge') }}
-        <div class="pending-payment-info-container">
-          {{ components.notice(text=t.payment_pending_page.pending_notice) }}
-        </div>
-        <div class="pending-payment-button-container">
-          {{ components.button(text=t.payment_pending_page.pay_button, type="alert") }}
-          {{ components.button(text=t.payment_pending_page.cancel_button, url=cancelUrl, start='true', type="info") }}
-        </div>
-      {%- endcall %}
+      {{ components.heading(text=t.payment_pending_page.title, tag='h1', size='xlarge') }}
+      <div class="pending-payment-info-container">
+        {{ components.notice(text=t.payment_pending_page.pending_notice) }}
+      </div>
+      <div class="pending-payment-button-container">
+        {{ components.button(text=t.payment_pending_page.pay_button, type="alert", disabled="true") }}
+        {{ components.button(text=t.payment_pending_page.go_back, url=cancelUrl, start='true', type="info") }}
+      </div>
     {%- endcall %}
     {% call components.columnOneThird() %}
       <aside class="govuk-related-items" role="complementary">

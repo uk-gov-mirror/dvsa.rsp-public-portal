@@ -39,6 +39,7 @@ export default class PenaltyGroupService {
           registrationNumber: VehicleRegistration,
           location: Location,
           date: moment.unix(Timestamp).format('DD/MM/YYYY'),
+          dateTime: Timestamp,
           amount: TotalAmount,
           splitAmounts,
           imPaymentStartTime,
