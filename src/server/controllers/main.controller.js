@@ -1,3 +1,5 @@
+import config from '../config';
+
 // Robots
 export const robots = (req, res) => {
   res.type('text/plain');
@@ -7,6 +9,9 @@ export const robots = (req, res) => {
 // Index Route
 export const index = (req, res) => {
   const language = req.i18n_lang;
+  if (config.isDevelopment()) {
+    return res.redirect('/payment-code');
+  }
   if (language === 'en') {
     return res.redirect('https://www.gov.uk/pay-dvsa-roadside-fine');
   }

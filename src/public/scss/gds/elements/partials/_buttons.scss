@@ -31,6 +31,10 @@
   outline: none;
 }
 
+.button[disabled="disabled"].button--alert {
+  background: $govuk-red;
+}
+
 // Start now buttons
 .button-start,
 .button-get-started {

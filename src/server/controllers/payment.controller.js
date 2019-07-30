@@ -105,14 +105,11 @@ export const redirectToPaymentPageUnlessPending = async (req, res) => {
   }
 };
 
-/** 60 minutes */
-const PAYMENT_PENDING_TIMEOUT = 1000 * 60 * 60;
-
 function isPaymentPending(lastPaymentAttemptTime) {
   if (!lastPaymentAttemptTime) {
     return false;
   }
-  return (new Date() - (lastPaymentAttemptTime * 1000)) < PAYMENT_PENDING_TIMEOUT;
+  return (new Date() - (lastPaymentAttemptTime * 1000)) < config.pendingPaymentTimeMilliseconds();
 }
 
 const paymentStartTimeField = {
