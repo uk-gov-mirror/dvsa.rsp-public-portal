@@ -5,6 +5,7 @@ import CpmsService from './../services/cpms.service';
 import config from './../config';
 import { logInfo, logError } from './../utils/logger';
 import PenaltyGroupService from '../services/penaltyGroup.service';
+import { isGroupPaymentPending, isPaymentPending } from '../utils/pending-payments';
 
 const paymentService = new PaymentService(config.paymentServiceUrl());
 const penaltyService = new PenaltyService(config.penaltyServiceUrl());
@@ -74,25 +75,27 @@ const redirectForPenaltyGroup = (req, res, penaltyGroupDetails, penaltyType, red
 };
 
 export const redirectToPaymentPageUnlessPending = async (req, res) => {
-  logInfo('redirectToPaymentPageUnlessPending', { params: req.params });
   try {
     const entityForCode = await getPenaltyOrGroupDetails(req);
-    logInfo('EntityForCode', entityForCode);
     if (entityForCode.status !== 'PAID') {
       if (req.params.type) {
-        // penaltyGroup
         if (isGroupPaymentPending(entityForCode, req.params.type)) {
           logInfo('PaymentPending', {
             paymentCode: entityForCode.paymentCode,
             penaltyType: req.params.type,
+            entityForCode,
           });
-          return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}/${req.params.type}/pending`);
+          // Refresh the page to get latest payment info
+          return res.redirect(`${
+            config.urlRoot()}/payment-code/${entityForCode.paymentCode}/${req.params.type}/details`);
         }
       } else if (isPaymentPending(entityForCode.paymentStartTime)) {
         logInfo('PaymentPending', {
           paymentCode: entityForCode.paymentCode,
+          entityForCode,
         });
-        return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}/pending`);
+        // Refresh the page to get latest payment info
+        return res.redirect(`${config.urlRoot()}/payment-code/${entityForCode.paymentCode}`);
       }
     }
     return redirectToPaymentPage(req, res);
@@ -104,24 +107,6 @@ export const redirectToPaymentPageUnlessPending = async (req, res) => {
     return res.redirect(`${config.urlRoot()}/?invalidPaymentCode`);
   }
 };
-
-function isPaymentPending(lastPaymentAttemptTime) {
-  if (!lastPaymentAttemptTime) {
-    return false;
-  }
-  return (new Date() - (lastPaymentAttemptTime * 1000)) < config.pendingPaymentTimeMilliseconds();
-}
-
-const paymentStartTimeField = {
-  FPN: 'fpnPaymentStartTime',
-  IM: 'imPaymentStartTime',
-  CDN: 'cdnPaymentStartTime',
-};
-
-function isGroupPaymentPending(penaltyGroup, penaltyType) {
-  return isPaymentPending(penaltyGroup.penaltyGroupDetails[paymentStartTimeField[penaltyType]]);
-}
-
 export const redirectToPaymentPage = async (req, res) => {
   let entityForCode;
   try {
