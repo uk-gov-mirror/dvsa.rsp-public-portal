@@ -19,6 +19,9 @@ router.get('/payment-code/:payment_code', paymentCodeController.getPaymentDetail
 router.get('/payment-code/:payment_code/receipt', singlePaymentReceipt);
 router.get('/payment-code/:payment_code/:type/details', paymentCodeController.getMultiPenaltyPaymentSummary);
 
+router.get('/payment-code/:payment_code/pending', paymentCodeController.warnPendingPayment);
+router.get('/payment-code/:payment_code/:type/pending', paymentCodeController.warnPendingPayment);
+
 router.post('/payment-code/:payment_code/payment', paymentController.redirectToPaymentPageUnlessPending);
 router.post('/payment-code/:payment_code/:type/payment', paymentController.redirectToPaymentPageUnlessPending);
 router.get('/payment-code/:payment_code/confirmPayment', paymentController.confirmPayment);

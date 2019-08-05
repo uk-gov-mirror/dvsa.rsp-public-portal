@@ -92,21 +92,14 @@
         </table>
         <p>
         {% if paid == false %}
-          {% if paymentPending %}
-            <p>
-              {{ components.notice(text=t.payment_pending_page.pending_notice) }}
-            </p>
-          {% else %}
-            <p>
-              {{ components.notice(text=t.home.info_text) }}
-            </p>
-          {% endif %}
-
+          <p>
+            {{ components.notice(text=t.home.info_text) }}
+          </p>
           <input type="hidden" name="reference" value="{{ reference }}">
           <input type="hidden" name="type" value="{{ type }}">
           <input type="hidden" name="amount" value="{{ amount }}">
           <input type="hidden" name="paymentCode" value="{{ paymentCode }}">
-          {{ components.button(text=t.penalty_details_page.continue_to_payment_button, type="submit", disabled=paymentPending) }}
+          {{ components.button(text=t.penalty_details_page.continue_to_payment_button, type="submit") }}
           <p>
             <details>
               <summary><span class="summary">{{ t.penalty_details_page.details_assistance_panel_title }}</span></summary>
