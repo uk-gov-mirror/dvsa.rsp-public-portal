@@ -57,8 +57,13 @@
         {% if paymentStatus != 'PAID' %}
           <br />
           <div class="panel panel-border-wide">{{ t.penalty_details_page.gdpr_notification }}</div>
+          {% if paymentPending %}
+            <p>
+              {{ components.notice(text=t.payment_pending_page.pending_notice) }}
+            </p>
+          {% endif %}
           <br />
-          {{ components.button(text=titleAndContinueButtonText, type="submit") }}
+          {{ components.button(text=titleAndContinueButtonText, type="submit", disabled=paymentPending) }}
           <p>
             <details>
               <summary><span class="summary">{{ t.penalty_details_page.payment_assistance_panel_title }}</span></summary>

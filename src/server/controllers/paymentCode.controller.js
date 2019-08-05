@@ -5,6 +5,7 @@ import PenaltyService from '../services/penalty.service';
 import PenaltyGroupService from '../services/penaltyGroup.service';
 import config from '../config';
 import { logError, logInfo } from './../utils/logger';
+import { isPaymentPending, isGroupPaymentPending } from '../utils/pending-payments';
 
 const penaltyService = new PenaltyService(config.penaltyServiceUrl());
 const penaltyGroupService = new PenaltyGroupService(config.penaltyServiceUrl());
@@ -84,9 +85,13 @@ export const getPaymentDetails = [
           // Detailed location stored in single penalty for multi-penalties
           const locationText = isSinglePenalty ?
             location : entityData.penaltyDetails[0].penalties[0].location;
+          // Only check for single penalty pending here as pending message
+          // is shown on the details page for groups
+          const paymentPending = isPaymentPending(entityData.paymentStartTime);
           res.render(`payment/${template}`, {
             ...entityData,
             location: locationText,
+            paymentPending,
           });
         } else {
           res.redirect('../payment-code?invalidPaymentCode');
@@ -143,14 +148,25 @@ export const warnPendingPayment = [
 ];
 
 export const getMultiPenaltyPaymentSummary = [
-  (req, res) => {
+  async (req, res) => {
     const paymentCode = req.params.payment_code;
     const { type } = req.params;
-    penaltyGroupService.getPaymentsByCodeAndType(paymentCode, type).then((penaltiesForType) => {
+    try {
+      const penaltiesForType =
+        await penaltyGroupService.getPaymentsByCodeAndType(paymentCode, type);
       const paymentStatus = penaltiesForType.penaltyDetails.every(p => p.status === 'PAID') ? 'PAID' : 'UNPAID';
-      res.render('payment/multiPaymentSummary', { paymentCode, paymentStatus, ...penaltiesForType });
-    }).catch(() => {
+      const penaltyGroup = await penaltyGroupService.getByPenaltyGroupPaymentCode(paymentCode);
+      const paymentPending = isGroupPaymentPending(penaltyGroup, type);
+      if (paymentPending) {
+        logInfo('PaymentPending', {
+          penaltyGroup,
+        });
+      }
+      res.render('payment/multiPaymentSummary', {
+        paymentCode, paymentStatus, ...penaltiesForType, paymentPending,
+      });
+    } catch (err) {
       res.redirect('../payment-code?invalidPaymentCode');
-    });
+    }
   },
 ];
