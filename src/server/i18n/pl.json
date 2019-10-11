@@ -167,7 +167,7 @@
   },
   "payment_pending_page": {
     "title": "Ostrzeżenie",
-    "pending_notice": "Płatność dla tego kodu płatności jest w toku i przycisk jest tymczasowo niedostępny. Należy poczekać do 60 minut na przetworzenie płatności, aby uniknąć podwójnego obciążenia opłatą.",
+    "pending_notice": "Płatność dla tego kodu płatności jest w toku i przycisk jest tymczasowo niedostępny. Należy poczekać do MINUTES minut na przetworzenie płatności, aby uniknąć podwójnego obciążenia opłatą.",
     "go_back": "Wróć",
     "pay_button": "Dalej"
   }
