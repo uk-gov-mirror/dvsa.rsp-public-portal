@@ -1,0 +1,110 @@
+{% extends 'layouts/default.layout.njk' %}
+
+{% set pageTitle = t.site_title %}
+{% set pageBreadcrumbItems = [
+  {
+    text: t.breadcrumbs.home,
+    url: '/'
+  }, {
+    text: t.breadcrumbs.cookie_details
+  }
+] %}
+
+{% block content %}
+
+  {% call components.gridRow() %}
+    {% call components.columnTwoThirds() %}
+
+      <div class="cookie-details">
+        {{ components.heading(text=t.cookie_details_page.title, tag='h1', size='xlarge') }}
+        <p>{{ t.cookie_details_page.cookies_text_definition }}</p>
+
+        {{ components.heading(text=t.cookie_details_page.analytics_title, tag='h2', size='medium') }}
+        <p>{{ t.cookie_details_page.analytics_text }}</p>
+
+        <div role="note" aria-label="information" class="inset-text">{{ t.cookie_details_page.analytics_privacy }}</div>
+
+        <p>{{ t.cookie_details_page.analytics_info }}</p>
+
+        <ul class="list-bullet">
+          <li>{{ t.cookie_preferences_page.analytics_text_list_one }}</li>
+          <li>{{ t.cookie_preferences_page.analytics_text_list_two }}</li>
+          <li>{{ t.cookie_preferences_page.analytics_text_list_three }}</li>
+        </ul>
+
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">{{ t.cookie_details_page.table_header_name }}</th>
+              <th scope="col">{{ t.cookie_details_page.table_header_purpose }}</th>
+              <th scope="col">{{ t.cookie_details_page.table_header_expires }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ t.cookie_details_page.analytics_cookie_name_one }}</td>
+              <td>{{ t.cookie_details_page.analytics_cookie_purpose_one }}</td>
+              <td>{{ t.cookie_details_page.analytics_cookie_expires_one }}</td>
+            </tr>
+              <td>{{ t.cookie_details_page.analytics_cookie_name_two }}</td>
+              <td>{{ t.cookie_details_page.analytics_cookie_purpose_two }}</td>
+              <td>{{ t.cookie_details_page.analytics_cookie_expires_two }}</td>
+            </tr>
+            </tr>
+              <td>{{ t.cookie_details_page.analytics_cookie_name_three }}</td>
+              <td>{{ t.cookie_details_page.analytics_cookie_purpose_three }}</td>
+              <td>{{ t.cookie_details_page.analytics_cookie_expires_three }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        {{ components.heading(text=t.cookie_details_page.essential_cookies_title, tag='h2', size='medium') }}
+
+        {{ components.heading(text=t.cookie_details_page.essential_cookies_language_title, tag='h3', size='small') }}
+        <p>{{ t.cookie_details_page.essential_cookies_language_text }}</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">{{ t.cookie_details_page.table_header_name }}</th>
+              <th scope="col">{{ t.cookie_details_page.table_header_purpose }}</th>
+              <th scope="col">{{ t.cookie_details_page.table_header_expires }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ t.cookie_details_page.language_cookie_name_one }}</td>
+              <td>{{ t.cookie_details_page.language_cookie_purpose_one }}</td>
+              <td>{{ t.cookie_details_page.language_cookie_expires_one }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        {{ components.heading(text=t.cookie_details_page.essential_cookies_banner_title, tag='h3', size='small') }}
+        <p>{{ t.cookie_details_page.essential_cookies_banner_text }}</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">{{ t.cookie_details_page.table_header_name }}</th>
+              <th scope="col">{{ t.cookie_details_page.table_header_purpose }}</th>
+              <th scope="col">{{ t.cookie_details_page.table_header_expires }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ t.cookie_details_page.cookie_preferences_cookie_name_one }}</td>
+              <td>{{ t.cookie_details_page.cookie_preferences_cookie_purpose_one }}</td>
+              <td>{{ t.cookie_details_page.cookie_preferences_cookie_expires_one }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        {{ components.heading(text=t.cookie_details_page.change_preferences_title, tag='h2', size='medium') }}
+        <p>{{ t.cookie_details_page.change_preferences_text }}</p>
+
+      </div>
+
+    {%- endcall %}
+  {%- endcall %}
+{% endblock %}
