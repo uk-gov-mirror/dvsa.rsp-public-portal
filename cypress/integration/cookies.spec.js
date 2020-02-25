@@ -54,6 +54,17 @@ context('Cookie Preferences page', () => {
             cy.get('#cookie-preferences-confirmation').should('not.have.class', 'hidden');
         });
 
+        it('has a link which takes me back to the previous page', () => {
+            cy.visit('http://localhost:3000/cookie-details');
+            cy.visit('http://localhost:3000/cookie-preferences');
+            cy.clearCookies();
+            const buttonSavePrefs = cy.contains('Save changes');
+            buttonSavePrefs.click();
+            const backLink = cy.contains('Go back to the page you were looking at');
+            backLink.click();
+            cy.url().should('include', '/cookie-details');
+        });
+
         it('should navigate to the cookie details page', () => {
             cy.contains('Find out more about cookies on Roadside Payments').click();
             cy.url().should('include', '/cookie-details');
