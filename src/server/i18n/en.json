@@ -243,7 +243,7 @@
   "accessibility_statement": {
     "title": "Accessibility statement for Roadside Payments",
     "introduction": {
-      "applies_to": "This accessibility statement applies to Roadside Payment app and payment portal.",
+      "applies_to": "This accessibility statement applies to the Roadside Payments app and payments portal.",
       "ownership": "This website is run by DVSA. We want as many people as possible to be able to use this website. For example, that means you should be able to:",
       "should_be_able_to": [
         {
@@ -330,10 +330,10 @@
     "statement_preparation": {
       "heading": "Preparation of this accessibility statement",
       "statement_one": "This statement was prepared on 7th September 2020. It has not yet been reviewed.",
-      "statement_two": "This website was last tested on 5th September 2018. The test was carried out by Disability Accessibility Centre (DAC).",
+      "statement_two": "This website was last accessibility tested on 5th September 2018. The test was carried out by Disability Accessibility Centre (DAC).",
       "statement_three": "DAC tested the end-to-end payment journey on GOV.UK that would be accessed by end-users.",
       "statement_four": "Testing was carried with various assistive technologies such as screen readers and speech recognition software to ensure it meets the WCAG AA requirements.",
-      "statement_five": "Note that no testing was performed on the internal portal nor the Mobile app."
+      "statement_five": "Note that no accessibility testing was performed on the DVSA staff internal portal nor the DVSA staff mobile app."
     }
   }
 }
