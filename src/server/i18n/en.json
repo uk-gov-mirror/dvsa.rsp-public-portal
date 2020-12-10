@@ -14,7 +14,8 @@
     "payment": "Payment",
     "active_session": "Active session warning",
     "cookie_preferences": "Cookie preferences",
-    "cookie_details": "Cookie details"
+    "cookie_details": "Cookie details",
+    "accessibility_statement": "Accessibility statement"
   },
   "cookie_banner": {
     "title": "Tell us whether you accept cookies",
@@ -32,6 +33,7 @@
   "footer": {
     "cookies": "Cookies",
     "terms_conditions": "Terms and conditions",
+    "accessibility_statement": "Accessibility statement",
     "built_by": "Built by the <a href='https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency' target='_blank'>Driver &amp; Vehicle Standards Agency</a>",
     "licence": "All content is available under the <a href='https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/' rel='license'>Open Government Licence v3.0</a>, except where otherwise stated",
     "copyright": "Crown Copyright"
@@ -237,5 +239,101 @@
     "table_header_name": "Name",
     "table_header_purpose": "Purpose",
     "table_header_expires": "Expires"
+  },
+  "accessibility_statement": {
+    "title": "Accessibility statement for Roadside Payments",
+    "introduction": {
+      "applies_to": "This accessibility statement applies to Roadside Payment app and payment portal.",
+      "ownership": "This website is run by DVSA. We want as many people as possible to be able to use this website. For example, that means you should be able to:",
+      "should_be_able_to": [
+        {
+          "text": "change colours, contrast levels and fonts"
+        },
+        {
+          "text": "zoom in up to 300% without the text spilling off the screen"
+        },
+        {
+          "text": "navigate most of the website using just a keyboard"
+        },
+        {
+          "text": "navigate most of the website using speech recognition software"
+        },
+        {
+          "text": "listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)"
+        }
+      ],
+      "text_simple": "We’ve also made the website text as simple as possible to understand.",
+      "further_advice": "<a href='https://mcmw.abilitynet.org.uk' class='link' rel='noreferrer noopener' target='_blank'>AbilityNet<span class='visually-hidden'> (opens in new tab)</span></a> has advice on making your device easier to use if you have a disability."
+    },
+    "accessibility": {
+      "heading": "How accessible this website is",
+      "statement": "We believe that the payment service is fully accessible."
+    },
+    "feedback": {
+      "heading": "Feedback and contact information",
+      "statement": "If you need information on this website in a different format like accessible PDF, large print, easy read, audio recording or braille:",
+      "contact_information": [
+        {
+          "text": "email fpocc@dvsa.gov.uk"
+        },
+        {
+          "text": "call 0300 123 9000"
+        }
+      ],
+      "timeframe": "We’ll consider your request and get back to you in 5 days."
+    },
+    "reporting": {
+      "heading": "Reporting accessibility problems with this website",
+      "statement": "We’re always looking to improve the accessibility of this website. If you find any problems not listed on this page or think we’re not meeting accessibility requirements, contact:",
+      "contact_url": "<a href='https://www.smartsurvey.co.uk/s/roadsidepayments/' class='link' rel='noreferrer noopener' target='_blank'>https://www.smartsurvey.co.uk/s/roadsidepayments/<span class='visually-hidden'> (opens in new tab)</span></a>",
+      "report_instruction": {
+        "statement": "Please tell us:",
+        "details": [
+          {
+            "text": "the web address (URL) of the content"
+          },
+          {
+            "text": "the problem that you encountered"
+          }
+        ]
+      }
+    },
+    "enforcement_procedure": {
+      "heading": "Enforcement procedure",
+      "statement": "The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’). If you’re not happy with how we respond to your complaint, <a href='https://www.equalityadvisoryservice.com/' class='link' rel='noreferrer noopener' target='_blank'>contact the Equality Advisory and Support Service (EASS)<span class='visually-hidden'> (opens in new tab)</span></a>."
+    },
+    "contact_by_phone": {
+      "heading": "Contacting us by phone",
+      "statement": "Find out how to contact us 0300 123 9000"
+    },
+    "technical_info": {
+      "heading": "Technical information about this website's accessibility",
+      "statement": "DVSA is committed to making its website accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.",
+      "compliance_status": {
+        "heading": "Compliance status",
+        "statement": "This website is fully compliant with the <a href='https://www.w3.org/TR/WCAG21/' class='link' rel='noreferrer noopener' target='_blank'>Web Content Accessibility Guidelines version 2.1<span class='visually-hidden'> (opens in new tab)</span></a> AA standard."
+      },
+      "content_not_in_scope": {
+        "heading": "Content that’s not within the scope of the accessibility regulations",
+        "documents": {
+          "heading": "PDFs and other documents",
+          "statement_one": "The accessibility regulations <a href='https://www.legislation.gov.uk/uksi/2018/952/regulation/4/made' class='link' rel='noreferrer noopener' target='_blank'>do not require us to fix PDFs or other documents published before 23 September 2018<span class='visually-hidden'> (opens in new tab)</span></a> if they’re not essential to providing our services. For example, we do not plan to fix [example of non-essential document].",
+          "statement_two": "We do not plan to fix the PDF receipt automatically generated through the GOV.UK portal.",
+          "statement_three": "Any new PDFs or Word documents we publish will meet accessibility standards."
+        }
+      }
+    },
+    "improving_accessibility": {
+      "heading": "What we’re doing to improve accessibility",
+      "statement": "We will re-assess accessibility whenever there is a major change to the service, and we will respond to any accessibility issues raised by users of the service."
+    },
+    "statement_preparation": {
+      "heading": "Preparation of this accessibility statement",
+      "statement_one": "This statement was prepared on 7th September 2020. It has not yet been reviewed.",
+      "statement_two": "This website was last tested on 5th September 2018. The test was carried out by Disability Accessibility Centre (DAC).",
+      "statement_three": "DAC tested the end-to-end payment journey on GOV.UK that would be accessed by end-users.",
+      "statement_four": "Testing was carried with various assistive technologies such as screen readers and speech recognition software to ensure it meets the WCAG AA requirements.",
+      "statement_five": "Note that no testing was performed on the internal portal nor the Mobile app."
+    }
   }
 }
