@@ -1,0 +1,65 @@
+{% extends 'layouts/default.layout.njk' %}
+
+{% set pageTitle = t.site_title %}
+{% set pageBreadcrumbItems = [
+  {
+    text: t.breadcrumbs.home,
+    url: '/'
+  }, {
+    text: t.breadcrumbs.accessibility_statement
+  }
+] %}
+
+{% block content %}
+
+  {% call components.gridRow() %}
+    {% call components.columnTwoThirds() %}
+        {{ components.heading(text=t.accessibility_statement.title, tag='h1', size='xlarge') }}
+        {{ components.paragraph(text=t.accessibility_statement.introduction.applies_to) }}
+        {{ components.paragraph(text=t.accessibility_statement.introduction.ownership) }}
+        {{ components.list(items=t.accessibility_statement.introduction.should_be_able_to, type='bullet') }}
+        {{ components.paragraph(text=t.accessibility_statement.introduction.text_simple) }}
+        {{ components.paragraph(text=t.accessibility_statement.introduction.further_advice) }}
+
+        {{ components.heading(text=t.accessibility_statement.accessibility.heading, tag='h2') }}
+        {{ components.paragraph(text=t.accessibility_statement.accessibility.statement) }}
+
+        {{ components.heading(text=t.accessibility_statement.feedback.heading, tag='h2') }}
+        {{ components.paragraph(text=t.accessibility_statement.feedback.statement) }}
+        {{ components.list(items=t.accessibility_statement.feedback.contact_information, type='bullet') }}
+        {{ components.paragraph(text=t.accessibility_statement.feedback.timeframe) }}
+
+        {{ components.heading(text=t.accessibility_statement.reporting.heading, tag='h2') }}
+        {{ components.paragraph(text=t.accessibility_statement.reporting.statement) }}
+        {{ components.paragraph(text=t.accessibility_statement.reporting.contact_url) }}
+        {{ components.paragraph(text=t.accessibility_statement.reporting.report_instruction.statement) }}
+        {{ components.list(items=t.accessibility_statement.reporting.report_instruction.details, type='bullet') }}
+
+        {{ components.heading(text=t.accessibility_statement.enforcement_procedure.heading, tag='h2') }}
+        {{ components.paragraph(text=t.accessibility_statement.enforcement_procedure.statement) }}
+
+        {{ components.heading(text=t.accessibility_statement.contact_by_phone.heading, tag='h2') }}
+        {{ components.paragraph(text=t.accessibility_statement.contact_by_phone.statement) }}
+
+        {{ components.heading(text=t.accessibility_statement.technical_info.heading, tag='h2') }}
+        {{ components.paragraph(text=t.accessibility_statement.technical_info.statement) }}
+        {{ components.heading(text=t.accessibility_statement.technical_info.compliance_status.heading, tag='h2') }}
+        {{ components.paragraph(text=t.accessibility_statement.technical_info.compliance_status.statement) }}
+        {{ components.heading(text=t.accessibility_statement.technical_info.content_not_in_scope.heading, tag='h2') }}
+        {{ components.heading(text=t.accessibility_statement.technical_info.content_not_in_scope.documents.heading, tag='h3', size='medium') }}
+        {{ components.paragraph(text=t.accessibility_statement.technical_info.content_not_in_scope.documents.statement_one) }}
+        {{ components.paragraph(text=t.accessibility_statement.technical_info.content_not_in_scope.documents.statement_two) }}
+        {{ components.paragraph(text=t.accessibility_statement.technical_info.content_not_in_scope.documents.statement_three) }}
+
+        {{ components.heading(text=t.accessibility_statement.improving_accessibility.heading, tag='h2') }}
+        {{ components.paragraph(text=t.accessibility_statement.improving_accessibility.statement) }}
+
+        {{ components.heading(text=t.accessibility_statement.statement_preparation.heading, tag='h2') }}
+        {{ components.paragraph(text=t.accessibility_statement.statement_preparation.statement_one) }}
+        {{ components.paragraph(text=t.accessibility_statement.statement_preparation.statement_two) }}
+        {{ components.paragraph(text=t.accessibility_statement.statement_preparation.statement_three) }}
+        {{ components.paragraph(text=t.accessibility_statement.statement_preparation.statement_four) }}
+        {{ components.paragraph(text=t.accessibility_statement.statement_preparation.statement_five) }}
+    {%- endcall %}
+  {%- endcall %}
+{% endblock %}
