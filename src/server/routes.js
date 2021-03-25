@@ -7,6 +7,7 @@ import * as accessibilityStatementController from './controllers/accessibilitySt
 import * as paymentCodeController from './controllers/paymentCode.controller';
 import * as paymentController from './controllers/payment.controller';
 import { multiPaymentReceipt, singlePaymentReceipt } from './controllers/receipt.controller';
+import * as privacyController from  './controllers/privacy.controller';
 
 const router = Router();
 
@@ -24,6 +25,8 @@ router.get('/cookie-details', cookieDetailsController.index);
 // Accessibility Statement
 router.get('/accessibility-statement', accessibilityStatementController.index);
 
+// privacy Statement
+router.get('/privacy-statement', privacyController.index);
 
 // Payment Code
 router.get('/payment-code', paymentCodeController.index);

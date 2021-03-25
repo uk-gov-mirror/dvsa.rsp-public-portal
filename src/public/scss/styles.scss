@@ -167,3 +167,20 @@ aside {
   margin-right: 8px;
   margin-bottom: 16px;
 }
+.govuk-inset-text {
+  border-left: 1px solid #b1b4b6;
+  padding-left: 15px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  span {
+    margin-top:0;
+    display:block;
+  }
+  p{
+    margin-bottom: 0;
+  }
+  a {
+    margin-top:0;
+    display:block;
+  }
+}
