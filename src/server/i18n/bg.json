@@ -15,7 +15,8 @@
     "active_session": "Active session warning",
     "cookie_preferences": "Cookie preferences",
     "cookie_details": "Cookie details",
-    "accessibility_statement": "Accessibility statement"
+    "accessibility_statement": "Accessibility statement",
+    "privacy_statement": "Privacy statement"
   },
   "cookie_banner": {
     "title": "Tell us whether you accept cookies",
@@ -34,6 +35,7 @@
     "cookies": "Бисквитки",
     "terms_conditions": "Срокове и условия",
     "accessibility_statement": "Accessibility statement",
+    "privacy_statement": "Privacy statement",
     "built_by": "Създадена от <a href='https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency' target='_blank'>Агенцията за стандарти на водачи и автомобили</a>",
     "licence": "Цялото съдържание е налично с <a href='https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/' rel='license'>Open Government Licence v3.0</a>, освен когато е посочено друго",
     "copyright": "Авторско право, принадлежащо на Короната"
@@ -334,6 +336,176 @@
       "statement_three": "DAC tested the end-to-end payment journey on GOV.UK that would be accessed by end-users.",
       "statement_four": "Testing was carried with various assistive technologies such as screen readers and speech recognition software to ensure it meets the WCAG AA requirements.",
       "statement_five": "Note that no accessibility testing was performed on the DVSA staff internal portal nor the DVSA staff mobile app."
+    }
+  },
+  "privacy_statement": {
+    "title": "Pay a DVSA roadside fine: privacy notice",
+    "introduction": {
+      "heading": "1. About this service",
+      "about": "The Driver and Vehicle Standards Agency (DVSA) provides this service so that bus, coach lorry and van drivers can pay roadside fines. DVSA is an executive agency of the Department for Transport (DfT).",
+      "purpose": "We carry out checks on commercial vehicle drivers in England, Scotland and Wales. We can give you a fine (called a fixed penalty) if you commit an offence. This service lets you pay that fine.",
+      "dataController": "The data controller for DVSA is DfT – a data controller determines the reasons and how personal data is processed. For more information, see the Information Commissioner’s Office (ICO) Data Protection Public Register. DfT’s registration number is Z7122992."
+    },
+    "what_data": {
+      "heading": "2. What data we need",
+      "what_we_need": {
+        "statement": "The personal data we collect from you will include:",
+        "details": [
+          {
+            "text": "email address"
+          },
+          {
+            "text": "phone number"
+          },
+          {
+            "text": "vehicle registration number (number plate)"
+          },
+          {
+            "text": "date stopped"
+          },
+          {
+            "text": "date of offence"
+          },
+          {
+            "text": "where the vehicle was stopped"
+          },
+          {
+            "text": "amount to be paid"
+          },
+          {
+            "text": "payment details - including card number (numbers are encrypted and access is restricted), dates the card is valid from and to, issue number and card type (for example, MasterCard)"
+          },
+          {
+            "text": "fine reference number"
+          }
+        ]
+      },
+      "reason": "We’ll scan the date of the offence, vehicle registration number, trailer ID, fine amount and fine reference number from the offence notice. This information is then sent to the application system along with either a phone number or email address for the person who is paying the fine. The application will create a token which is emailed or sent by text to the person who is paying for the fine along with a website address and unique reference code, which can be used to make the payment.",
+      "legal": "The legal basis for processing this data is public task. The legislation to collect roadside fines is Road Safety Act 2006."
+    },
+    "why": {
+      "heading": "3. Why we need it",
+      "data": {
+        "statement": "We need the personal data we collect from you to:",
+        "details": [
+          {
+            "text": "send you or the person paying the fine a text message or email to pay the fine"
+          },
+          {
+            "text": "generate a code to pay the fine"
+          },
+          {
+            "text": "pay the fine"
+          }
+        ]
+      }
+    },
+    "what_we_do_with": {
+      "heading": "4. What we do with it",
+      "data": {
+        "statement": "We collect, use and store the data you give us for the reasons set out in this policy.",
+        "excluding": "We will not",
+        "details": [
+          {
+            "text": "sell or rent your data to third parties"
+          },
+          {
+            "text": "share your data with third parties for marketing purposes"
+          }
+        ],
+        "law": "We will share your data if required to do so by law – for example, by court order, or to prevent fraud or other crime."
+      }
+    },
+    "how_long": {
+      "heading": "5. How long we keep your data",
+      "data": {
+        "statement": "We’ll only keep your personal data for as long as it is needed for the reasons set out in this policy or as long as is required by law.",
+        "hold": "We will hold your personal data for:",
+        "details": [
+          {
+            "text": "72 hours in the central application in DVSA’s Amazon Web Services (AWS) account"
+          },
+          {
+            "text": "7 years in card payment merchant services"
+          },
+          {
+            "text": "28 days within the application on the iPhone or iPad"
+          }
+        ]
+      }
+    },
+    "where": {
+      "heading": "6. Where it might go",
+      "statement_one": "Our IT infrastructure and technology has been checked to make sure it’s safe and secure. Data in the central application is stored in our AWS account, which is hosted in Ireland.",
+      "statement_two": "We use Tesseract software to scan the form, read the necessary data and change it into text. The software does not store or transmit any image.",
+      "statement_three": "We use an external company called Capita to collect the payment."
+    },
+    "protection": {
+      "heading": "7. Protecting your data and your rights",
+      "statement_one": "The <a href=\"https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency/about/personal-information-charter\" class=\"govuk-link\"><abbr title=\"Driver and Vehicle Standards Agency\">DVSA</abbr> personal information charter</a> sets out what steps are taken to protect your data, and the rights you have over your data."
+    },
+    "automated": {
+      "heading": "8. Automated decision making and profiling",
+      "statement_one": "Your data is not subject to automated decision making or profiling as defined in data protection legislation."
+    },
+    "changes": {
+      "heading": "9. Changes to this notice",
+      "statement_one": "We may change this privacy notice at our discretion at any time.",
+      "statement_two": "When we change this notice, the date on the page will be updated. Any changes to this privacy notice will be applied to you and your data as of the revision date.",
+      "statement_three": "We encourage you to periodically review this privacy notice to be informed about how your data is protected."
+    },
+    "contact": {
+      "heading": "10. How to contact us",
+      "statement_one": "If you have any questions about anything in this document or if you consider that your personal data has been misused or mishandled you can contact the DVSA data protection manager",
+      "statement_two": "DVSA data protection manager",
+      "line_one": {
+        "text": "Data Protection Manager",
+        "class": "fn"
+      },
+      "address": [
+        {
+          "text": "Driver and Vehicle Standards Agency",
+          "class": "org"
+        },
+        {
+          "text": "The Axis Building",
+          "class": "street-address"
+        },
+        {
+          "text": "112 Upper Parliament Street",
+          "class": "street-address"
+        },
+        {
+          "text": "Nottingham",
+          "class": "locality"
+        },
+        {
+          "text": "NG1 6LP",
+          "class": "postal-code"
+        }
+      ],
+      "dvsa_email": {
+        "heading": "Email",
+        "link": "information.handling@dvsa.gov.uk"
+      },
+      "customer_services": "Contact <a href=\"https://www.gov.uk/contact-dvsa\" class=\"govuk-link\"><abbr title=\"Driver and Vehicle Standards Agency\">DVSA</abbr> customer services</a> if you have a query that is not about how your personal data is used.",
+      "regulator": "You may also make a complaint to the Information Commissioner, who is an independent regulator.",
+      "ico_email": {
+        "heading": "Email",
+        "link": "icocasework@ico.org.uk"
+      },
+      "ico_contact": {
+        "heading": "Contact form",
+        "form": "https://ico.org.uk/global/contact-us/email/",
+        "telephone": "Telephone",
+        "telno": {
+          "text": "0303 123 1113"
+        },
+        "textphone": "Textphone",
+        "textphone_no": {
+          "text": "01625 545 860"
+        }
+      }
     }
   }
 }
