@@ -12,7 +12,7 @@
 
 {% block content %}
     {% call components.gridRow() %}
-        {% call components.columnFull() %}
+        {% call components.columnTwoThirds() %}
               {{ components.heading(text=t.privacy_statement.title, tag='h1', size='xlarge') }}
               {{ components.heading(text=t.privacy_statement.introduction.heading, tag='h2',size='medium') }}
               {{ components.paragraph(text=t.privacy_statement.introduction.about) }}
@@ -81,10 +81,7 @@
                 {{components.paragraph(text=t.privacy_statement.contact.ico_contact.textphone)}}
                 {{components.span(item=t.privacy_statement.contact.ico_contact.textphone_no)}}
 
-        
               </div>
-               
-              
        {%- endcall %}
   {%- endcall %}
 {% endblock %}
