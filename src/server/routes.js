@@ -7,7 +7,7 @@ import * as accessibilityStatementController from './controllers/accessibilitySt
 import * as paymentCodeController from './controllers/paymentCode.controller';
 import * as paymentController from './controllers/payment.controller';
 import { multiPaymentReceipt, singlePaymentReceipt } from './controllers/receipt.controller';
-import * as privacyController from  './controllers/privacy.controller';
+import * as privacyController from './controllers/privacy.controller';
 
 const router = Router();
 
