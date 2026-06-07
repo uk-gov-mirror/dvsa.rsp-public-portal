@@ -78,7 +78,7 @@
     "@aws-sdk/client-secrets-manager": "^3.0.0",
     "@babel/polyfill": "^7.12.1",
     "@dvsa/cookie-manager": "^1.1.2",
-    "archiver": "^8.0.0",
+    "archiver": "^7.0.1",
     "aws4": "^1.11.0",
     "axios": "^1.16.0",
     "axios-retry": "^3.3.1",
