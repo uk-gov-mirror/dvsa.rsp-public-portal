@@ -48,9 +48,6 @@ export default async () => {
 
   app.use(helmet());
 
-  app.use(helmet.noSniff());
-
-  app.use(helmet.xssFilter({ setOnOldIE: true }));
   app.use(helmet.crossOriginEmbedderPolicy({ policy: 'credentialless' }));
 
   app.use((req, res, next) => {
