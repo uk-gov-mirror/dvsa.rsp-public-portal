@@ -4,7 +4,6 @@ import express from 'express';
 import { check } from 'express-validator';
 import bodyParser from 'body-parser';
 import compression from 'compression';
-import awsServerlessExpressMiddleware from 'aws-serverless-express/middleware';
 import nunjucks from 'nunjucks';
 import path from 'path';
 import _ from 'lodash';
@@ -177,7 +176,6 @@ export default async () => {
     next();
   });
 
-  app.use(awsServerlessExpressMiddleware.eventContext());
   // Load routes module dynamically to allow config to initialise
   app.use('/', require('./routes').default);
 
