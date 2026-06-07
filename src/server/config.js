@@ -33,7 +33,10 @@ async function bootstrap() {
       const response = await client.send(new GetSecretValueCommand({ SecretId }));
       configuration = JSON.parse(response.SecretString);
     } catch (err) {
-      logError('PublicPortalSecretsManagerError', err.message);
+      const errorDetails = err instanceof Error
+        ? { name: err.name, message: err.message, stack: err.stack }
+        : { message: String(err) };
+      logError('PublicPortalSecretsManagerError', errorDetails);
       throw err;
     }
   } else {
